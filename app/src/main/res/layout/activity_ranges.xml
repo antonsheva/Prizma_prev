@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/main_background"
+        android:orientation="vertical"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/select_range"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:layout_centerInParent="true"/>
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/divideLine"
+            android:layout_margin="10dp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/sRangesButtonPatt1"
+                    android:layout_height="wrap_content"
+                    style="@style/sRangesButtonPattern"
+
+                    android:background="@drawable/button_pattern">
+                    <TextView
+                        android:text="1   400-600 МГц"
+                        android:layout_width="match_parent"
+                        style="@style/sRangesText"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/sRangesButtonPatt2"
+                    android:layout_height="wrap_content"
+                    style="@style/sRangesButtonPattern"
+                    android:background="@drawable/button_pattern">
+                    <TextView
+                        android:text="2   600-800 МГц"
+                        style="@style/sRangesText"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/sRangesButtonPatt3"
+                    android:layout_height="wrap_content"
+                    style="@style/sRangesButtonPattern"
+                    android:background="@drawable/button_pattern">
+                    <TextView
+                        android:text="3   750-900 МГц"
+                        style="@style/sRangesText"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/sRangesButtonPatt4"
+                    android:layout_height="wrap_content"
+                    style="@style/sRangesButtonPattern"
+                    android:background="@drawable/button_pattern">
+                    <TextView
+                        android:text="4   900-1050 МГц"
+                        style="@style/sRangesText"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/sRangesButtonPatt5"
+                    android:layout_height="wrap_content"
+                    style="@style/sRangesButtonPattern"
+                    android:background="@drawable/button_pattern">
+                    <TextView
+                        android:text="5   1000-1300 МГц"
+                        style="@style/sRangesText"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/sRangesButtonPatt6"
+                    android:layout_height="wrap_content"
+                    style="@style/sRangesButtonPattern"
+                    android:background="@drawable/button_pattern">
+                    <TextView
+                        android:text="6   1300-1500 МГц"
+                        style="@style/sRangesText"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/sRangesButtonPatt7"
+                    android:layout_height="wrap_content"
+                    style="@style/sRangesButtonPattern"
+                    android:background="@drawable/button_pattern">
+                    <TextView
+                        android:text="7   1500-1700 МГц"
+                        style="@style/sRangesText"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/sRangesButtonPatt8"
+                    android:layout_height="wrap_content"
+                    style="@style/sRangesButtonPattern"
+                    android:background="@drawable/button_pattern">
+                    <TextView
+                        android:text="8   1700-1900 МГц"
+                        style="@style/sRangesText"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/sRangesButtonPatt9"
+                    android:layout_height="wrap_content"
+                    style="@style/sRangesButtonPattern"
+                    android:background="@drawable/button_pattern">
+                    <TextView
+                        android:text="9   1900-2100 МГц"
+                        style="@style/sRangesText"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/sRangesButtonPatt10"
+                    android:layout_height="wrap_content"
+                    style="@style/sRangesButtonPattern"
+                    android:background="@drawable/button_pattern">
+                    <TextView
+                        android:text="10  2100-2300 МГц"
+                        style="@style/sRangesText"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/sRangesButtonPatt11"
+                    android:layout_height="wrap_content"
+                    style="@style/sRangesButtonPattern"
+                    android:background="@drawable/button_pattern">
+                    <TextView
+                        android:text="11  2300-2500 МГц"
+                        style="@style/sRangesText"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/sRangesButtonPatt12"
+                    android:layout_height="wrap_content"
+                    style="@style/sRangesButtonPattern"
+                    android:background="@drawable/button_pattern">
+                    <TextView
+                        android:text="12  2500-2700 МГц"
+                        style="@style/sRangesText"/>
+                </RelativeLayout>
+
+
+
+
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+
+                <RelativeLayout
+                    android:id="@+id/sRangesButtonPatt13"
+                    android:layout_height="wrap_content"
+                    style="@style/sRangesButtonPattern"
+                    android:background="@drawable/button_pattern">
+                    <TextView
+                        android:text="13  2700-2900 МГц"
+                        style="@style/sRangesText"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/sRangesButtonPatt14"
+                    android:layout_height="wrap_content"
+                    style="@style/sRangesButtonPattern"
+                    android:background="@drawable/button_pattern">
+                    <TextView
+                        android:text="14  2900-3100 МГц"
+                        style="@style/sRangesText"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/sRangesButtonPatt15"
+                    android:layout_height="wrap_content"
+                    style="@style/sRangesButtonPattern"
+                    android:background="@drawable/button_pattern">
+                    <TextView
+                        android:text="15  3100-3400 МГц"
+                        style="@style/sRangesText"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/sRangesButtonPatt16"
+                    android:layout_height="wrap_content"
+                    style="@style/sRangesButtonPattern"
+                    android:background="@drawable/button_pattern">
+                    <TextView
+                        android:text="16  3400-3700 МГц"
+                        style="@style/sRangesText"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/sRangesButtonPatt17"
+
+                    android:layout_height="wrap_content"
+                    style="@style/sRangesButtonPattern"
+                    android:background="@drawable/button_pattern">
+                    <TextView
+                        android:text="17  3700-4000 МГц"
+                        style="@style/sRangesText"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/sRangesButtonPatt18"
+
+                    android:layout_height="wrap_content"
+                    style="@style/sRangesButtonPattern"
+                    android:background="@drawable/button_pattern">
+                    <TextView
+                        android:text="18   4000-4400 МГц"
+                        style="@style/sRangesText"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/sRangesButtonPatt19"
+
+                    android:layout_height="wrap_content"
+                    style="@style/sRangesButtonPattern"
+                    android:background="@drawable/button_pattern">
+                    <TextView
+                        android:text="19  4400-4800 МГц"
+                        style="@style/sRangesText"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/sRangesButtonPatt20"
+                    android:layout_height="wrap_content"
+                    style="@style/sRangesButtonPattern"
+                    android:background="@drawable/button_pattern">
+                    <TextView
+                        android:text="20  4800-5100 МГц"
+                        style="@style/sRangesText"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/sRangesButtonPatt21"
+                    android:layout_height="wrap_content"
+                    style="@style/sRangesButtonPattern"
+                    android:background="@drawable/button_pattern">
+                    <TextView
+                        android:text="21  5100-5400 МГц"
+                        style="@style/sRangesText"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/sRangesButtonPatt22"
+                    android:layout_height="wrap_content"
+                    style="@style/sRangesButtonPattern"
+                    android:background="@drawable/button_pattern">
+                    <TextView
+                        android:text="22  5400-5700 МГц"
+                        style="@style/sRangesText"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/sRangesButtonPatt23"
+                    android:layout_height="wrap_content"
+                    style="@style/sRangesButtonPattern"
+                    android:background="@drawable/button_pattern">
+                    <TextView
+                        android:text="23   5700-5900 МГц"
+                        style="@style/sRangesText"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/sRangesButtonPatt24"
+                    android:layout_height="wrap_content"
+                    style="@style/sRangesButtonPattern"
+                    android:background="@drawable/button_pattern">
+                    <TextView
+                        android:text="24  5900-6200 МГц"
+                        style="@style/sRangesText"/>
+                </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/divideLine"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="20dp"
+            />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            >
+            <RelativeLayout
+                android:id="@+id/sRangesButtonSetFrqBand"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                style="@style/sMainButtonPattern"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/button_pattern">
+                <TextView
+                    android:text="Настроить узкую полосу"
+                    android:layout_width="wrap_content"
+                    style="@style/sRangesText"/>
+            </RelativeLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

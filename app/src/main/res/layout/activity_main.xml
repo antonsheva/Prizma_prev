@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/main_background"
+        android:orientation="vertical"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+
+      >
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:id="@+id/sMainIsConnDev"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Подключено: устр. "
+                        android:textSize="19sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/devType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="  A1"
+                        android:textSize="19sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="batt"
+                        android:maxHeight="30dp"
+                        android:src="@drawable/ic_battery"
+
+                        />
+
+                    <TextView
+                        android:id="@+id/battState"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100%"
+                        android:textSize="19sp"
+                        android:textStyle="bold"
+
+                        />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/sMainWaitConnDev"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/ic_bt_en" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:paddingStart="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Текущий диапазон: "
+                    android:textSize="19sp" />
+
+                <TextView
+                    android:id="@+id/sMainCurrentRange"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2300-2500 Мгц"
+                    android:textSize="19sp"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:paddingStart="10dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.8">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Центр: "
+                        android:textSize="19sp" />
+
+                    <TextView
+                        android:id="@+id/sMainFrqCenter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2445 Мгц"
+                        android:textSize="19sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" | "
+                        android:textSize="19sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ширина: "
+                        android:textSize="19sp" />
+
+                    <TextView
+                        android:id="@+id/sMainFrqWidth"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="20 Мгц"
+                        android:textSize="19sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:paddingStart="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Цель: "
+                    android:textSize="19sp" />
+
+                <TextView
+                    android:id="@+id/sMainTarget"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="DJI Mavic"
+                    android:textSize="19sp"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:paddingStart="10dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.8">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Режим: "
+                        android:textSize="19sp" />
+
+                    <TextView
+                        android:id="@+id/sMainMode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="50 Гц"
+                        android:textSize="19sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" | "
+                        android:textSize="19sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Подавление: "
+                        android:textSize="19sp" />
+
+                    <TextView
+                        android:id="@+id/sMainSuppression"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ВЫКЛ"
+                        android:textSize="19sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <RelativeLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                >
+                <LinearLayout
+                    android:id="@+id/sMainButtonSuppress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Подавление"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/button_suppress_off"
+                    android:padding="10dp"
+
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Подавление"
+                        android:textSize="25dp"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+
+                        />
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.7">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="70dp"
+                    >
+                    <RelativeLayout
+                        android:id="@+id/sMainButtonPatt1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/sMainButtonPattern"
+                        android:background="@drawable/button_pattern"
+
+                        >
+                        <TextView
+                            android:id="@+id/sMainButtonPatt1Txt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="DJI 2.4"
+                            android:textSize="18dp"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"
+                            android:layout_centerInParent="true"
+                            />
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:id="@+id/sMainButtonPatt2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/sMainButtonPattern"
+                        android:background="@drawable/button_pattern"
+                        >
+                        <TextView
+                            android:id="@+id/sMainButtonPatt2Txt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="868 МГц"
+                            android:textSize="18dp"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"
+                            android:layout_centerInParent="true"
+                            />
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:id="@+id/sMainButtonPatt3"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/sMainButtonPattern"
+                        android:background="@drawable/button_pattern_select"
+                        >
+                        <TextView
+                            android:id="@+id/sMainButtonPatt3Txt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="GPS"
+                            android:textSize="18dp"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"
+                            android:layout_centerInParent="true"
+                            />
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:id="@+id/sMainButtonPatt4"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/sMainButtonPattern"
+                        android:background="@drawable/button_pattern"
+                        >
+                        <TextView
+                            android:id="@+id/sMainButtonPatt4Txt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="5.8 ГГц"
+                            android:textSize="18dp"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"
+                            android:layout_centerInParent="true"
+                            />
+                    </RelativeLayout>
+
+
+
+
+                </LinearLayout>
+                <RelativeLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_alignParentBottom="true"
+                    >
+                    <LinearLayout
+                        android:id="@+id/sMainButtonRanges"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/sMainButtonPattern"
+                        android:background="@drawable/button_pattern"
+                        android:layout_alignParentStart="true"
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Диапазоны"
+                            android:textSize="18dp"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"
+                            android:layout_centerInParent="true"
+                            />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/sMainButtonMode14Hz"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/sMainButtonPattern"
+                        android:background="@drawable/button_pattern"
+                        android:layout_alignParentEnd="true"
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Режим 14 Гц"
+                            android:textSize="18dp"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"
+                            android:layout_centerInParent="true"
+                            />
+                    </LinearLayout>
+
+
+
+
+
+                </RelativeLayout>
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+
+
+
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
