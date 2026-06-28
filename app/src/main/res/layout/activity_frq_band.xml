@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/frqBand"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
@@ -99,7 +100,7 @@
                     android:layout_weight="1">
 
                     <SeekBar
-                        android:id="@+id/seekBar"
+                        android:id="@+id/sFrqBandSeekBar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="25dp"
@@ -140,11 +141,20 @@
                     android:text="Ширина полосы: "/>
 
                 <Spinner
-                    android:id="@+id/sFrqBandFrqBandList"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/sFrqBandFrqSpinner"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="40dp"
-                    android:layout_marginStart="20dp"/>
+                    android:layout_marginStart="20dp"
+                    android:dropDownWidth="100dp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="40dp"
+                    android:text="МГц"/>
 
             </LinearLayout>
 
@@ -160,6 +170,7 @@
                     android:textSize="20sp"
                     android:text="Итоговый диапазон подавления:"/>
                     <TextView
+                        android:id="@+id/sFrqBandSuppress"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
@@ -181,7 +192,7 @@
             android:layout_alignParentBottom="true"
             >
             <LinearLayout
-                android:id="@+id/sMainButtonRanges"
+                android:id="@+id/sFrqBandButtonSave"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/sMainButtonPattern"
@@ -199,7 +210,7 @@
                     />
             </LinearLayout>
             <LinearLayout
-                android:id="@+id/sMainButtonMode14Hz"
+                android:id="@+id/sFrqBandButtonCansel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/sMainButtonPattern"
