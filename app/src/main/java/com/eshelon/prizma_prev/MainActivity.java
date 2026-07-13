@@ -1,4 +1,4 @@
-package com.eshelon.prizma_prev;
+ package com.eshelon.prizma_prev;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,12 +6,16 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -29,6 +33,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     RelativeLayout bttnPatt3;
     RelativeLayout bttnPatt4;
 
+    MenuItem menuItem;
+    MenuItem menuJmrList;
+    MenuItem menuBtDevInfo;
+
+
 
     Vibrator vibrator;
     Context context;
@@ -37,14 +46,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        init();
 
+        init();
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        menu.add("Настройки");
+        menu.add("Открыть");
+        menu.add("Сохранить");
+        return true;
+    }
+
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        super.onCreateOptionsMenu(menu);
+//        getMenuInflater().inflate(R.menu.main_menu, menu);
+//        menuItem         = menu.findItem(R.id.menuBt);
+//        menuBtDevInfo    = menu.findItem(R.id.menuBtDevInfo);
+//        menuJmrList      = menu.findItem(R.id.menuShowJmrList);
+//        return true;
+//    }
 
     void initViewElements(){
         bttnShowRangesList = findViewById(R.id.sMainButtonRanges);
