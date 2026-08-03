@@ -7,7 +7,6 @@ import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -19,7 +18,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.eshelon.prizma_prev.object.ObjRange;
+import com.eshelon.prizma_prev.objects.ObjRange;
 
 public class FrqBandActivity extends AppCompatActivity implements View.OnClickListener {
 

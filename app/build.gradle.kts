@@ -37,6 +37,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.gson)
     implementation(libs.activity.ktx)
     implementation(libs.appcompat)
     implementation(libs.constraintlayout)
@@ -46,4 +47,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation(libs.ext.junit)
+
+
+
+
 }

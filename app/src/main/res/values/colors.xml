@@ -4,6 +4,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="mainBcgrndClr">#D9D9D9</color>
     <color name="divideLine">#857E7E</color>
-
-
+    <color name="mTextColor">#202026</color>
 </resources>

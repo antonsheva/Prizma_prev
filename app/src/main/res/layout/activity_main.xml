@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="50dp"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -16,7 +17,51 @@
         android:layout_marginEnd="5dp"
 
       >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+            <TextView
+                android:id="@+id/swVersion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/mTextColor"
+                android:text="Призма вер. 1.0"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                />
+            <ImageView
+                android:id="@+id/btDevInfo"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/bt_dev_info"
+                android:layout_alignParentEnd="true"
+                app:tint="@color/mTextColor"
+                android:layout_marginEnd="80dp"
+                android:visibility="gone"
+                />
+            <ImageView
+                android:id="@+id/btDevList"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/menu_assignment"
+                android:layout_alignParentEnd="true"
+                app:tint="@color/mTextColor"
+                android:layout_marginEnd="40dp" />
+<!--                android:visibility="gone"-->
 
+            <ImageView
+                android:id="@+id/btSearch"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/bt_enable"
+                android:layout_alignParentEnd="true"
+                app:tint="@color/mTextColor" />
+
+
+
+        </RelativeLayout>
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -41,7 +86,8 @@
                         android:layout_height="wrap_content"
                         android:text="Подключено: устр. "
                         android:textSize="19sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:textColor="@color/mTextColor"/>
 
                     <TextView
                         android:id="@+id/devType"
@@ -49,7 +95,8 @@
                         android:layout_height="wrap_content"
                         android:text="  A1"
                         android:textSize="19sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:textColor="@color/mTextColor"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -64,8 +111,8 @@
                         android:layout_height="wrap_content"
                         android:contentDescription="batt"
                         android:maxHeight="30dp"
-                        android:src="@drawable/ic_battery"
-
+                        android:src="@drawable/battery"
+                        app:tint="@color/mTextColor"
                         />
 
                     <TextView
@@ -75,7 +122,7 @@
                         android:text="100%"
                         android:textSize="19sp"
                         android:textStyle="bold"
-
+                        android:textColor="@color/mTextColor"
                         />
                 </LinearLayout>
 
@@ -108,7 +155,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Текущий диапазон: "
-                    android:textSize="19sp" />
+                    android:textSize="19sp"
+                    android:textColor="@color/mTextColor"/>
 
                 <TextView
                     android:id="@+id/sMainCurrentRange"
@@ -116,7 +164,8 @@
                     android:layout_height="wrap_content"
                     android:text="2300-2500 Мгц"
                     android:textSize="19sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:textColor="@color/mTextColor"/>
             </LinearLayout>
 
             <LinearLayout
@@ -135,7 +184,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Центр: "
-                        android:textSize="19sp" />
+                        android:textSize="19sp"
+                        android:textColor="@color/mTextColor"/>
 
                     <TextView
                         android:id="@+id/sMainFrqCenter"
@@ -143,7 +193,8 @@
                         android:layout_height="wrap_content"
                         android:text="2445 Мгц"
                         android:textSize="19sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold"
+                        android:textColor="@color/mTextColor"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -155,7 +206,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=" | "
-                        android:textSize="19sp" />
+                        android:textSize="19sp"
+                        android:textColor="@color/mTextColor"/>
 
                 </LinearLayout>
 
@@ -168,7 +220,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Ширина: "
-                        android:textSize="19sp" />
+                        android:textSize="19sp"
+                        android:textColor="@color/mTextColor"/>
 
                     <TextView
                         android:id="@+id/sMainFrqWidth"
@@ -176,7 +229,8 @@
                         android:layout_height="wrap_content"
                         android:text="20 Мгц"
                         android:textSize="19sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold"
+                        android:textColor="@color/mTextColor"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -191,7 +245,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Цель: "
-                    android:textSize="19sp" />
+                    android:textSize="19sp"
+                    android:textColor="@color/mTextColor"/>
 
                 <TextView
                     android:id="@+id/sMainTarget"
@@ -199,7 +254,8 @@
                     android:layout_height="wrap_content"
                     android:text="DJI Mavic"
                     android:textSize="19sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:textColor="@color/mTextColor"/>
             </LinearLayout>
 
             <LinearLayout
@@ -218,7 +274,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Режим: "
-                        android:textSize="19sp" />
+                        android:textSize="19sp"
+                        android:textColor="@color/mTextColor"/>
 
                     <TextView
                         android:id="@+id/sMainMode"
@@ -226,7 +283,8 @@
                         android:layout_height="wrap_content"
                         android:text="50 Гц"
                         android:textSize="19sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold"
+                        android:textColor="@color/mTextColor"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -238,7 +296,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=" | "
-                        android:textSize="19sp" />
+                        android:textSize="19sp"
+                        android:textColor="@color/mTextColor"/>
 
                 </LinearLayout>
 
@@ -251,7 +310,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Подавление: "
-                        android:textSize="19sp" />
+                        android:textSize="19sp"
+                        android:textColor="@color/mTextColor"/>
 
                     <TextView
                         android:id="@+id/sMainSuppression"
@@ -259,7 +319,8 @@
                         android:layout_height="wrap_content"
                         android:text="ВЫКЛ"
                         android:textSize="19sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold"
+                        android:textColor="@color/mTextColor"/>
                 </LinearLayout>
             </LinearLayout>
 

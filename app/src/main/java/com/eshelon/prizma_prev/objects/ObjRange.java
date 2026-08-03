@@ -1,4 +1,4 @@
-package com.eshelon.prizma_prev.object;
+package com.eshelon.prizma_prev.objects;
 
 public class ObjRange {
     private static int cnt = 0;
