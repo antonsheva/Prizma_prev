@@ -15,26 +15,32 @@ import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.eshelon.prizma_prev.adapter.DevListAdapter;
+import com.eshelon.prizma_prev.interfaces.ItemClickListener;
+import com.eshelon.prizma_prev.interfaces.ItemDevSelListener;
 
 import com.eshelon.prizma_prev.objects.JmmrState;
 import com.eshelon.prizma_prev.objects.ObjRange;
 import com.eshelon.prizma_prev.objects.ObjectMsg;
 import com.google.gson.Gson;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -54,7 +60,7 @@ import java.util.TimerTask;
      ImageView btSearch;
 
 
-
+     DevListAdapter devListAdapter;
      BtConnect btConnect = null;
 
     Vibrator vibrator;
@@ -74,6 +80,122 @@ import java.util.TimerTask;
             return insets;
         });
     }
+
+     @Override
+     protected void onStart() {
+         super.onStart();
+
+     }
+
+     @Override
+     protected void onResume() {
+         super.onResume();
+         setBtIcon(C_.BT_ICON_ENABLE);
+         if (!G_.selectBtDevice.isDeviceSelected())return;
+         G_.btActiveState = BT_ACTIVE_STATE_CONNECTING;
+
+         btConnect = new BtConnect(this, G_.selectBtDevice.getMac(), code -> {
+             ReceiveThread rThrd = btConnect.connectThread.getReceiveThread();
+             if(rThrd == null){
+                 showToast(R.string.error_bt_connect);
+                 Log.i("MY_TEG", "Error getReceiveThread");
+                 G_.btActiveState = BT_ACTIVE_STATE_ENABLE;
+                 return;
+             }
+             if(code==C_.CB_CODE_CONNECT){
+                 G_.btActiveState = BT_ACTIVE_STATE_CONNECTED;
+                 setVisibleBtMenuInfo(VISIBLE);
+             }
+             else{
+                 G_.btActiveState = BT_ACTIVE_STATE_ENABLE;
+                 setVisibleBtMenuInfo(GONE);
+             }
+             rThrd.setCbReceive(cbBtReceive);
+             if(G_.jmmr_list != null) G_.jmmr_list.clear();
+             sendCmd(C_.CMD_GET_JAMM_LIST);
+             setVisibleMenuJmmrList();
+
+         });
+         btConnect.connect();
+     }
+     private void sendBtData(Object o, int type){
+         if(G_.btActiveState != BT_ACTIVE_STATE_CONNECTED)return;
+//         btnLoad.setEnabled(false);
+         String jsonStr = "";
+         ObjectMsg msg = (ObjectMsg)o;
+         msg.ad_esp = G_.btDevAddr;
+         try {
+             jsonStr = new Gson().toJson(o);
+         }catch (Exception e){
+             Log.e("MY_TEG", e.toString());
+             return;
+         }
+         String sendStr = "start___"+jsonStr+"_stop";
+         int len = sendStr.length();
+         int packQty = len/120;
+         byte[] data = sendStr.getBytes();
+         final int[] cnt = {0};
+         final Timer[] tm = {new Timer()};
+         final int[] pcQty = {packQty};
+         final int[] qLen = {len % 120};
+         tm[0].schedule(new TimerTask() {
+             @Override
+             public void run() {
+                 int ln = (cnt[0] == pcQty[0]) ? qLen[0] : 120;
+                 byte[] sendBuff = Arrays.copyOfRange(data, cnt[0] *120, cnt[0] *120+ln);
+                 btConnect.connectThread.getReceiveThread().sendData(sendBuff);
+                 String str = new String(sendBuff, StandardCharsets.UTF_8);
+                 Log.i("MY_TEG", str);
+                 cnt[0]++;
+                 if(cnt[0] > packQty){
+
+                     /**
+                      * TODO
+                      */
+//                     runOnUiThread(new Runnable() {
+//                         @Override
+//                         public void run() {
+//                             btnLoad.setEnabled(true);
+//                         }
+//                     });
+
+                     tm[0].cancel();
+                     tm[0] = null;
+                 }
+             }
+         }, 10, 50);
+
+     }
+     private void sendCmd(int cmd){
+         ObjectMsg msg = new ObjectMsg();
+         msg.cmd = cmd;
+         String jsonStr = new Gson().toJson(msg);
+         byte[] data = jsonStr.getBytes();
+         Log.i("MY_TEG", new String(data));
+         btConnect.connectThread.getReceiveThread().sendData(data);
+     }
+     CbBtReceive cbBtReceive = new CbBtReceive() {
+         @Override
+         public void cb(int code, String data) {
+             Log.i("MY_TEG", "---- BT DATA  - --------");
+
+             switch (code){
+                 case C_.CB_CODE_NEW_DATA   : receiveBtData(data);                           break;
+//                case CB_CODE_DISCONNECT : G_.btActiveState = BT_ACTIVE_STATE_ENABLE;
+//                    Log.i("MY_TEG", "---- BT DISCONNECT  - --------");                break;
+             }
+
+
+         }
+     };
+     private void showToast(int toastId){
+         runOnUiThread(new Runnable() {
+             @Override
+             public void run() {
+                 Toast.makeText(context, toastId, Toast.LENGTH_LONG).show();
+             }
+         });
+     }
      private void animeBtStateIcon(){
          final boolean[] stt = {false};
          animeTmBtSign.schedule(new TimerTask() {
@@ -231,8 +353,27 @@ import java.util.TimerTask;
 
         btSearch = findViewById(R.id.btSearch);
         btSearch.setOnClickListener(this);
+    }
 
 
+    void initDevList(){
+        for(int i=0; i<5; i++){
+            JmmrState jmmrState = new JmmrState();
+            jmmrState.ad_esp = i+1;
+            jmmrState.dev_range = i;
+            jmmrState.dev_type = 1;
+            jmmrState.msk1 = (0xF << i);
+            jmmrState.msk2 = (0xC << i*2);
+            G_.jmmr_list.add(jmmrState);
+        }
+        ListView mainLV = findViewById(R.id.mainLV);
+        devListAdapter = new DevListAdapter(this, R.layout.dev_list_item, G_.jmmr_list, new ItemDevSelListener() {
+            @Override
+            public void onItemDevSelClick(JmmrState data) {
+
+            }
+        });
+        mainLV.setAdapter(devListAdapter);
     }
     void init(){
         G_.init();
@@ -240,6 +381,9 @@ import java.util.TimerTask;
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         initViewElements();
         initRangesList();
+        initRangesGroupList();
+        animeBtStateIcon();
+        initDevList();
     }
 
     void showPageRanges(){
@@ -295,7 +439,36 @@ import java.util.TimerTask;
          Intent i = new Intent(context, BtListActivity.class);
          startActivity(i);
      }
-    void initRangesList(){
+
+     void initRangesGroupList(){
+         ObjRange o;
+         o = new ObjRange( 400,  800);
+         G_.rangeGroupList.add(o);
+         o = new ObjRange( 750,  1050);
+         G_.rangeGroupList.add(o);;
+         o = new ObjRange(1000, 1500);
+         G_.rangeGroupList.add(o);
+         o = new ObjRange(1500, 1900);
+         G_.rangeGroupList.add(o);
+         o = new ObjRange(1900, 2300);
+         G_.rangeGroupList.add(o);
+         o = new ObjRange(2300, 2700);
+         G_.rangeGroupList.add(o);
+         o = new ObjRange(2700, 3100);
+         G_.rangeGroupList.add(o);
+         o = new ObjRange(3100, 3700);
+         G_.rangeGroupList.add(o);
+         o = new ObjRange(3700, 4400);
+         G_.rangeGroupList.add(o);
+         o = new ObjRange(4400, 5100);
+         G_.rangeGroupList.add(o);
+         o = new ObjRange(5100, 5700);
+         G_.rangeGroupList.add(o);
+         o = new ObjRange(5700, 6200);
+         G_.rangeGroupList.add(o);
+
+     }
+     void initRangesList(){
         ObjRange o;
         o = new ObjRange( 400,  600);
         G_.rangeList.add(o);

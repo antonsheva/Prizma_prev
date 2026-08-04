@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="20dp"
+        android:background="@drawable/bt_dev_list_bacgrounf"
+        android:layout_marginTop="20dp"
+
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/txtDevInfo"
+                android:layout_width="0dp"
+                android:layout_weight="4"
+                android:layout_height="wrap_content"
+                android:text="Тип А адр. 123 диап. 2300–2500 МГц"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/mTextColor"
+                />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="batt"
+                    android:maxHeight="30dp"
+                    android:src="@drawable/battery"
+                    app:tint="@color/mTextColor"
+                    />
+
+                <TextView
+                    android:id="@+id/battState"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="100%"
+                    android:textSize="19sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/mTextColor"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="@drawable/spectrum_bacground"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+
+                >
+                
+                <LinearLayout
+                    android:id="@+id/devInfoItem1"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="33dp"
+                    android:orientation="horizontal"
+                    >
+                    <LinearLayout android:id="@+id/spectrum_1_0" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_1_1" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_1_2" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_1_3" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_1_4" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_1_5" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_1_6" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_1_7" style="@style/spectrumActiveStyle"></LinearLayout>
+
+                    <LinearLayout android:id="@+id/spectrum_1_8" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_1_9" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_1_10" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_1_11" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_1_12" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_1_13" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_1_14" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_1_15" style="@style/spectrumActiveStyle"></LinearLayout>
+
+                    <LinearLayout android:id="@+id/spectrum_1_16" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_1_17" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_1_18" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_1_19" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_1_20" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_1_21" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_1_22" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_1_23" style="@style/spectrumActiveStyle"></LinearLayout>
+
+                    <LinearLayout android:id="@+id/spectrum_1_24" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_1_25" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_1_26" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_1_27" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_1_28" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_1_29" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_1_30" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_1_31" style="@style/spectrumActiveStyle"></LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/devInfoItem2"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="33dp"
+                    android:orientation="horizontal"
+                    >
+                    <LinearLayout android:id="@+id/spectrum_2_0" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_2_1" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_2_2" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_2_3" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_2_4" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_2_5" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_2_6" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_2_7" style="@style/spectrumActiveStyle"></LinearLayout>
+
+                    <LinearLayout android:id="@+id/spectrum_2_8" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_2_9" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_2_10" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_2_11" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_2_12" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_2_13" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_2_14" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_2_15" style="@style/spectrumActiveStyle"></LinearLayout>
+
+                    <LinearLayout android:id="@+id/spectrum_2_16" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_2_17" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_2_18" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_2_19" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_2_20" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_2_21" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_2_22" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_2_23" style="@style/spectrumActiveStyle"></LinearLayout>
+
+                    <LinearLayout android:id="@+id/spectrum_2_24" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_2_25" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_2_26" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_2_27" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_2_28" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_2_29" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_2_30" style="@style/spectrumActiveStyle"></LinearLayout>
+                    <LinearLayout android:id="@+id/spectrum_2_31" style="@style/spectrumActiveStyle"></LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

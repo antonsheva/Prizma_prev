@@ -1,4 +1,4 @@
-package com.eshelon.prizma_prev.adapter;
+package com.eshelon.prizma_prev.objects;
 
 import static java.lang.String.valueOf;
 

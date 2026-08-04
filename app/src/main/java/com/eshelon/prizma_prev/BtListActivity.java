@@ -18,8 +18,6 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -30,7 +28,6 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -40,7 +37,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 
 import com.eshelon.prizma_prev.adapter.BtAdapter;
-import com.eshelon.prizma_prev.adapter.BtDevData;
+import com.eshelon.prizma_prev.interfaces.ItemClickListener;
+import com.eshelon.prizma_prev.objects.BtDevData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +46,7 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class BtListActivity extends AppCompatActivity implements ItemClickListener{
+public class BtListActivity extends AppCompatActivity implements ItemClickListener {
 
 
     boolean mPermScan   = false;
@@ -172,10 +170,8 @@ public class BtListActivity extends AppCompatActivity implements ItemClickListen
                             if(stt[0])setBtIcon(C_.BT_ICON_ENABLE);
                             else      setBtIcon(C_.BT_ICON_CONNECTED);
                             stt[0] = !stt[0];
-//                            Log.i("MY_TEG", "timer 1");
                         }
                     });
-//                    Log.i("MY_TEG", "timer  2");
                     if (ActivityCompat.checkSelfPermission(cntxt, BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
                         getPermissionsBtConnect();
                         return;
@@ -203,9 +199,7 @@ public class BtListActivity extends AppCompatActivity implements ItemClickListen
             Intent i = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             enableBltActivityResult.launch(i);
         }
-
     }
-
     void getPairedDevices(){
         int cnt = 0;
 

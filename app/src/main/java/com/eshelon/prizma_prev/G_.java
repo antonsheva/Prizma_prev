@@ -1,6 +1,6 @@
 package com.eshelon.prizma_prev;
 
-import com.eshelon.prizma_prev.adapter.BtDevData;
+import com.eshelon.prizma_prev.objects.BtDevData;
 import com.eshelon.prizma_prev.objects.ObjRange;
 import com.eshelon.prizma_prev.objects.JmmrState;
 
@@ -11,6 +11,7 @@ public class G_ {
     public static int selectPattern = 0;
     public static int selectRange = 0;
     public static final ArrayList<ObjRange> rangeList = new ArrayList<>();
+    public static final ArrayList<ObjRange> rangeGroupList = new ArrayList<>();
 
 
     public static ArrayList<JmmrState> jmmr_list;

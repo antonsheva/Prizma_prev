@@ -5,4 +5,10 @@
     <color name="mainBcgrndClr">#D9D9D9</color>
     <color name="divideLine">#857E7E</color>
     <color name="mTextColor">#202026</color>
+    <color name="mSpectrumActiveColor">#37FA0B</color>
+    <color name="mSpectrumNoActiveColor">#857E7E</color>
+    <color name="mSpectrumBackgroundColor">#B3E9DC</color>
+    <color name="mRangeList1">#76958E</color>
+    <color name="mRangeList2">#B6948F</color>
+
 </resources>

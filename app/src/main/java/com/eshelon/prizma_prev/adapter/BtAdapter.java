@@ -1,26 +1,22 @@
 package com.eshelon.prizma_prev.adapter;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityOptionsCompat;
 
 
 import com.eshelon.prizma_prev.G_;
-import com.eshelon.prizma_prev.ItemClickListener;
+import com.eshelon.prizma_prev.interfaces.ItemClickListener;
 import com.eshelon.prizma_prev.R;
+import com.eshelon.prizma_prev.objects.BtDevData;
 
 import java.util.List;
 

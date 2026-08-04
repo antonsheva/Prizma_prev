@@ -68,272 +68,23 @@
             android:layout_height="0dp"
             android:layout_weight="1">
 
-            <LinearLayout
-                android:id="@+id/sMainIsConnDev"
+            <ListView
+                android:id="@+id/mainLV"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:orientation="horizontal">
+                android:layout_height="match_parent">
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Подключено: устр. "
-                        android:textSize="19sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/mTextColor"/>
-
-                    <TextView
-                        android:id="@+id/devType"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="  A1"
-                        android:textSize="19sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/mTextColor"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:contentDescription="batt"
-                        android:maxHeight="30dp"
-                        android:src="@drawable/battery"
-                        app:tint="@color/mTextColor"
-                        />
-
-                    <TextView
-                        android:id="@+id/battState"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="100%"
-                        android:textSize="19sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/mTextColor"
-                        />
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <RelativeLayout
-                android:id="@+id/sMainWaitConnDev"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:orientation="horizontal"
-                android:visibility="gone">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="10dp"
-                    android:src="@drawable/ic_bt_en" />
-            </RelativeLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                android:paddingStart="10dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Текущий диапазон: "
-                    android:textSize="19sp"
-                    android:textColor="@color/mTextColor"/>
-
-                <TextView
-                    android:id="@+id/sMainCurrentRange"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="2300-2500 Мгц"
-                    android:textSize="19sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/mTextColor"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                android:paddingStart="10dp">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.8">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Центр: "
-                        android:textSize="19sp"
-                        android:textColor="@color/mTextColor"/>
-
-                    <TextView
-                        android:id="@+id/sMainFrqCenter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="2445 Мгц"
-                        android:textSize="19sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/mTextColor"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.1">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=" | "
-                        android:textSize="19sp"
-                        android:textColor="@color/mTextColor"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Ширина: "
-                        android:textSize="19sp"
-                        android:textColor="@color/mTextColor"/>
-
-                    <TextView
-                        android:id="@+id/sMainFrqWidth"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="20 Мгц"
-                        android:textSize="19sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/mTextColor"/>
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                android:paddingStart="10dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Цель: "
-                    android:textSize="19sp"
-                    android:textColor="@color/mTextColor"/>
-
-                <TextView
-                    android:id="@+id/sMainTarget"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="DJI Mavic"
-                    android:textSize="19sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/mTextColor"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                android:paddingStart="10dp">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.8">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Режим: "
-                        android:textSize="19sp"
-                        android:textColor="@color/mTextColor"/>
-
-                    <TextView
-                        android:id="@+id/sMainMode"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="50 Гц"
-                        android:textSize="19sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/mTextColor"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.1">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=" | "
-                        android:textSize="19sp"
-                        android:textColor="@color/mTextColor"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Подавление: "
-                        android:textSize="19sp"
-                        android:textColor="@color/mTextColor"/>
-
-                    <TextView
-                        android:id="@+id/sMainSuppression"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="ВЫКЛ"
-                        android:textSize="19sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/mTextColor"/>
-                </LinearLayout>
-            </LinearLayout>
-
+            </ListView>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_weight="0.2">
             <RelativeLayout
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="50dp"
                 >
                 <LinearLayout
                     android:id="@+id/sMainButtonSuppress"
@@ -364,7 +115,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.7">
+            android:layout_weight="0.3">
 
             <RelativeLayout
                 android:layout_width="match_parent"
