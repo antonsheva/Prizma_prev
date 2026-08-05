@@ -20,34 +20,33 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.eshelon.prizma_prev.objects.ObjRange;
 
+import java.util.ArrayList;
+
 public class FrqBandActivity extends AppCompatActivity implements View.OnClickListener {
 
     Context context;
     Vibrator vibrator;
 
     TextView txtSelectRange;
-    TextView txtCenterFrq;
-    TextView txtStartRange;
-    TextView txtStopRange;
+    TextView txtBandCenter1;
+    TextView txtBandCenter2;
+
     TextView txtSuppressBand;
 
     LinearLayout bttnSave;
     LinearLayout bttnCansel;
-    SeekBar seekBar;
+
     SeekBar seekBar1;
     SeekBar seekBar2;
 
-    Spinner spinner;
     Spinner spinner1;
     Spinner spinner2;
 
 
-    ObjRange objRange;
-    int bandWidth;
-    int bandWidth1;
-    int bandWidth2;
-
-    Integer bandCenter;
+    ObjRange objRange1;
+    ObjRange objRange2;
+    ArrayList<LinearLayout>specterPiece1 = new ArrayList<>();
+    ArrayList<LinearLayout>specterPiece2 = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,36 +71,48 @@ public class FrqBandActivity extends AppCompatActivity implements View.OnClickLi
         vibrator.cancel();
         vibrator.vibrate(vibrationEffect);
     }
-
-    void setBand(){
-        String str = Integer.toString(bandCenter);
-        txtCenterFrq.setText(str);
-        str = Integer.toString(bandCenter - bandWidth/2)+" - "+Integer.toString(bandCenter + bandWidth/2)+" Мгц";
-        txtSuppressBand.setText(str);
-    }
     void initTxtData(){
-        objRange = G_.rangeList.get(G_.selectRange);
-        bandCenter = (objRange.stop-objRange.start)/2+objRange.start;
-        String str = objRange.num.toString()+": "+objRange.view;
+        objRange2 = G_.rangeList.get(G_.selectRange*2);
+        objRange1 = G_.rangeList.get(G_.selectRange*2+1);
+
+
+        String str =    Integer.toString(G_.selectRange)+": "+
+                        Integer.toString(objRange2.getStart())+" - "+Integer.toString(objRange1.getStop());
         txtSelectRange.setText(str);
-        str = bandCenter.toString()+" МГц";
-        txtCenterFrq.setText(str);
-        str = objRange.start.toString();
-        txtStartRange.setText(str);
-        str = objRange.stop.toString();
-        txtStopRange.setText(str);
-        str = objRange.view;
-        txtSuppressBand.setText(str);
+
+        txtBandCenter1.setText(objRange1.getViewBandWidth());
+        txtBandCenter2.setText(objRange2.getViewBandWidth());
     }
     void initSeekBar(){
-        seekBar.setMax(objRange.width);
-        seekBar.setProgress(objRange.width/2);
-
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        seekBar1.setMax(C_.FRQ_STEP_QTY);
+        seekBar1.setProgress(C_.FRQ_STEP_QTY/2);
+        seekBar1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                bandCenter = objRange.start+progress;
-                setBand();
+                objRange1.setFrqPosition(C_.FRQ_STEP_QTY - progress);
+                txtBandCenter1.setText(objRange1.getViewBandWidth());
+                showSuppressBands(objRange1.getRangeMask(), objRange2.getRangeMask());
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        seekBar2.setMax(C_.FRQ_STEP_QTY);
+        seekBar2.setProgress(C_.FRQ_STEP_QTY/2);
+        seekBar2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                objRange2.setFrqPosition(C_.FRQ_STEP_QTY - progress);
+                txtBandCenter2.setText(objRange2.getViewBandWidth());
+                showSuppressBands(objRange1.getRangeMask(), objRange2.getRangeMask());
             }
 
             @Override
@@ -124,35 +135,19 @@ public class FrqBandActivity extends AppCompatActivity implements View.OnClickLi
         initSpinner();
     }
     void initSpinner(){
-        Integer[] arrWidth = {10,20,30,40,50};
-        String[] arrString = {"10Мгц","20Мгц","30Мгц","40Мгц","50Мгц"};
-        bandWidth = arrWidth[0];
-        CustomAdapter customAdapter=new CustomAdapter(getApplicationContext(),arrString);
-        spinner.setAdapter(customAdapter);
-        CustomAdapter customAdapter1=new CustomAdapter(getApplicationContext(),arrString);
+        CustomAdapter customAdapter1=new CustomAdapter(getApplicationContext(),objRange1.getViewBanList());
         spinner1.setAdapter(customAdapter1);
-        CustomAdapter customAdapter2=new CustomAdapter(getApplicationContext(),arrString);
+        CustomAdapter customAdapter2=new CustomAdapter(getApplicationContext(),objRange2.getViewBanList());
         spinner2.setAdapter(customAdapter2);
 
-        AdapterView.OnItemSelectedListener itemSelectedListener = new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                bandWidth = arrWidth[position];
-                setBand();
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        };
-        spinner.setOnItemSelectedListener(itemSelectedListener);
         spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                bandWidth1 = arrWidth[position];
+                objRange1.setCurrentBand(position);
+                txtBandCenter1.setText(objRange1.getViewBandWidth());
+                showSuppressBands(objRange1.getRangeMask(), objRange2.getRangeMask());
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -161,39 +156,103 @@ public class FrqBandActivity extends AppCompatActivity implements View.OnClickLi
         spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                bandWidth2 = arrWidth[position];
+                objRange2.setCurrentBand(position);
+                txtBandCenter2.setText(objRange2.getViewBandWidth());
+                showSuppressBands(objRange1.getRangeMask(), objRange2.getRangeMask());
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
     }
+
+    void showSuppressBands(int mask1, int mask2){
+        LinearLayout.LayoutParams lParamsSizeParent;
+        LinearLayout devBandsField = findViewById(R.id.devBandsField);
+        lParamsSizeParent = (LinearLayout.LayoutParams) devBandsField.getLayoutParams();
+        int hParent = lParamsSizeParent.height;
+        int noActiveHeight  = hParent/3;
+        int activeHeight    = hParent - hParent/10;
+        int margTopNoActive = hParent-noActiveHeight - hParent /20;
+        int margTopActive   = hParent /18;
+
+        boolean swch1;
+        boolean swch2;
+        LinearLayout llChngParam;
+        LinearLayout.LayoutParams lParams;
+        for(int i=0; i<32; i++){
+            swch1 = ((mask1 << i) & 0x80000000) == 0x80000000;
+            swch2 = ((mask2 << i) & 0x80000000) == 0x80000000;
+
+            llChngParam = specterPiece1.get(i);
+            lParams = (LinearLayout.LayoutParams) llChngParam.getLayoutParams();
+
+            if(!swch1){
+                llChngParam.setBackgroundResource(R.drawable.range_no_active);
+                lParams.height = noActiveHeight;
+                lParams.topMargin = margTopNoActive;
+            }
+            else{
+                llChngParam.setBackgroundResource(R.drawable.range_active);
+                lParams.height = activeHeight;
+                lParams.topMargin = margTopActive;
+            }
+
+            llChngParam = specterPiece2.get(i);
+            lParams = (LinearLayout.LayoutParams) llChngParam.getLayoutParams();
+            if(!swch2){
+                llChngParam.setBackgroundResource(R.drawable.range_no_active);
+                lParams.height = noActiveHeight;
+                lParams.topMargin = margTopNoActive;
+            }
+            else{
+                llChngParam.setBackgroundResource(R.drawable.range_active);
+                lParams.height = activeHeight;
+                lParams.topMargin = margTopActive;
+            }
+        }
+    }
+    void initRangeSticks(){
+        LinearLayout llStick;
+        String str;
+        int vId;
+
+        for(int i=0; i<32; i++){
+            str = C_.BASE_SRC_ID_NAME+C_.SRC_ID_NAME_PATT_SPECTER +"1_"+Integer.toString(i);
+            vId = this.getResources().getIdentifier(str, "id", this.getPackageName());
+            llStick =  (LinearLayout) findViewById(vId);
+            specterPiece1.add(llStick);
+
+            str = C_.BASE_SRC_ID_NAME+C_.SRC_ID_NAME_PATT_SPECTER +"2_"+Integer.toString(i);
+            vId = this.getResources().getIdentifier(str, "id", this.getPackageName());
+            llStick = (LinearLayout)findViewById(vId);
+            specterPiece2.add(llStick);
+        }
+    }
+
     void initViewElements(){
-        txtSelectRange  = findViewById(R.id.sFrqBandRange)     ;
-        txtCenterFrq    = findViewById(R.id.sFrqBandCenter)    ;
-        txtStartRange   = findViewById(R.id.sFrqBandRangeStart);
-        txtStopRange    = findViewById(R.id.sFrqBandRangeStop) ;
-        txtSuppressBand = findViewById(R.id.sFrqBandSuppress)  ;
-        seekBar         = findViewById(R.id.sFrqBandSeekBar)   ;
-
-        spinner         = findViewById(R.id.sFrqBandFrqSpinner);
-
-        seekBar1         = findViewById(R.id.sFrqBandSeekBar1)   ;
-        seekBar2         = findViewById(R.id.sFrqBandSeekBar2)   ;
 
 
-        spinner1        = findViewById(R.id.sFrqBandFrqSpinner1);
-        spinner2        = findViewById(R.id.sFrqBandFrqSpinner2);
+        txtBandCenter1  = findViewById(R.id.txtBandCenter1)      ;
+        txtBandCenter2  = findViewById(R.id.txtBandCenter2)      ;
 
+        txtSelectRange  = findViewById(R.id.sFrqBandRange)       ;
 
+        seekBar1        = findViewById(R.id.sFrqBandSeekBar1)    ;
+        seekBar2        = findViewById(R.id.sFrqBandSeekBar2)    ;
 
-        bttnSave   = findViewById(R.id.sFrqBandButtonSave)     ;
-        bttnCansel = findViewById(R.id.sFrqBandButtonCansel)   ;
+        spinner1        = findViewById(R.id.sFrqBandFrqSpinner1) ;
+        spinner2        = findViewById(R.id.sFrqBandFrqSpinner2) ;
+
+        bttnSave        = findViewById(R.id.sFrqBandButtonSave)  ;
+        bttnCansel      = findViewById(R.id.sFrqBandButtonCansel);
 
         bttnSave  .setOnClickListener(this);
         bttnCansel.setOnClickListener(this);
+
+        initRangeSticks();
+        showSuppressBands(0xFF0F0F11, 0xAAA555AA);
     }
 
     @Override

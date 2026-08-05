@@ -121,8 +121,6 @@ public class RangesActivity extends AppCompatActivity implements View.OnClickLis
 
     void selectRange(int rangeNum){
         G_.selectRange = rangeNum;
-//        resetColorPatternButtons();
-//        bttnRangeViewList.get(rangeNum).setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_pattern_select, null));
         Log.i("MY_LOG", "range -> "+Integer.toString(rangeNum));
         showPageFrqBan();
     }

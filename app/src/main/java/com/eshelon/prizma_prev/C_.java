@@ -6,6 +6,7 @@ public class C_ {
     public static final String SRC_ID_NAME_PATT_RANGE_PANEL = "sRangesPanelPatt";
     public static final String SRC_ID_NAME_PATT_SPECTER = "spectrum_";
 
+    public static final int FRQ_STEP_QTY  = 32;
 
 
     public static final int CMD_AT         = 1;

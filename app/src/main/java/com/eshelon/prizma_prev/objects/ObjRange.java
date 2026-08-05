@@ -1,20 +1,179 @@
 package com.eshelon.prizma_prev.objects;
 
+import com.eshelon.prizma_prev.C_;
+
+import java.util.ArrayList;
+
 public class ObjRange {
     private static int cnt = 0;
-    public Integer start, stop;
-    public Integer width;
+    Integer start, stop;
+    Integer rangeWidth;
 
-    public Integer num;
+    Integer num;
+    Integer frqStep = 0;
+    Integer currentBand = 0;
+    Integer currentBandStart = 0;
+    Integer currentBandStop = 0;
+    Integer currentBandWidth = 0;
+    Integer frqPosition = 0;
+    Integer frqCenter = 0;
+    Integer rangeMask = 0;
 
-    public String view;
+    public Integer getRangeMask() {
+        return rangeMask;
+    }
+
+    public void setRangeMask(Integer rangeMask) {
+        this.rangeMask = rangeMask;
+    }
+
+    ArrayList<Integer>bandList = new ArrayList<>();
+    ArrayList<Integer>bandStartList = new ArrayList<>();
+    ArrayList<Integer>bandStopList = new ArrayList<>();
+    ArrayList<String>viewBanList = new ArrayList<>();
+
+    String viewRange ="";
+    String viewBand ="";
+
+
+    String viewBandWidth ="";
+
+
+    public String getViewBandWidth() {
+        return viewBandWidth;
+    }
+
+    public static int getCnt() {
+        return cnt;
+    }
+
+    public Integer getStart() {
+        return start;
+    }
+
+    public Integer getStop() {
+        return stop;
+    }
+
+    public Integer getRangeWidth() {
+        return rangeWidth;
+    }
+    
+//TODO ----  ?????   ------
+    public Integer getNum() {
+        return num;
+    }
+
+    public void setNum(Integer num) {
+        this.num = num;
+    }
+//--------------
+    
+    
+    public Integer getFrqStep() {
+        return frqStep;
+    }
+
+    public Integer getCurrentBand() {
+        return currentBand;
+    }
+    
+    public Integer getCurrentBandStart() {
+        return currentBandStart;
+    }
+
+    public Integer getCurrentBandStop() {
+        return currentBandStop;
+    }
+
+    public Integer getCurrentBandWidth() {
+        return currentBandWidth;
+    }
+
+    public ArrayList<Integer> getBandList() {
+        return bandList;
+    }
+
+    public ArrayList<Integer> getBandStartList() {
+        return bandStartList;
+    }
+    public ArrayList<Integer> getBandStopList() {
+        return bandStopList;
+    }
+
+
+
+    public Integer getFrqCenter() {
+        return frqCenter;
+    }
+    public String getViewRange() {
+        return viewRange;
+    }
+    public String getViewBand() {
+        return viewBand;
+    }
+
+    public Integer getFrqPosition() {
+        return frqPosition;
+    }
+
+    public void setCurrentBand(Integer currentBand) {
+        this.currentBand = currentBand;
+        applyNewParameters();
+    }
+    public void setFrqPosition(Integer frqPosition) {
+        this.frqPosition = frqPosition;
+        applyNewParameters();
+    }
+
+    Integer currentBandStickQty = 0;
+    ArrayList<Integer> bandStickQtyList = new ArrayList<>();
+    void applyNewParameters(){
+        currentBandWidth = bandList.get(currentBand);
+        frqCenter = frqStep * frqPosition+start+currentBandWidth/2;
+        currentBandStart = frqCenter - currentBandWidth/2;
+        currentBandStop  = frqCenter + currentBandWidth/2;
+        if(currentBandStop > stop)currentBandStop = stop;
+        if(frqPosition>31)currentBandStop = stop;
+        viewBand = "  "+currentBandWidth+" МГц";
+        viewBandWidth = currentBandStop + " - " + frqCenter +" - "+ currentBandStart;
+
+        currentBandStickQty = bandStickQtyList.get(currentBand);
+        rangeMask = 0;
+        int tmp;
+        for(int i=0; i<currentBandStickQty; i++){
+            tmp = frqPosition - currentBandStickQty/2+i;
+            if(tmp>31)tmp = 31; if(tmp<0)tmp = 0;
+            rangeMask |= (1<<tmp);
+        }
+
+    }
+
+    public ArrayList<String> getViewBanList() {
+        return viewBanList;
+    }
 
     public ObjRange(int _start, int _stop){
         cnt++;
         num = cnt;
         start = _start;
         stop = _stop;
-        width = stop - start;
-        view = start.toString()+" - "+stop.toString()+" МГц";
+        viewRange = start.toString()+" - "+stop.toString()+" МГц";
+        rangeWidth = stop - start;
+        frqStep = rangeWidth / C_.FRQ_STEP_QTY;
+        frqPosition = C_.FRQ_STEP_QTY/2;
+        frqCenter = frqStep * frqPosition;
+
+        for(int i=1; i<=5; i++){
+            bandList.add(frqStep*i*2);
+            bandStickQtyList.add(i*2);
+        }
+
+        for(int i=0; i<5; i++){
+            String str = "  "+bandList.get(i)+" МГц";
+            viewBanList.add(str);
+        }
+
+        applyNewParameters();
     }
 }

@@ -88,14 +88,14 @@ public class DevListAdapter extends ArrayAdapter<JmmrState> {
             rangeStr  = "Ошибка параметра \"Диапазон\" ";
         }else {
             devRange  = G_.rangeGroupList.get(jmmrState.dev_range - 1);
-            rangeStr  = "диап."+Integer.toString(devRange.start) +" - "+  Integer.toString(devRange.stop);
+            rangeStr  = "диап. "+devRange.getViewRange();
         }
 
-        String typeStr = jmmrState.dev_type == 1 ? "A  " : "B  ";
+        String typeStr = jmmrState.dev_type == 1 ? "A " : "B ";
         String addressEsp = Integer.toString(jmmrState.ad_esp);
 
 
-        String title = "Тип "+typeStr+" адр. "+addressEsp+"  "+rangeStr;
+        String title = "Тип "+typeStr+" адр."+addressEsp+"  "+rangeStr;
 
         viewHolder.txtDevInfo.setText(title);
 

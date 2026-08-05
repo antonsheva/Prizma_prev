@@ -7,13 +7,15 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class CustomAdapter extends BaseAdapter {
     Context context;
 
-    String[] vals;
+    ArrayList<String> vals;
     LayoutInflater inflter;
 
-    public CustomAdapter(Context applicationContext, String[] vals) {
+    public CustomAdapter(Context applicationContext, ArrayList<String> vals) {
         this.context = applicationContext;
         this.vals = vals;
         inflter = (LayoutInflater.from(applicationContext));
@@ -21,7 +23,7 @@ public class CustomAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return vals.length;
+        return vals.size();
     }
 
     @Override
@@ -38,7 +40,7 @@ public class CustomAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         view = inflter.inflate(R.layout.custom_spinner_items, null);
         TextView names = (TextView) view.findViewById(R.id.textView);
-        names.setText(vals[i]);
+        names.setText(vals.get(i));
         return view;
     }
 }

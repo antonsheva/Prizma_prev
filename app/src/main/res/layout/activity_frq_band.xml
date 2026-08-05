@@ -57,19 +57,15 @@
             android:layout_height="60dp"
             android:layout_marginTop="4dp"
             android:orientation="horizontal">
-            <androidx.fragment.app.FragmentContainerView
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/fragment_container_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:name="com.eshelon.prizma_prev.FragmentRange" />
+            <include layout="@layout/range_fragment"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal">
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -80,15 +76,19 @@
                     android:textColor="@color/mTextColor"
                     android:textSize="16sp"
                     android:layout_marginStart="10dp"
-                    android:text="полоса"/>
+                    android:layout_marginTop="2dp"
+                    android:text="Полоса:"/>
                 <Spinner
                     android:id="@+id/sFrqBandFrqSpinner1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="80dp"
                     android:layout_height="wrap_content"
-                    android:dropDownWidth="100dp"
+                    android:dropDownWidth="80dp"
+                    android:background="@null"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="18dp"
                     />
-            </LinearLayout>
-            <LinearLayout
+            </RelativeLayout>
+            <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -99,20 +99,26 @@
                     android:textColor="@color/mTextColor"
                     android:textSize="16sp"
                     android:layout_marginStart="10dp"
-                    android:text="полоса"/>
+                    android:layout_marginTop="2dp"
+                    android:text="Полоса:"/>
+
                 <Spinner
                     android:id="@+id/sFrqBandFrqSpinner2"
-                    android:layout_width="wrap_content"
+                    android:layout_width="80dp"
                     android:layout_height="wrap_content"
-                    android:dropDownWidth="100dp"
+                    android:dropDownWidth="80dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="18dp"
+                    android:background="@null"
                     />
-            </LinearLayout>
+            </RelativeLayout>
 
 
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal">
             <LinearLayout
                 android:layout_width="0dp"
@@ -164,139 +170,54 @@
 
 
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="20dp"
-                    android:text="Центральная частота: "
-                    android:textSize="20dp" />
-
-                <TextView
-                    android:id="@+id/sFrqBandCenter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="20dp"
-                    android:text="2445 МГц"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                >
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:id="@+id/sFrqBandButtonEnableAll"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.3">
-
+                    style="@style/sMainButtonPattern"
+                    android:background="@drawable/button_pattern"
+                    android:layout_alignParentStart="true"
+                    >
                     <TextView
-                        android:id="@+id/sFrqBandRangeStart"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="30dp"
-                        android:text="2300"
-                        android:textSize="20dp"
-                        android:textStyle="bold" />
+                        android:text="Все вкл."
+                        android:textSize="18dp"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:layout_centerInParent="true"
+                        />
                 </LinearLayout>
-
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:id="@+id/sFrqBandButtonDisableAll"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1">
-
-                    <SeekBar
-                        android:id="@+id/sFrqBandSeekBar"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="25dp"
-                        android:max="20"
-                        android:progress="10"
-                        android:progressDrawable="@drawable/seekbar_style"
-                        android:thumb="@drawable/seekbar_custom_thumb" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.3">
-
+                    style="@style/sMainButtonPattern"
+                    android:background="@drawable/button_pattern"
+                    android:layout_alignParentEnd="true"
+                    >
                     <TextView
-                        android:id="@+id/sFrqBandRangeStop"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="30dp"
-                        android:text="2500"
-                        android:textSize="20dp"
-                        android:textStyle="bold" />
+                        android:text="Все выкл."
+                        android:textSize="18dp"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:layout_centerInParent="true"
+                        />
                 </LinearLayout>
-            </LinearLayout>
+            </RelativeLayout>
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="40dp"
-                    android:text="Ширина полосы: "
-                    android:textSize="20dp" />
-
-                <Spinner
-                    android:id="@+id/sFrqBandFrqSpinner"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="40dp"
-                    android:dropDownWidth="100dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="40dp"
-                    android:text="МГц"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="40dp"
-                    android:text="Итоговый диапазон подавления:"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/sFrqBandSuppress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="20dp"
-                    android:text="2435 - 2455 МГц"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
-            </LinearLayout>
 
 
         </LinearLayout>
