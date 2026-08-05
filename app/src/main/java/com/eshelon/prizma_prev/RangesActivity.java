@@ -8,6 +8,7 @@ import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import androidx.activity.EdgeToEdge;
@@ -17,14 +18,16 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.eshelon.prizma_prev.objects.JmmrState;
+
 import java.util.ArrayList;
 
 public class RangesActivity extends AppCompatActivity implements View.OnClickListener {
     Context context;
     Vibrator vibrator;
-    final ArrayList<Integer> bttnRangeIdList = new ArrayList<>();
-    final ArrayList<RelativeLayout> bttnRangeViewList = new ArrayList<>();
-
+    final ArrayList<Integer> panelRangeIdList = new ArrayList<>();
+    final ArrayList<LinearLayout> panelRangeViewList = new ArrayList<>();
+    final ArrayList<RelativeLayout> buttonRangeViewList = new ArrayList<>();
     RelativeLayout bttnSetFrqBand;
 
 
@@ -41,20 +44,65 @@ public class RangesActivity extends AppCompatActivity implements View.OnClickLis
             return insets;
         });
     }
-    void initBttnRanges(){
-        String str;
-        int vId;
-        for(int i = 1; i<25; i++) {
-            str = C_.BASE_SRC_ID_NAME+C_.SRC_ID_NAME_PATT_RANGE + Integer.toString(i);
-            vId = this.getResources().getIdentifier(str, "id", getPackageName());
-            bttnRangeIdList.add(vId);
-            RelativeLayout rl = (RelativeLayout) findViewById(vId);
-            rl.setOnClickListener(this);
-            bttnRangeViewList.add(rl);
+    void resetColorPanels(){
+        for(LinearLayout ll : panelRangeViewList){
+            ll.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.range_bacground_no_active, null));
+        }
+        for(RelativeLayout rl : buttonRangeViewList){
+            rl.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.range_bacground_no_active, null));
         }
     }
+    void setColorPanel(int num){
+        if(num%2 == 0)panelRangeViewList.get(num).setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.range_bacground_red, null));
+        else          panelRangeViewList.get(num).setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.range_bacground_blue, null));
+
+        buttonRangeViewList.get(num*2).setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_pattern, null));
+        buttonRangeViewList.get(num*2+1).setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_pattern, null));
+
+        panelRangeViewList.get(num).setOnClickListener(this);
+    }
+    void checkActiveRange(){
+        for (JmmrState jmmr : G_.jmmr_list){
+            if(jmmr.dev_range > 0)setColorPanel(jmmr.dev_range - 1);
+            else Log.e("MY_ERR", "Error range parameter");
+        }
+    }
+    void initRangePanels(){
+        String strPanel;
+        String strButton1;
+        String strButton2;
+
+        int vIdPanel;
+        int vIdButton1;
+        int vIdButton2;
+        for(int i = 1; i<=12; i++) {
+            strPanel = C_.BASE_SRC_ID_NAME+C_.SRC_ID_NAME_PATT_RANGE_PANEL + Integer.toString(i);
+            strButton1 = C_.BASE_SRC_ID_NAME+C_.SRC_ID_NAME_PATT_RANGE_BUTTON + Integer.toString(i*2-1);
+            strButton2 = C_.BASE_SRC_ID_NAME+C_.SRC_ID_NAME_PATT_RANGE_BUTTON + Integer.toString(i*2);
+
+            vIdPanel = this.getResources().getIdentifier(strPanel, "id", getPackageName());
+            vIdButton1 = this.getResources().getIdentifier(strButton1, "id", getPackageName());
+            vIdButton2 = this.getResources().getIdentifier(strButton2, "id", getPackageName());
+
+
+            LinearLayout ll = (LinearLayout) findViewById(vIdPanel);
+            RelativeLayout rl1 = (RelativeLayout)findViewById((vIdButton1));
+            RelativeLayout rl2 = (RelativeLayout)findViewById((vIdButton2));
+
+            panelRangeIdList.add(vIdPanel);
+
+
+
+            panelRangeViewList.add(ll);
+            buttonRangeViewList .add(rl1);
+            buttonRangeViewList .add(rl2);
+        }
+
+    }
     void initViewElements(){
-        initBttnRanges();
+        initRangePanels();
+        resetColorPanels();
+        checkActiveRange();
         bttnSetFrqBand = findViewById(R.id.sRangesButtonSetFrqBand);
         bttnSetFrqBand.setOnClickListener(this);
     }
@@ -70,17 +118,13 @@ public class RangesActivity extends AppCompatActivity implements View.OnClickLis
         startActivity(i);
     }
 
-    void resetColorPatternButtons(){
-        for(RelativeLayout rl : bttnRangeViewList){
-            rl.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_pattern, null));
-        }
-    }
+
     void selectRange(int rangeNum){
         G_.selectRange = rangeNum;
-        resetColorPatternButtons();
-        bttnRangeViewList.get(rangeNum).setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_pattern_select, null));
+//        resetColorPatternButtons();
+//        bttnRangeViewList.get(rangeNum).setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_pattern_select, null));
         Log.i("MY_LOG", "range -> "+Integer.toString(rangeNum));
-
+        showPageFrqBan();
     }
 
     void vibro(){
@@ -102,7 +146,7 @@ public class RangesActivity extends AppCompatActivity implements View.OnClickLis
 
         String vName = getResources().getResourceName(vId);
 
-        if(vName.contains("Patt")){
+        if(vName.contains("PanelPatt")){
             int num;
             String strNum = vName.substring(vName.lastIndexOf("t")+1);
             try{

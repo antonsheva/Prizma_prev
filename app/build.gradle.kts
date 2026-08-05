@@ -49,6 +49,7 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
 
 
+    implementation("androidx.fragment:fragment:1.8.9")
 
 
 }

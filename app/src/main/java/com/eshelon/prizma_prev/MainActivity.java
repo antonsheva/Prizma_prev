@@ -31,7 +31,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.eshelon.prizma_prev.adapter.DevListAdapter;
-import com.eshelon.prizma_prev.interfaces.ItemClickListener;
 import com.eshelon.prizma_prev.interfaces.ItemDevSelListener;
 
 import com.eshelon.prizma_prev.objects.JmmrState;
@@ -58,7 +57,7 @@ import java.util.TimerTask;
      ImageView btDevInfo;
      ImageView btDevList;
      ImageView btSearch;
-
+     ListView mainLV;
 
      DevListAdapter devListAdapter;
      BtConnect btConnect = null;
@@ -93,6 +92,7 @@ import java.util.TimerTask;
          setBtIcon(C_.BT_ICON_ENABLE);
          if (!G_.selectBtDevice.isDeviceSelected())return;
          G_.btActiveState = BT_ACTIVE_STATE_CONNECTING;
+         Log.i("MY_TEG", "initDevListAdapter ---- - - - -- ");
 
          btConnect = new BtConnect(this, G_.selectBtDevice.getMac(), code -> {
              ReceiveThread rThrd = btConnect.connectThread.getReceiveThread();
@@ -104,14 +104,19 @@ import java.util.TimerTask;
              }
              if(code==C_.CB_CODE_CONNECT){
                  G_.btActiveState = BT_ACTIVE_STATE_CONNECTED;
-                 setVisibleBtMenuInfo(VISIBLE);
+
              }
              else{
                  G_.btActiveState = BT_ACTIVE_STATE_ENABLE;
-                 setVisibleBtMenuInfo(GONE);
+
              }
              rThrd.setCbReceive(cbBtReceive);
-             if(G_.jmmr_list != null) G_.jmmr_list.clear();
+             if(G_.jmmr_list != null){
+                 G_.jmmr_list.clear();
+                 Log.i("MY_TEG", "G_.jmmr_list -> clear");
+             }else{
+                 Log.i("MY_TEG", "G_.jmmr_list -> null");
+             }
              sendCmd(C_.CMD_GET_JAMM_LIST);
              setVisibleMenuJmmrList();
 
@@ -178,7 +183,9 @@ import java.util.TimerTask;
          @Override
          public void cb(int code, String data) {
              Log.i("MY_TEG", "---- BT DATA  - --------");
-
+             if(G_.jmmr_list == null){
+                 Log.i("MY_TEG", "G_.jmmr_list -> null");
+             }
              switch (code){
                  case C_.CB_CODE_NEW_DATA   : receiveBtData(data);                           break;
 //                case CB_CODE_DISCONNECT : G_.btActiveState = BT_ACTIVE_STATE_ENABLE;
@@ -284,14 +291,25 @@ import java.util.TimerTask;
 
      private void readJmmrList(ObjectMsg msg){
          G_.jmmr_list = msg.jmmr_list;
-         if(G_.jmmr_list == null)return;
+         if(G_.jmmr_list == null){
+             Log.i("MY_TEG", "G_.jmmr_list -> null 1");
+             return;
+         }
          for(JmmrState jmmr : G_.jmmr_list){
              if(jmmr.pwr1 != 1)jmmr.pwr1 = 2;
              if(jmmr.pwr2 != 1)jmmr.pwr2 = 2;
          }
-         setVisibleMenuJmmrList();
+        viewUpdateDevList();
      }
 
+     private void viewUpdateDevList(){
+         runOnUiThread(new Runnable() {
+             @Override
+             public void run() {
+                 initDevListAdapter();
+             }
+         });
+     }
      private void receiveBtData(String data){
          Log.i("MY_TEG", data);
          if(data.startsWith("start___")){
@@ -327,6 +345,8 @@ import java.util.TimerTask;
          }
      }
     void initViewElements(){
+        mainLV = findViewById(R.id.mainLV);
+
         bttnShowRangesList = findViewById(R.id.sMainButtonRanges);
         bttnShowRangesList.setOnClickListener(this);
 
@@ -356,17 +376,9 @@ import java.util.TimerTask;
     }
 
 
-    void initDevList(){
-        for(int i=0; i<5; i++){
-            JmmrState jmmrState = new JmmrState();
-            jmmrState.ad_esp = i+1;
-            jmmrState.dev_range = i;
-            jmmrState.dev_type = 1;
-            jmmrState.msk1 = (0xF << i);
-            jmmrState.msk2 = (0xC << i*2);
-            G_.jmmr_list.add(jmmrState);
-        }
-        ListView mainLV = findViewById(R.id.mainLV);
+    void initDevListAdapter(){
+        Log.i("MY_TEG", "----- - -- -initDevListAdapter");
+        if(devListAdapter != null)devListAdapter = null;
         devListAdapter = new DevListAdapter(this, R.layout.dev_list_item, G_.jmmr_list, new ItemDevSelListener() {
             @Override
             public void onItemDevSelClick(JmmrState data) {
@@ -383,7 +395,18 @@ import java.util.TimerTask;
         initRangesList();
         initRangesGroupList();
         animeBtStateIcon();
-        initDevList();
+
+        for(int i=0; i<3; i++){
+            JmmrState jmmrState = new JmmrState();
+            jmmrState.ad_esp = i+1;
+            jmmrState.dev_range = i*2+1;
+            jmmrState.dev_type = 1;
+            jmmrState.msk1 = (0xF << i);
+            jmmrState.msk2 = (0xC << i*2);
+            G_.jmmr_list.add(jmmrState);
+        }
+        initDevListAdapter();
+        devListAdapter.notifyDataSetChanged();
     }
 
     void showPageRanges(){

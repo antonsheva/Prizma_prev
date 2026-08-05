@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/frqBand"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginTop="50dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -13,28 +14,30 @@
         >
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="НАСТРОЙКА УЗКОЙ ПОЛОСЫ"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:textStyle="bold"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="10dp"/>
+                android:layout_marginTop="3dp"
+                android:textColor="@color/mTextColor"
+                />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="20dp">
+                android:gravity="center"
+                >
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:textSize="20dp"
+                    android:textColor="@color/mTextColor"
+                    android:textSize="16dp"
                     android:text="Диапазон "/>
                 <TextView
                     android:id="@+id/sFrqBandRange"
@@ -42,58 +45,170 @@
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:textSize="20sp"
-                    android:text="11: 2300–2500 МГц"/>
+                    android:textSize="16sp"
+                    android:text="11: 2300–2500 МГц"
+                    android:textColor="@color/mTextColor"/>
 
             </LinearLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal">
+            <androidx.fragment.app.FragmentContainerView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/fragment_container_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:name="com.eshelon.prizma_prev.FragmentRange" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/mTextColor"
+                    android:textSize="16sp"
+                    android:layout_marginStart="10dp"
+                    android:text="полоса"/>
+                <Spinner
+                    android:id="@+id/sFrqBandFrqSpinner1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:dropDownWidth="100dp"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/mTextColor"
+                    android:textSize="16sp"
+                    android:layout_marginStart="10dp"
+                    android:text="полоса"/>
+                <Spinner
+                    android:id="@+id/sFrqBandFrqSpinner2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:dropDownWidth="100dp"
+                    />
+            </LinearLayout>
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <SeekBar
+                    android:id="@+id/sFrqBandSeekBar1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:max="20"
+                    android:progress="10"
+                    android:progressDrawable="@drawable/seekbar_style"
+                    android:thumb="@drawable/seekbar_custom_thumb" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <SeekBar
+                    android:id="@+id/sFrqBandSeekBar2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="20"
+                    android:progress="10"
+                    android:progressDrawable="@drawable/seekbar_style"
+                    android:thumb="@drawable/seekbar_custom_thumb" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="@color/divideLine"
                 android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
                 android:layout_marginTop="20dp"
-                />
+                android:layout_marginEnd="10dp"
+                android:background="@color/divideLine" />
+
+
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="20dp"
-                    android:textSize="20dp"
-                    android:text="Центральная частота: "/>
+                    android:text="Центральная частота: "
+                    android:textSize="20dp" />
+
                 <TextView
                     android:id="@+id/sFrqBandCenter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="20dp"
+                    android:text="2445 МГц"
                     android:textSize="20dp"
-                    android:text="2445 МГц"/>
+                    android:textStyle="bold" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3">
+
                     <TextView
                         android:id="@+id/sFrqBandRangeStart"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textStyle="bold"
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="30dp"
+                        android:text="2300"
                         android:textSize="20dp"
-                        android:text="2300"/>
+                        android:textStyle="bold" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -107,54 +222,55 @@
                         android:max="20"
                         android:progress="10"
                         android:progressDrawable="@drawable/seekbar_style"
-                        android:thumb="@drawable/seekbar_custom_thumb"
-                        />
+                        android:thumb="@drawable/seekbar_custom_thumb" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3">
+
                     <TextView
                         android:id="@+id/sFrqBandRangeStop"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textStyle="bold"
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="30dp"
+                        android:text="2500"
                         android:textSize="20dp"
-                        android:text="2500"/>
+                        android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
-
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="40dp"
-                    android:textSize="20dp"
-                    android:text="Ширина полосы: "/>
+                    android:text="Ширина полосы: "
+                    android:textSize="20dp" />
 
                 <Spinner
                     android:id="@+id/sFrqBandFrqSpinner"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="40dp"
                     android:layout_marginStart="20dp"
-                    android:dropDownWidth="100dp"
-                    />
+                    android:layout_marginTop="40dp"
+                    android:dropDownWidth="100dp" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
                     android:layout_marginTop="40dp"
-                    android:text="МГц"/>
+                    android:text="МГц"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -162,27 +278,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="40dp"
-                    android:textSize="20sp"
-                    android:text="Итоговый диапазон подавления:"/>
-                    <TextView
-                        android:id="@+id/sFrqBandSuppress"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="20dp"
-                        android:textSize="20dp"
-                        android:text="2435 - 2455 МГц"/>
+                    android:text="Итоговый диапазон подавления:"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/sFrqBandSuppress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="20dp"
+                    android:text="2435 - 2455 МГц"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
 
-
         </LinearLayout>
+
         <RelativeLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"

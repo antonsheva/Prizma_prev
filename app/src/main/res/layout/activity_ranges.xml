@@ -41,6 +41,7 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/sRangesPanelPatt1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -80,6 +81,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/sRangesPanelPatt2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -117,6 +119,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/sRangesPanelPatt3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -154,6 +157,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/sRangesPanelPatt4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -191,6 +195,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/sRangesPanelPatt5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -228,6 +233,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/sRangesPanelPatt6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -265,6 +271,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/sRangesPanelPatt7"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -302,6 +309,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/sRangesPanelPatt8"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -339,6 +347,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/sRangesPanelPatt9"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -378,6 +387,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/sRangesPanelPatt10"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -416,6 +426,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/sRangesPanelPatt11"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -453,6 +464,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/sRangesPanelPatt12"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"

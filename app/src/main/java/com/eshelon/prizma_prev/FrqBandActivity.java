@@ -34,10 +34,19 @@ public class FrqBandActivity extends AppCompatActivity implements View.OnClickLi
     LinearLayout bttnSave;
     LinearLayout bttnCansel;
     SeekBar seekBar;
+    SeekBar seekBar1;
+    SeekBar seekBar2;
+
     Spinner spinner;
+    Spinner spinner1;
+    Spinner spinner2;
+
 
     ObjRange objRange;
     int bandWidth;
+    int bandWidth1;
+    int bandWidth2;
+
     Integer bandCenter;
 
     @Override
@@ -87,6 +96,7 @@ public class FrqBandActivity extends AppCompatActivity implements View.OnClickLi
     void initSeekBar(){
         seekBar.setMax(objRange.width);
         seekBar.setProgress(objRange.width/2);
+
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -113,15 +123,17 @@ public class FrqBandActivity extends AppCompatActivity implements View.OnClickLi
         initSeekBar();
         initSpinner();
     }
-
     void initSpinner(){
         Integer[] arrWidth = {10,20,30,40,50};
-        String[] arrString = {"10","20","30","40","50"};
+        String[] arrString = {"10Мгц","20Мгц","30Мгц","40Мгц","50Мгц"};
         bandWidth = arrWidth[0];
-//        ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, arrString);
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
         CustomAdapter customAdapter=new CustomAdapter(getApplicationContext(),arrString);
         spinner.setAdapter(customAdapter);
+        CustomAdapter customAdapter1=new CustomAdapter(getApplicationContext(),arrString);
+        spinner1.setAdapter(customAdapter1);
+        CustomAdapter customAdapter2=new CustomAdapter(getApplicationContext(),arrString);
+        spinner2.setAdapter(customAdapter2);
+
         AdapterView.OnItemSelectedListener itemSelectedListener = new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -135,6 +147,28 @@ public class FrqBandActivity extends AppCompatActivity implements View.OnClickLi
             }
         };
         spinner.setOnItemSelectedListener(itemSelectedListener);
+        spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                bandWidth1 = arrWidth[position];
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                bandWidth2 = arrWidth[position];
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
     void initViewElements(){
         txtSelectRange  = findViewById(R.id.sFrqBandRange)     ;
@@ -143,7 +177,16 @@ public class FrqBandActivity extends AppCompatActivity implements View.OnClickLi
         txtStopRange    = findViewById(R.id.sFrqBandRangeStop) ;
         txtSuppressBand = findViewById(R.id.sFrqBandSuppress)  ;
         seekBar         = findViewById(R.id.sFrqBandSeekBar)   ;
+
         spinner         = findViewById(R.id.sFrqBandFrqSpinner);
+
+        seekBar1         = findViewById(R.id.sFrqBandSeekBar1)   ;
+        seekBar2         = findViewById(R.id.sFrqBandSeekBar2)   ;
+
+
+        spinner1        = findViewById(R.id.sFrqBandFrqSpinner1);
+        spinner2        = findViewById(R.id.sFrqBandFrqSpinner2);
+
 
 
         bttnSave   = findViewById(R.id.sFrqBandButtonSave)     ;

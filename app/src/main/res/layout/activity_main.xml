@@ -48,8 +48,8 @@
                 android:src="@drawable/menu_assignment"
                 android:layout_alignParentEnd="true"
                 app:tint="@color/mTextColor"
-                android:layout_marginEnd="40dp" />
-<!--                android:visibility="gone"-->
+                android:layout_marginEnd="40dp"
+                android:visibility="gone"/>
 
             <ImageView
                 android:id="@+id/btSearch"
@@ -71,7 +71,8 @@
             <ListView
                 android:id="@+id/mainLV"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="@drawable/range_bacground_blue">
 
             </ListView>
         </LinearLayout>

@@ -27,7 +27,7 @@
                 android:layout_weight="4"
                 android:layout_height="wrap_content"
                 android:text="Тип А адр. 123 диап. 2300–2500 МГц"
-                android:textSize="18sp"
+                android:textSize="17sp"
                 android:textStyle="bold"
                 android:textColor="@color/mTextColor"
                 />
@@ -42,7 +42,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:contentDescription="batt"
-                    android:maxHeight="30dp"
+                    android:maxHeight="25dp"
                     android:src="@drawable/battery"
                     app:tint="@color/mTextColor"
                     />
@@ -52,7 +52,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="100%"
-                    android:textSize="19sp"
+                    android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="@color/mTextColor"
                     />

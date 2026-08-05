@@ -80,13 +80,22 @@ public class DevListAdapter extends ArrayAdapter<JmmrState> {
 
             viewHolder = (ViewHolder) convertView.getTag();
         }
+
+
+        String rangeStr = "";
         jmmrState = jmmrStateList.get(position);
-        devRange  = G_.rangeGroupList.get(jmmrState.dev_range);
+        if(jmmrState.dev_range < 1 || jmmrState.dev_range > 12){
+            rangeStr  = "Ошибка параметра \"Диапазон\" ";
+        }else {
+            devRange  = G_.rangeGroupList.get(jmmrState.dev_range - 1);
+            rangeStr  = "диап."+Integer.toString(devRange.start) +" - "+  Integer.toString(devRange.stop);
+        }
+
         String typeStr = jmmrState.dev_type == 1 ? "A  " : "B  ";
         String addressEsp = Integer.toString(jmmrState.ad_esp);
-        String rangeStartStr = Integer.toString(devRange.start);
-        String rangeStopStr  = Integer.toString(devRange.stop);
-        String title = "Тип "+typeStr+" адр. "+addressEsp+"   диап. "+rangeStartStr+" - "+rangeStopStr;
+
+
+        String title = "Тип "+typeStr+" адр. "+addressEsp+"  "+rangeStr;
 
         viewHolder.txtDevInfo.setText(title);
 
@@ -140,7 +149,7 @@ public class DevListAdapter extends ArrayAdapter<JmmrState> {
             @Override
             public void onClick(View v) {
                 if (jmmrStateList.isEmpty()) {
-                    Toast.makeText(ctxt, "btDevList is empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ctxt, "jmmrStateList is empty", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
