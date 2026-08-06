@@ -6,7 +6,7 @@ import static com.eshelon.prizma_prev.C_.BT_ACTIVE_STATE_CONNECTED;
 import static com.eshelon.prizma_prev.C_.BT_ACTIVE_STATE_CONNECTING;
 import static com.eshelon.prizma_prev.C_.BT_ACTIVE_STATE_ENABLE;
 import static com.eshelon.prizma_prev.C_.BT_ACTIVE_STATE_SEARCHING;
-import static com.eshelon.prizma_prev.C_.CMD_GET_JAMM_LIST;
+
 
 import android.content.Context;
 import android.content.Intent;
@@ -83,7 +83,6 @@ import java.util.TimerTask;
      @Override
      protected void onStart() {
          super.onStart();
-
      }
 
      @Override
@@ -117,15 +116,23 @@ import java.util.TimerTask;
              }else{
                  Log.i("MY_TEG", "G_.jmmr_list -> null");
              }
-             sendCmd(C_.CMD_GET_JAMM_LIST);
+             btSendCmd(C_.CMD_GET_JMMR_LIST);
              setVisibleMenuJmmrList();
 
          });
          btConnect.connect();
      }
-     private void sendBtData(Object o, int type){
+     private void btSendJmmrList(){
+         if(G_.jmmr_list == null)return;
+         ObjectMsg msg = new ObjectMsg();
+         msg.cmd = C_.CMD_SET_JMMR_LIST;
+
+         msg.jmmr_list = G_.jmmr_list;
+         msg.jmmr_list_len = G_.jmmr_list.size();
+         btSendData(msg, 0);
+     }
+     private void btSendData(Object o, int type){
          if(G_.btActiveState != BT_ACTIVE_STATE_CONNECTED)return;
-//         btnLoad.setEnabled(false);
          String jsonStr = "";
          ObjectMsg msg = (ObjectMsg)o;
          msg.ad_esp = G_.btDevAddr;
@@ -171,7 +178,7 @@ import java.util.TimerTask;
          }, 10, 50);
 
      }
-     private void sendCmd(int cmd){
+     private void btSendCmd(int cmd){
          ObjectMsg msg = new ObjectMsg();
          msg.cmd = cmd;
          String jsonStr = new Gson().toJson(msg);
@@ -287,12 +294,12 @@ import java.util.TimerTask;
          G_.btDataOk = false;
 
          switch (msg.cmd){
-             case CMD_GET_JAMM_LIST:readJmmrList(msg);
+             case C_.CMD_GET_JMMR_LIST:readJmmrList(msg);
          }
      }
      Timer btReceiveTm = null;
 
-     private void readJmmrList(ObjectMsg msg){
+    private void readJmmrList(ObjectMsg msg){
          G_.jmmr_list = msg.jmmr_list;
          if(G_.jmmr_list == null){
              Log.i("MY_TEG", "G_.jmmr_list -> null 1");
@@ -304,15 +311,15 @@ import java.util.TimerTask;
          }
         viewUpdateDevList();
      }
-     private void viewUpdateDevList(){
+    private void viewUpdateDevList(){
          runOnUiThread(new Runnable() {
              @Override
              public void run() {
                  initDevListAdapter();
              }
          });
-     }
-     private void receiveBtData(String data){
+    }
+    private void receiveBtData(String data){
          Log.i("MY_TEG", data);
          if(data.startsWith("start___")){
              G_.btData = "";
@@ -376,7 +383,6 @@ import java.util.TimerTask;
         btSearch = findViewById(R.id.btSearch);
         btSearch.setOnClickListener(this);
     }
-
 
     void initDevListAdapter(){
 
@@ -442,6 +448,7 @@ import java.util.TimerTask;
         }else {
             G_.bttnSuppressState = true;
             bttnSuppress.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_suppress_on, null));
+            btSendJmmrList();
         }
     }
 
