@@ -5,9 +5,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -21,6 +23,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.eshelon.prizma_prev.objects.ObjRange;
 
 import java.util.ArrayList;
+import java.util.HexFormat;
 
 public class FrqBandActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -47,6 +50,13 @@ public class FrqBandActivity extends AppCompatActivity implements View.OnClickLi
     ObjRange objRange2;
     ArrayList<LinearLayout>specterPiece1 = new ArrayList<>();
     ArrayList<LinearLayout>specterPiece2 = new ArrayList<>();
+    final ArrayList<RelativeLayout> viewBandStepButtonList1 = new ArrayList<>();
+    final ArrayList<Integer>bandStepButtonIdList1 = new ArrayList<>();
+    final ArrayList<Integer>bandStepButtonIdList2 = new ArrayList<>();
+    final ArrayList<RelativeLayout> viewBandStepButtonList2 = new ArrayList<>();
+    final ArrayList<TextView> viewBandStepButtonTextList1 = new ArrayList<>();
+    final ArrayList<TextView> viewBandStepButtonTextList2 = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,11 +81,12 @@ public class FrqBandActivity extends AppCompatActivity implements View.OnClickLi
         vibrator.cancel();
         vibrator.vibrate(vibrationEffect);
     }
-    void initTxtData(){
+
+    void getRangeObjects(){
         objRange2 = G_.rangeList.get(G_.selectRange*2);
         objRange1 = G_.rangeList.get(G_.selectRange*2+1);
-
-
+    }
+    void initTxtData(){
         String str =    Integer.toString(G_.selectRange)+": "+
                         Integer.toString(objRange2.getStart())+" - "+Integer.toString(objRange1.getStop());
         txtSelectRange.setText(str);
@@ -90,8 +101,7 @@ public class FrqBandActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 objRange1.setFrqPosition(C_.FRQ_STEP_QTY - progress);
-                txtBandCenter1.setText(objRange1.getViewBandWidth());
-                showSuppressBands(objRange1.getRangeMask(), objRange2.getRangeMask());
+                updateViewElements();
             }
 
             @Override
@@ -111,8 +121,7 @@ public class FrqBandActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 objRange2.setFrqPosition(C_.FRQ_STEP_QTY - progress);
-                txtBandCenter2.setText(objRange2.getViewBandWidth());
-                showSuppressBands(objRange1.getRangeMask(), objRange2.getRangeMask());
+                updateViewElements();
             }
 
             @Override
@@ -129,15 +138,17 @@ public class FrqBandActivity extends AppCompatActivity implements View.OnClickLi
     void init(){
         context = this;
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        getRangeObjects();
         initViewElements();
         initTxtData();
         initSeekBar();
         initSpinner();
+        updateBandStepPanels();
     }
     void initSpinner(){
-        CustomAdapter customAdapter1=new CustomAdapter(getApplicationContext(),objRange1.getViewBanList());
+        CustomAdapter customAdapter1=new CustomAdapter(getApplicationContext(),objRange1.getViewBandList());
         spinner1.setAdapter(customAdapter1);
-        CustomAdapter customAdapter2=new CustomAdapter(getApplicationContext(),objRange2.getViewBanList());
+        CustomAdapter customAdapter2=new CustomAdapter(getApplicationContext(),objRange2.getViewBandList());
         spinner2.setAdapter(customAdapter2);
 
 
@@ -145,8 +156,7 @@ public class FrqBandActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 objRange1.setCurrentBand(position);
-                txtBandCenter1.setText(objRange1.getViewBandWidth());
-                showSuppressBands(objRange1.getRangeMask(), objRange2.getRangeMask());
+                updateViewElements();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -157,8 +167,7 @@ public class FrqBandActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 objRange2.setCurrentBand(position);
-                txtBandCenter2.setText(objRange2.getViewBandWidth());
-                showSuppressBands(objRange1.getRangeMask(), objRange2.getRangeMask());
+                updateViewElements();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -231,9 +240,78 @@ public class FrqBandActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    void updateBandStepPanels(){
+        int tmp1 = objRange1.getRangeMask();
+        int tmp2 = objRange2.getRangeMask();
+        RelativeLayout rl1;
+        RelativeLayout rl2;
+
+        for(int i=0; i<32; i++){
+            rl1 = viewBandStepButtonList1.get(i);
+            rl2 = viewBandStepButtonList2.get(i);
+
+
+            if(((tmp1 >> i)& 0x1)>0)rl1.setBackgroundResource(R.drawable.button_pattern_active);
+            else                    rl1.setBackgroundResource(R.drawable.button_pattern);
+
+            if(((tmp2 >> i)& 0x1)>0)rl2.setBackgroundResource(R.drawable.button_pattern_active);
+            else                    rl2.setBackgroundResource(R.drawable.button_pattern);
+        }
+    }
+    void initBandStepPanels(){
+
+        String strButton1;
+        String strButton2;
+
+        String strButtonTxt1;
+        String strButtonTxt2;
+
+
+        int vIdButton1;
+        int vIdButton2;
+
+        int vIdButtonTxt1;
+        int vIdButtonTxt2;
+
+
+        for(int i = 0; i<32; i++) {
+            strButtonTxt1 = C_.BASE_SRC_ID_NAME+C_.SRC_ID_NAME_PATT_BAND_BUTTON_TXT+"_1_"+Integer.toString(i);
+            strButtonTxt2 = C_.BASE_SRC_ID_NAME+C_.SRC_ID_NAME_PATT_BAND_BUTTON_TXT+"_2_"+Integer.toString(i);
+
+
+            strButton1 = C_.BASE_SRC_ID_NAME+C_.SRC_ID_NAME_PATT_BAND_BUTTON + "_1_"+Integer.toString(i);
+            strButton2 = C_.BASE_SRC_ID_NAME+C_.SRC_ID_NAME_PATT_BAND_BUTTON + "_2_"+Integer.toString(i);
+
+            vIdButton1 = this.getResources().getIdentifier(strButton1, "id", getPackageName());
+            vIdButton2 = this.getResources().getIdentifier(strButton2, "id", getPackageName());
+
+            vIdButtonTxt1 = this.getResources().getIdentifier(strButtonTxt1, "id", getPackageName());
+            vIdButtonTxt2 = this.getResources().getIdentifier(strButtonTxt2, "id", getPackageName());
+
+            TextView txt1 = (TextView)findViewById(vIdButtonTxt1);
+            TextView txt2 = (TextView)findViewById(vIdButtonTxt2);
+
+            viewBandStepButtonTextList1.add(txt1);
+            viewBandStepButtonTextList2.add(txt2);
+
+
+            RelativeLayout rl1 = (RelativeLayout)findViewById(vIdButton1);
+            RelativeLayout rl2 = (RelativeLayout)findViewById(vIdButton2);
+            rl1.setOnClickListener(this);
+            rl2.setOnClickListener(this);
+            bandStepButtonIdList1.add(vIdButton1);
+            bandStepButtonIdList2.add(vIdButton2);
+
+            viewBandStepButtonList1.add(rl1);
+            viewBandStepButtonList2.add(rl2);
+        }
+        for(int i=0; i<32; i++){
+            viewBandStepButtonTextList1.get(i).setText(objRange1.getViewBandStepList().get(i));
+            viewBandStepButtonTextList2.get(i).setText(objRange2.getViewBandStepList().get(i));
+        }
+
+    }
     void initViewElements(){
-
-
         txtBandCenter1  = findViewById(R.id.txtBandCenter1)      ;
         txtBandCenter2  = findViewById(R.id.txtBandCenter2)      ;
 
@@ -252,11 +330,39 @@ public class FrqBandActivity extends AppCompatActivity implements View.OnClickLi
         bttnCansel.setOnClickListener(this);
 
         initRangeSticks();
-        showSuppressBands(0xFF0F0F11, 0xAAA555AA);
+        initBandStepPanels();
     }
 
+    void updateViewElements(){
+        txtBandCenter1.setText(objRange1.getViewBandWidth());
+        txtBandCenter2.setText(objRange2.getViewBandWidth());
+        showSuppressBands(objRange1.getRangeMask(), objRange2.getRangeMask());
+        updateBandStepPanels();
+    }
+
+    void setRangeMask(int rangeNum, int pos){
+        int mask = rangeNum == 1 ? objRange1.getRangeMask() : objRange2.getRangeMask();
+        mask ^= (1<<pos);
+        if(rangeNum == 1)objRange1.setRangeMask(mask);
+        else             objRange2.setRangeMask(mask);
+        updateViewElements();
+    }
     @Override
     public void onClick(View v) {
         vibro();
+        int pos;
+        int mask;
+        String name = getResources().getResourceName(v.getId());
+        String s1;
+        Log.i("MY_TEG", name);
+        if(name.contains("sFrqBandButtonBand_1")){
+            pos = Integer.parseInt(name.substring(name.lastIndexOf("_")+1));
+            setRangeMask(1, pos);
+        }
+        if(name.contains("sFrqBandButtonBand_2")){
+            pos = Integer.parseInt(name.substring(name.lastIndexOf("_")+1));
+            setRangeMask(2, pos);
+        }
+
     }
 }

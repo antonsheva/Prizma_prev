@@ -30,7 +30,7 @@ public class ObjRange {
     ArrayList<Integer>bandList = new ArrayList<>();
     ArrayList<Integer>bandStartList = new ArrayList<>();
     ArrayList<Integer>bandStopList = new ArrayList<>();
-    ArrayList<String>viewBanList = new ArrayList<>();
+    ArrayList<String> viewBandList = new ArrayList<>();
 
     String viewRange ="";
     String viewBand ="";
@@ -125,6 +125,11 @@ public class ObjRange {
         this.frqPosition = frqPosition;
         applyNewParameters();
     }
+    ArrayList<String>viewBandStepList = new ArrayList<>();
+
+    public ArrayList<String> getViewBandStepList() {
+        return viewBandStepList;
+    }
 
     Integer currentBandStickQty = 0;
     ArrayList<Integer> bandStickQtyList = new ArrayList<>();
@@ -149,8 +154,8 @@ public class ObjRange {
 
     }
 
-    public ArrayList<String> getViewBanList() {
-        return viewBanList;
+    public ArrayList<String> getViewBandList() {
+        return viewBandList;
     }
 
     public ObjRange(int _start, int _stop){
@@ -168,10 +173,20 @@ public class ObjRange {
             bandList.add(frqStep*i*2);
             bandStickQtyList.add(i*2);
         }
-
+        String str;
         for(int i=0; i<5; i++){
-            String str = "  "+bandList.get(i)+" МГц";
-            viewBanList.add(str);
+            str = "  "+bandList.get(i)+" МГц";
+            viewBandList.add(str);
+        }
+
+        int prevStart = start;
+        int tmp;
+        for(int i=0; i<32; i++){
+            tmp = prevStart+frqStep;
+            if(i==31)tmp = stop;
+            str = prevStart+" - "+tmp+" МГц";
+            viewBandStepList.add(str);
+            prevStart += frqStep;
         }
 
         applyNewParameters();

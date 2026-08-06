@@ -54,6 +54,11 @@
             android:paddingStart="5dp"
             android:paddingEnd="5dp">
             <LinearLayout
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@color/divideLine"/>
+            <LinearLayout
                 android:id="@+id/devInfoItem1"
                 android:layout_marginTop="5dp"
                 android:layout_width="0dp"
@@ -98,7 +103,11 @@
                 <LinearLayout android:id="@+id/spectrum_1_31" style="@style/spectrumActiveStyle"></LinearLayout>
 
             </LinearLayout>
-
+            <LinearLayout
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@color/divideLine"/>
             <LinearLayout
                 android:id="@+id/devInfoItem2"
                 android:layout_marginTop="5dp"
@@ -144,6 +153,11 @@
                 <LinearLayout android:id="@+id/spectrum_2_31" style="@style/spectrumActiveStyle"></LinearLayout>
 
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@color/divideLine"/>
         </LinearLayout>
     </LinearLayout>
 

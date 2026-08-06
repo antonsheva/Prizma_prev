@@ -145,6 +145,7 @@ public class BtListActivity extends AppCompatActivity implements ItemClickListen
     } ;
 
     void startJmmrsSearch(){
+        Log.i("MY_TEG", "startJmmrsSearch   ------");
         G_.selectBtDevice.setDeviceSelected(false);
         if(mBtIsEanbled){
             if (ActivityCompat.checkSelfPermission(this, BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
@@ -161,14 +162,21 @@ public class BtListActivity extends AppCompatActivity implements ItemClickListen
 
             bluetoothAdapter.startDiscovery();
             final boolean[] stt = {false};
+            Log.i("MY_TEG", "bluetoothAdapter.startDiscovery ------");
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            if(stt[0])setBtIcon(C_.BT_ICON_ENABLE);
-                            else      setBtIcon(C_.BT_ICON_CONNECTED);
+                            if(stt[0]){
+                                setBtIcon(C_.BT_ICON_ENABLE);
+                                Log.i("MYT_TEG", "BT_ICON_ENABLE");
+                            }
+                            else {
+                                setBtIcon(C_.BT_ICON_CONNECTED);
+                                Log.i("MYT_TEG", "BT_ICON_CONNECTED");
+                            }
                             stt[0] = !stt[0];
                         }
                     });
@@ -183,6 +191,7 @@ public class BtListActivity extends AppCompatActivity implements ItemClickListen
                                 setBtIcon(C_.BT_ICON_ENABLE);
                             }
                         });
+                        Log.i("MYT_TEG", "Discovering - > STOP");
                         timer.cancel();
                     }
 
@@ -281,6 +290,7 @@ public class BtListActivity extends AppCompatActivity implements ItemClickListen
         listView.setAdapter(btAdapter);
 
         if(bluetoothAdapter.isEnabled()){
+            Log.i("MY_TEG", "bluetoothAdapter.isEnabled");
             setBtIcon(C_.BT_ICON_ENABLE);
             mBtIsEanbled = true;
         }else{
@@ -307,6 +317,7 @@ public class BtListActivity extends AppCompatActivity implements ItemClickListen
             if(grantResults.length==0)return;
             if(grantResults[0] == PERMISSION_GRANTED){
                 mPermConnect = true;
+                Log.i("MY_TEG", "onRequestPermissionsResult - OK");
             }else {
                 Toast.makeText(this, "Need permission   BLUETOOTH_CONNECT", LENGTH_SHORT).show();
             }

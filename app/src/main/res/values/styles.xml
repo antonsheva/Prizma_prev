@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="mainScreenBackground">
-        <item name="android:background"> @color/mainBcgrndClr</item>
+        <item name="android:background">@color/main_background_color</item>
         <item name="borderRound">25dp</item>
         <item name="borderWidth">2px</item>
     </style>
@@ -11,6 +11,29 @@
         <item name="android:layout_marginEnd">2dp</item>
         <item name="android:layout_centerInParent">true</item>
         <item name="android:padding">5dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/button_pattern</item>
+    </style>
+
+    <style name="sBandStepPanel">
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginStart">2dp</item>
+        <item name="android:layout_marginEnd">2dp</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:layout_width">150dp</item>
+        <item name="android:layout_height">22dp</item>
+        <item name="android:background">@drawable/button_pattern</item>
+    </style>
+
+    <style name="sMainButtonText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">15dp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:layout_centerInParent">true</item>
+
     </style>
 
     <style name="sRangesButtonPattern">

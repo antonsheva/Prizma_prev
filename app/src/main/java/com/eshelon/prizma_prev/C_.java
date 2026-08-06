@@ -3,6 +3,8 @@ package com.eshelon.prizma_prev;
 public class C_ {
     public static final String BASE_SRC_ID_NAME = "com.eshelon.prizma_prev:id/";
     public static final String SRC_ID_NAME_PATT_RANGE_BUTTON = "sRangesButtonPatt";
+    public static final String SRC_ID_NAME_PATT_BAND_BUTTON = "sFrqBandButtonBand";
+    public static final String SRC_ID_NAME_PATT_BAND_BUTTON_TXT = "sFrqBandTxt";
     public static final String SRC_ID_NAME_PATT_RANGE_PANEL = "sRangesPanelPatt";
     public static final String SRC_ID_NAME_PATT_SPECTER = "spectrum_";
 
