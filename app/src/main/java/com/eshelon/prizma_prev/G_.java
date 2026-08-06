@@ -39,7 +39,7 @@ public class G_ {
     /**
      * jmmr number in jmmr list
      */
-    public static int  currentJmmrNum = 0;
+    public static int  currentJmmrNum = -1;
 
     public static JmmrState currentJmmr;
 

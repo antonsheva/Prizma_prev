@@ -33,7 +33,7 @@
             android:theme="@style/Theme.Prizma_prev"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".FrqBandActivity"
+            android:name=".NarrowBandActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity

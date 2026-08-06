@@ -114,7 +114,7 @@ public class RangesActivity extends AppCompatActivity implements View.OnClickLis
 
 
     void showPageFrqBan(){
-        Intent i = new Intent(context, FrqBandActivity.class);
+        Intent i = new Intent(context, NarrowBandActivity.class);
         startActivity(i);
     }
 

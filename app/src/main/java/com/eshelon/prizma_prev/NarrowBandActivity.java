@@ -1,6 +1,7 @@
 package com.eshelon.prizma_prev;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
@@ -23,9 +24,8 @@ import androidx.core.view.WindowInsetsCompat;
 import com.eshelon.prizma_prev.objects.ObjRange;
 
 import java.util.ArrayList;
-import java.util.HexFormat;
 
-public class FrqBandActivity extends AppCompatActivity implements View.OnClickListener {
+public class NarrowBandActivity extends AppCompatActivity implements View.OnClickListener {
 
     Context context;
     Vibrator vibrator;
@@ -33,11 +33,21 @@ public class FrqBandActivity extends AppCompatActivity implements View.OnClickLi
     TextView txtSelectRange;
     TextView txtBandCenter1;
     TextView txtBandCenter2;
-
     TextView txtSuppressBand;
+    TextView sFrqBandDevAddr;
+    TextView sFrqBandEnDisAllTxt;
+    RelativeLayout sFrqBandOnOffSuppress;
 
-    LinearLayout bttnSave;
-    LinearLayout bttnCansel;
+    RelativeLayout sFrqBandButtonSave;
+    RelativeLayout bttnCansel;
+    RelativeLayout sFrqBandButtonEnableDisableAll;
+    RelativeLayout sFrqBandOnOffChnlBttn1;
+    RelativeLayout sFrqBandOnOffChnlBttn2;
+
+    TextView sFrqBandOnOffChnlTxt1;
+    TextView sFrqBandOnOffChnlTxt2;
+
+
 
     SeekBar seekBar1;
     SeekBar seekBar2;
@@ -56,6 +66,10 @@ public class FrqBandActivity extends AppCompatActivity implements View.OnClickLi
     final ArrayList<RelativeLayout> viewBandStepButtonList2 = new ArrayList<>();
     final ArrayList<TextView> viewBandStepButtonTextList1 = new ArrayList<>();
     final ArrayList<TextView> viewBandStepButtonTextList2 = new ArrayList<>();
+
+    boolean mSwchEnableDisable = false;
+    boolean mSwchOnOffChnl1;
+    boolean mSwchOnOffChnl2;
 
 
     @Override
@@ -101,7 +115,7 @@ public class FrqBandActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 objRange1.setFrqPosition(C_.FRQ_STEP_QTY - progress);
-                updateViewElements();
+                updateViewElements("onProgressChanged");
             }
 
             @Override
@@ -121,7 +135,7 @@ public class FrqBandActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 objRange2.setFrqPosition(C_.FRQ_STEP_QTY - progress);
-                updateViewElements();
+                updateViewElements("onProgressChanged 2");
             }
 
             @Override
@@ -135,6 +149,38 @@ public class FrqBandActivity extends AppCompatActivity implements View.OnClickLi
             }
         });
     }
+    void initJmmrData(){
+        if(G_.currentJmmrNum != -1){
+            if(G_.jmmr_list != null){
+                if((G_.jmmr_list.get(G_.currentJmmrNum) != null)){
+                    G_.currentJmmr = G_.jmmr_list.get(G_.currentJmmrNum);
+                    objRange1.setRangeMask(G_.jmmr_list.get(G_.currentJmmrNum).msk1);
+                    objRange2.setRangeMask(G_.jmmr_list.get(G_.currentJmmrNum).msk2);
+                    String str = G_.currentJmmr.ad_esp+" ";
+                    sFrqBandDevAddr.setText(str);
+                    mSwchOnOffChnl1 = G_.jmmr_list.get(G_.currentJmmrNum).pwr1 == 1;
+                    mSwchOnOffChnl2 = G_.jmmr_list.get(G_.currentJmmrNum).pwr2 == 1;
+                }
+            }
+        }
+    }
+    void initOnOffChnlBttn(){
+        if(mSwchOnOffChnl1){
+            sFrqBandOnOffChnlTxt1.setText("Выкл.канал");
+            sFrqBandOnOffChnlBttn1.setBackgroundResource(R.drawable.button_suppress_on);
+        }else{
+            sFrqBandOnOffChnlTxt1.setText("Вкл.канал");
+            sFrqBandOnOffChnlBttn1.setBackgroundResource(R.drawable.button_pattern);
+        }
+
+        if(mSwchOnOffChnl2){
+            sFrqBandOnOffChnlTxt2.setText("Выкл.канал");
+            sFrqBandOnOffChnlBttn2.setBackgroundResource(R.drawable.button_suppress_on);
+        }else{
+            sFrqBandOnOffChnlTxt2.setText("Вкл.канал");
+            sFrqBandOnOffChnlBttn2.setBackgroundResource(R.drawable.button_pattern);
+        }
+    }
     void init(){
         context = this;
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
@@ -143,8 +189,14 @@ public class FrqBandActivity extends AppCompatActivity implements View.OnClickLi
         initTxtData();
         initSeekBar();
         initSpinner();
-        updateBandStepPanels();
+
+        initJmmrData();
+        initOnOffChnlBttn();
+        updateViewElements("init");
     }
+
+    boolean spinnerLatch1 = false;
+    boolean spinnerLatch2 = false;
     void initSpinner(){
         CustomAdapter customAdapter1=new CustomAdapter(getApplicationContext(),objRange1.getViewBandList());
         spinner1.setAdapter(customAdapter1);
@@ -155,8 +207,13 @@ public class FrqBandActivity extends AppCompatActivity implements View.OnClickLi
         spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                objRange1.setCurrentBand(position);
-                updateViewElements();
+                if(spinnerLatch1){
+                    objRange1.setCurrentBand(position);
+                    updateViewElements("onItemSelected 1");
+                }else {
+                    spinnerLatch1 = true;
+                }
+
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -166,8 +223,13 @@ public class FrqBandActivity extends AppCompatActivity implements View.OnClickLi
         spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                objRange2.setCurrentBand(position);
-                updateViewElements();
+                if(spinnerLatch2){
+                    objRange2.setCurrentBand(position);
+                    updateViewElements("onItemSelected 2");
+                }else {
+                    spinnerLatch2 = true;
+                }
+
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -177,6 +239,10 @@ public class FrqBandActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     void showSuppressBands(int mask1, int mask2){
+        Log.i("MY_TEG", " - - -showSuppressBands  -- ");
+        Log.i("MY_TEG", "mask1        -> "+mask1);
+        Log.i("MY_TEG", "mask2        -> "+mask2);
+
         LinearLayout.LayoutParams lParamsSizeParent;
         LinearLayout devBandsField = findViewById(R.id.devBandsField);
         lParamsSizeParent = (LinearLayout.LayoutParams) devBandsField.getLayoutParams();
@@ -312,6 +378,24 @@ public class FrqBandActivity extends AppCompatActivity implements View.OnClickLi
 
     }
     void initViewElements(){
+        sFrqBandOnOffChnlBttn1 = findViewById(R.id.sFrqBandOnOffChnlButton1);
+        sFrqBandOnOffChnlBttn1.setOnClickListener(this);
+        sFrqBandOnOffChnlBttn2 = findViewById(R.id.sFrqBandOnOffChnlButton2);
+        sFrqBandOnOffChnlBttn2.setOnClickListener(this);
+
+        sFrqBandButtonEnableDisableAll = findViewById(R.id.sFrqBandOnOffAllButton);
+        sFrqBandButtonEnableDisableAll.setOnClickListener(this);
+        sFrqBandEnDisAllTxt = findViewById(R.id.sFrqBandEnDisAllTxt);
+        sFrqBandEnDisAllTxt.setText(mSwchEnableDisable ? "Выкл. все" : "Вкл. все");
+
+        sFrqBandOnOffChnlTxt1 = findViewById(R.id.sFrqBandOnOffChnlTxt1);
+        sFrqBandOnOffChnlTxt2 = findViewById(R.id.sFrqBandOnOffChnlTxt2);
+
+        sFrqBandOnOffSuppress = findViewById(R.id.sFrqBandOnOffSuppress);
+        sFrqBandOnOffSuppress.setOnClickListener(this);
+
+        sFrqBandDevAddr = findViewById(R.id.sFrqBandDevAddr);
+
         txtBandCenter1  = findViewById(R.id.txtBandCenter1)      ;
         txtBandCenter2  = findViewById(R.id.txtBandCenter2)      ;
 
@@ -323,21 +407,29 @@ public class FrqBandActivity extends AppCompatActivity implements View.OnClickLi
         spinner1        = findViewById(R.id.sFrqBandFrqSpinner1) ;
         spinner2        = findViewById(R.id.sFrqBandFrqSpinner2) ;
 
-        bttnSave        = findViewById(R.id.sFrqBandButtonSave)  ;
-        bttnCansel      = findViewById(R.id.sFrqBandButtonCansel);
+        sFrqBandButtonSave = findViewById(R.id.sFrqBandButtonSave)  ;
+        bttnCansel         = findViewById(R.id.sFrqBandButtonCansel);
 
-        bttnSave  .setOnClickListener(this);
+        sFrqBandButtonSave.setOnClickListener(this);
         bttnCansel.setOnClickListener(this);
 
         initRangeSticks();
         initBandStepPanels();
     }
 
-    void updateViewElements(){
-        txtBandCenter1.setText(objRange1.getViewBandWidth());
-        txtBandCenter2.setText(objRange2.getViewBandWidth());
-        showSuppressBands(objRange1.getRangeMask(), objRange2.getRangeMask());
-        updateBandStepPanels();
+    void updateViewElements(String str){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Log.i("MY_TEG", "updateViewElements <- "+str);
+                txtBandCenter1.setText(objRange1.getViewBandWidth());
+                txtBandCenter2.setText(objRange2.getViewBandWidth());
+                showSuppressBands(objRange1.getRangeMask(), objRange2.getRangeMask());
+                updateBandStepPanels();
+            }
+        });
+
+
     }
 
     void setRangeMask(int rangeNum, int pos){
@@ -345,16 +437,13 @@ public class FrqBandActivity extends AppCompatActivity implements View.OnClickLi
         mask ^= (1<<pos);
         if(rangeNum == 1)objRange1.setRangeMask(mask);
         else             objRange2.setRangeMask(mask);
-        updateViewElements();
+        updateViewElements("setRangeMask");
     }
     @Override
     public void onClick(View v) {
         vibro();
         int pos;
-        int mask;
         String name = getResources().getResourceName(v.getId());
-        String s1;
-        Log.i("MY_TEG", name);
         if(name.contains("sFrqBandButtonBand_1")){
             pos = Integer.parseInt(name.substring(name.lastIndexOf("_")+1));
             setRangeMask(1, pos);
@@ -364,5 +453,48 @@ public class FrqBandActivity extends AppCompatActivity implements View.OnClickLi
             setRangeMask(2, pos);
         }
 
+        if(v.getId() == R.id.sFrqBandOnOffAllButton){
+            if(!mSwchEnableDisable){
+                objRange1.setRangeMask(0xFFFFFFFF);
+                objRange2.setRangeMask(0xFFFFFFFF);
+                sFrqBandEnDisAllTxt.setText("Выкл.все");
+            }else {
+                objRange1.setRangeMask(0);
+                objRange2.setRangeMask(0);
+                sFrqBandEnDisAllTxt.setText("Вкл.все");
+            }
+            mSwchEnableDisable = !mSwchEnableDisable;
+
+            updateViewElements(" ");
+        }
+        if(v.getId() == R.id.sFrqBandOnOffChnlButton1){
+            mSwchOnOffChnl1 = !mSwchOnOffChnl1;
+            G_.jmmr_list.get(G_.currentJmmrNum).pwr1 = mSwchOnOffChnl1 ? 1 : 2;
+            initOnOffChnlBttn();
+        }
+        if(v.getId() == R.id.sFrqBandOnOffChnlButton2){
+            mSwchOnOffChnl2 = !mSwchOnOffChnl2;
+            G_.jmmr_list.get(G_.currentJmmrNum).pwr2 = mSwchOnOffChnl2 ? 1 : 2;
+            initOnOffChnlBttn();
+        }
+        if(v.getId() == R.id.sFrqBandButtonSave){
+            if(G_.currentJmmrNum != -1){
+                if(G_.jmmr_list != null){
+                    G_.jmmr_list.get(G_.currentJmmrNum).msk1 = objRange1.getRangeMask();
+                    G_.jmmr_list.get(G_.currentJmmrNum).msk2 = objRange2.getRangeMask();
+                }
+            }
+            Intent i = new Intent(context, MainActivity.class);
+            i.putExtra("needResetConnection", false);
+            i.putExtra("needUpdateBandView", true);
+            i.putExtra("return_extras", true);
+            startActivity(i);
+        }
+        if(v.getId() == R.id.sFrqBandOnOffSuppress){
+            Intent i = new Intent(context, MainActivity.class);
+            i.putExtra("return_extras", true);
+            i.putExtra("need_suppress", true);
+            startActivity(i);
+        }
     }
 }

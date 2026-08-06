@@ -1,6 +1,9 @@
 package com.eshelon.prizma_prev.adapter;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +14,7 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.eshelon.prizma_prev.BtListActivity;
 import com.eshelon.prizma_prev.C_;
 import com.eshelon.prizma_prev.G_;
 import com.eshelon.prizma_prev.interfaces.ItemClickListener;
@@ -42,7 +46,7 @@ public class DevListAdapter extends ArrayAdapter<JmmrState> {
         super(context, resource, objectList);
         this.jmmrStateList = objectList;
         this.ctxt = context;
-
+        this.listener = listener;
     }
 
     @NonNull
@@ -58,6 +62,7 @@ public class DevListAdapter extends ArrayAdapter<JmmrState> {
             convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.dev_list_item, null, false);
             viewHolder.txtDevInfo = convertView.findViewById(R.id.txtDevInfo);
             viewHolder.devInfoItem = convertView.findViewById(R.id.devInfoItem1);
+            viewHolder.devListItem = convertView.findViewById(R.id.devListItem);
             String str;
             int vId;
 
@@ -145,16 +150,14 @@ public class DevListAdapter extends ArrayAdapter<JmmrState> {
             }
         }
 
-        viewHolder.txtDevInfo.setOnClickListener(new View.OnClickListener() {
+        viewHolder.devListItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (jmmrStateList.isEmpty()) {
                     Toast.makeText(ctxt, "jmmrStateList is empty", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
-
-                listener.onItemDevSelClick(jmmrState);
+                listener.onItemDevSelClick(position);
             }
         }
         );
@@ -164,6 +167,7 @@ public class DevListAdapter extends ArrayAdapter<JmmrState> {
     static class ViewHolder{
         TextView txtDevInfo;
         LinearLayout devInfoItem;
+        LinearLayout devListItem;
         ArrayList<LinearLayout>specterPiece1 = new ArrayList<>();
         ArrayList<LinearLayout>specterPiece2 = new ArrayList<>();
 

@@ -1,5 +1,7 @@
 package com.eshelon.prizma_prev.objects;
 
+import android.util.Log;
+
 import com.eshelon.prizma_prev.C_;
 
 import java.util.ArrayList;
@@ -25,6 +27,7 @@ public class ObjRange {
 
     public void setRangeMask(Integer rangeMask) {
         this.rangeMask = rangeMask;
+        Log.i("MY_TEG", "setRangeMask      -> "+this.rangeMask);
     }
 
     ArrayList<Integer>bandList = new ArrayList<>();

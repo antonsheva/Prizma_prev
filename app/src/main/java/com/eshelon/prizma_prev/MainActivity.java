@@ -91,9 +91,9 @@ import java.util.TimerTask;
          super.onResume();
          setBtIcon(C_.BT_ICON_ENABLE);
          if (!G_.selectBtDevice.isDeviceSelected())return;
-         G_.btActiveState = BT_ACTIVE_STATE_CONNECTING;
-         Log.i("MY_TEG", "initDevListAdapter ---- - - - -- ");
+         if(G_.btActiveState == BT_ACTIVE_STATE_CONNECTED)return;
 
+         G_.btActiveState = BT_ACTIVE_STATE_CONNECTING;
          btConnect = new BtConnect(this, G_.selectBtDevice.getMac(), code -> {
              ReceiveThread rThrd = btConnect.connectThread.getReceiveThread();
              if(rThrd == null){
@@ -222,7 +222,10 @@ import java.util.TimerTask;
                          break;
                      case BT_ACTIVE_STATE_ENABLE     :
                          setBtIcon(C_.BT_ICON_ENABLE);
-                         if(G_.jmmr_list != null)G_.jmmr_list.clear();
+                         if(G_.jmmr_list != null){
+                             Log.i("MY_TEG", "G_.jmmr_list -> clear 11111");
+                             G_.jmmr_list.clear();
+                         }
                          setVisibleMenuJmmrList();
                          setVisibleBtMenuInfo(GONE);
                          break;
@@ -301,7 +304,6 @@ import java.util.TimerTask;
          }
         viewUpdateDevList();
      }
-
      private void viewUpdateDevList(){
          runOnUiThread(new Runnable() {
              @Override
@@ -377,42 +379,62 @@ import java.util.TimerTask;
 
 
     void initDevListAdapter(){
-        Log.i("MY_TEG", "----- - -- -initDevListAdapter");
+
+//
+//        for(int i=0; i<3; i++){
+//            JmmrState jmmrState = new JmmrState();
+//            jmmrState.ad_esp = i+1;
+//            jmmrState.dev_range = i*2+1;
+//            jmmrState.dev_type = 1;
+//            jmmrState.msk1 = (0xF << i);
+//            jmmrState.msk2 = (0xC << i*2);
+//            G_.jmmr_list.add(jmmrState);
+//        }
+
         if(devListAdapter != null)devListAdapter = null;
         devListAdapter = new DevListAdapter(this, R.layout.dev_list_item, G_.jmmr_list, new ItemDevSelListener() {
             @Override
-            public void onItemDevSelClick(JmmrState data) {
+            public void onItemDevSelClick(int pos) {
+                G_.currentJmmrNum = pos;
+                G_.selectRange = G_.jmmr_list.get(pos).dev_range;
+                int mask = G_.jmmr_list.get(pos).msk1;
 
+                showPageNarrowband();
             }
         });
         mainLV.setAdapter(devListAdapter);
     }
     void init(){
-        G_.init();
+        Bundle arguments = getIntent().getExtras();
+        if(arguments != null){
+            Log.i("MY_TEG", "there is arguments ");
+            if(arguments.getBoolean("needUpdateBandView")){
+                Log.i("MY_TEG", "--  needUpdateBandView--   ");
+            }
+        }else {
+            G_.init();
+            Log.i("MY_TEG", "arguments ");
+        }
+
+
+        G_.currentJmmrNum = -1;
         context = this;
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         initViewElements();
         initRangesList();
         initRangesGroupList();
         animeBtStateIcon();
-
-        for(int i=0; i<3; i++){
-            JmmrState jmmrState = new JmmrState();
-            jmmrState.ad_esp = i+1;
-            jmmrState.dev_range = i*2+1;
-            jmmrState.dev_type = 1;
-            jmmrState.msk1 = (0xF << i);
-            jmmrState.msk2 = (0xC << i*2);
-            G_.jmmr_list.add(jmmrState);
-        }
         initDevListAdapter();
-        devListAdapter.notifyDataSetChanged();
     }
 
     void showPageRanges(){
         Intent i = new Intent(context, RangesActivity.class);
         startActivity(i);
     }
+     void showPageNarrowband(){
+         Intent i = new Intent(context, NarrowBandActivity.class);
+         startActivity(i);
+     }
     void bttnSuppress(){
         if(G_.bttnSuppressState){
             G_.bttnSuppressState = false;
@@ -454,6 +476,7 @@ import java.util.TimerTask;
      private void showBtDevList(){
          if(btConnect!=null){
              try{
+                 G_.currentJmmrNum = -1;
                  btConnect.connectThread.closeConnection();
              }catch (Exception e){
 
