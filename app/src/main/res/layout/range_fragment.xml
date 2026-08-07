@@ -100,7 +100,6 @@
                 <LinearLayout android:id="@+id/spectrum_1_28" style="@style/spectrumActiveStyle"></LinearLayout>
                 <LinearLayout android:id="@+id/spectrum_1_29" style="@style/spectrumActiveStyle"></LinearLayout>
                 <LinearLayout android:id="@+id/spectrum_1_30" style="@style/spectrumActiveStyle"></LinearLayout>
-                <LinearLayout android:id="@+id/spectrum_1_31" style="@style/spectrumActiveStyle"></LinearLayout>
 
             </LinearLayout>
             <LinearLayout
@@ -150,7 +149,6 @@
                 <LinearLayout android:id="@+id/spectrum_2_28" style="@style/spectrumActiveStyle"></LinearLayout>
                 <LinearLayout android:id="@+id/spectrum_2_29" style="@style/spectrumActiveStyle"></LinearLayout>
                 <LinearLayout android:id="@+id/spectrum_2_30" style="@style/spectrumActiveStyle"></LinearLayout>
-                <LinearLayout android:id="@+id/spectrum_2_31" style="@style/spectrumActiveStyle"></LinearLayout>
 
             </LinearLayout>
             <LinearLayout

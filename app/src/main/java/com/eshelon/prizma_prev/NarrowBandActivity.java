@@ -239,9 +239,9 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnClic
     }
 
     void showSuppressBands(long mask1, long mask2){
-        Log.i("MY_TEG", " - - -showSuppressBands  -- ");
+
         Log.i("MY_TEG", "mask1        -> "+mask1);
-        Log.i("MY_TEG", "mask2        -> "+mask2);
+
 
         LinearLayout.LayoutParams lParamsSizeParent;
         LinearLayout devBandsField = findViewById(R.id.devBandsField);
@@ -256,9 +256,9 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnClic
         boolean swch2;
         LinearLayout llChngParam;
         LinearLayout.LayoutParams lParams;
-        for(int i=0; i<32; i++){
-            swch1 = ((mask1 << i) & 0x80000000L) == 0x80000000L;
-            swch2 = ((mask2 << i) & 0x80000000L) == 0x80000000L;
+        for(int i=0; i<31; i++){
+            swch1 = ((mask1 << i) & 0x40000000L) == 0x40000000L;
+            swch2 = ((mask2 << i) & 0x40000000L) == 0x40000000L;
 
             llChngParam = specterPiece1.get(i);
             lParams = (LinearLayout.LayoutParams) llChngParam.getLayoutParams();
@@ -293,7 +293,7 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnClic
         String str;
         int vId;
 
-        for(int i=0; i<32; i++){
+        for(int i=0; i<C_.FRQ_STEP_QTY; i++){
             str = C_.BASE_SRC_ID_NAME+C_.SRC_ID_NAME_PATT_SPECTER +"1_"+Integer.toString(i);
             vId = this.getResources().getIdentifier(str, "id", this.getPackageName());
             llStick =  (LinearLayout) findViewById(vId);
@@ -312,7 +312,7 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnClic
         RelativeLayout rl1;
         RelativeLayout rl2;
 
-        for(int i=0; i<32; i++){
+        for(int i=0; i<C_.FRQ_STEP_QTY; i++){
             rl1 = viewBandStepButtonList1.get(i);
             rl2 = viewBandStepButtonList2.get(i);
 
@@ -340,7 +340,7 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnClic
         int vIdButtonTxt2;
 
 
-        for(int i = 0; i<32; i++) {
+        for(int i = 0; i<C_.FRQ_STEP_QTY; i++) {
             strButtonTxt1 = C_.BASE_SRC_ID_NAME+C_.SRC_ID_NAME_PATT_BAND_BUTTON_TXT+"_1_"+Integer.toString(i);
             strButtonTxt2 = C_.BASE_SRC_ID_NAME+C_.SRC_ID_NAME_PATT_BAND_BUTTON_TXT+"_2_"+Integer.toString(i);
 
@@ -371,7 +371,7 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnClic
             viewBandStepButtonList1.add(rl1);
             viewBandStepButtonList2.add(rl2);
         }
-        for(int i=0; i<32; i++){
+        for(int i=0; i<C_.FRQ_STEP_QTY; i++){
             viewBandStepButtonTextList1.get(i).setText(objRange1.getViewBandStepList().get(i));
             viewBandStepButtonTextList2.get(i).setText(objRange2.getViewBandStepList().get(i));
         }
@@ -421,15 +421,12 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnClic
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Log.i("MY_TEG", "updateViewElements <- "+str);
                 txtBandCenter1.setText(objRange1.getViewBandWidth());
                 txtBandCenter2.setText(objRange2.getViewBandWidth());
                 showSuppressBands(objRange1.getRangeMask(), objRange2.getRangeMask());
                 updateBandStepPanels();
             }
         });
-
-
     }
 
     void setRangeMask(long rangeNum, long pos){
@@ -455,8 +452,8 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnClic
 
         if(v.getId() == R.id.sFrqBandOnOffAllButton){
             if(!mSwchEnableDisable){
-                objRange1.setRangeMask(0xFFFFFFFFL);
-                objRange2.setRangeMask(0xFFFFFFFFL);
+                objRange1.setRangeMask(0x7FFFFFFFL);
+                objRange2.setRangeMask(0x7FFFFFFFL);
                 sFrqBandEnDisAllTxt.setText("Выкл.все");
             }else {
                 objRange1.setRangeMask(0L);

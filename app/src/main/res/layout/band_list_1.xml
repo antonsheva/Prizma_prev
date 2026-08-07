@@ -171,11 +171,7 @@
             style="@style/sBandStepPanel">                                        >
             <TextView android:id="@+id/sFrqBandTxt_1_30" android:text="1500 - 1900" style="@style/sMainButtonText"/>
         </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/sFrqBandButtonBand_1_31"
-            style="@style/sBandStepPanel">                                        >
-            <TextView android:id="@+id/sFrqBandTxt_1_31" android:text="1500 - 1900" style="@style/sMainButtonText"/>
-        </RelativeLayout>
+
     </LinearLayout>
 </ScrollView>
 

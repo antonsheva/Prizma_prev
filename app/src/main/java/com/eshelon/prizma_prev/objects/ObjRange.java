@@ -26,6 +26,7 @@ public class ObjRange {
     }
 
     public void setRangeMask(Long rangeMask) {
+        if(rangeMask > 0x7FFFFFFFL)rangeMask &=0x7FFFFFFFL;
         this.rangeMask = rangeMask;
         Log.i("MY_TEG", "setRangeMask      -> "+this.rangeMask);
     }
@@ -103,9 +104,6 @@ public class ObjRange {
     public ArrayList<Integer> getBandStopList() {
         return bandStopList;
     }
-
-
-
     public Integer getFrqCenter() {
         return frqCenter;
     }
@@ -125,6 +123,10 @@ public class ObjRange {
         applyNewParameters();
     }
     public void setFrqPosition(Integer frqPosition) {
+        Log.i("MY_TEG","pos -> "+frqPosition);
+        if(frqPosition+currentBandStickQty/2 > C_.FRQ_STEP_QTY){
+            frqPosition -= frqPosition+currentBandStickQty/2 - C_.FRQ_STEP_QTY;
+        }
         this.frqPosition = frqPosition;
         applyNewParameters();
     }
@@ -142,7 +144,7 @@ public class ObjRange {
         currentBandStart = frqCenter - currentBandWidth/2;
         currentBandStop  = frqCenter + currentBandWidth/2;
         if(currentBandStop > stop)currentBandStop = stop;
-        if(frqPosition>31)currentBandStop = stop;
+        if(frqPosition>C_.FRQ_STEP_QTY-1)currentBandStop = stop;
         viewBand = "  "+currentBandWidth+" МГц";
         viewBandWidth = currentBandStop + " - " + frqCenter +" - "+ currentBandStart;
 
@@ -151,10 +153,10 @@ public class ObjRange {
         int tmp;
         for(int i=0; i<currentBandStickQty; i++){
             tmp = frqPosition - currentBandStickQty/2+i;
-            if(tmp>31)tmp = 31; if(tmp<0)tmp = 0;
+            if(tmp>C_.FRQ_STEP_QTY)tmp = C_.FRQ_STEP_QTY; if(tmp<0)tmp = 0;
             rangeMask |= (1<<tmp);
         }
-
+        if(rangeMask > 0x7FFFFFFFL)rangeMask &= 0x7FFFFFFFL;
     }
 
     public ArrayList<String> getViewBandList() {
@@ -184,7 +186,7 @@ public class ObjRange {
 
         int prevStart = start;
         int tmp;
-        for(int i=0; i<32; i++){
+        for(int i=0; i<C_.FRQ_STEP_QTY; i++){
             tmp = prevStart+frqStep;
             if(i==31)tmp = stop;
             str = prevStart+" - "+tmp+" МГц";
