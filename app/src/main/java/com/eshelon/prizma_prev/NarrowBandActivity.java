@@ -238,7 +238,7 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnClic
         });
     }
 
-    void showSuppressBands(int mask1, int mask2){
+    void showSuppressBands(long mask1, long mask2){
         Log.i("MY_TEG", " - - -showSuppressBands  -- ");
         Log.i("MY_TEG", "mask1        -> "+mask1);
         Log.i("MY_TEG", "mask2        -> "+mask2);
@@ -257,8 +257,8 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnClic
         LinearLayout llChngParam;
         LinearLayout.LayoutParams lParams;
         for(int i=0; i<32; i++){
-            swch1 = ((mask1 << i) & 0x80000000) == 0x80000000;
-            swch2 = ((mask2 << i) & 0x80000000) == 0x80000000;
+            swch1 = ((mask1 << i) & 0x80000000L) == 0x80000000L;
+            swch2 = ((mask2 << i) & 0x80000000L) == 0x80000000L;
 
             llChngParam = specterPiece1.get(i);
             lParams = (LinearLayout.LayoutParams) llChngParam.getLayoutParams();
@@ -307,8 +307,8 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnClic
     }
 
     void updateBandStepPanels(){
-        int tmp1 = objRange1.getRangeMask();
-        int tmp2 = objRange2.getRangeMask();
+        long tmp1 = objRange1.getRangeMask();
+        long tmp2 = objRange2.getRangeMask();
         RelativeLayout rl1;
         RelativeLayout rl2;
 
@@ -432,8 +432,8 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnClic
 
     }
 
-    void setRangeMask(int rangeNum, int pos){
-        int mask = rangeNum == 1 ? objRange1.getRangeMask() : objRange2.getRangeMask();
+    void setRangeMask(long rangeNum, long pos){
+        long mask = rangeNum == 1 ? objRange1.getRangeMask() : objRange2.getRangeMask();
         mask ^= (1<<pos);
         if(rangeNum == 1)objRange1.setRangeMask(mask);
         else             objRange2.setRangeMask(mask);
@@ -455,12 +455,12 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnClic
 
         if(v.getId() == R.id.sFrqBandOnOffAllButton){
             if(!mSwchEnableDisable){
-                objRange1.setRangeMask(0xFFFFFFFF);
-                objRange2.setRangeMask(0xFFFFFFFF);
+                objRange1.setRangeMask(0xFFFFFFFFL);
+                objRange2.setRangeMask(0xFFFFFFFFL);
                 sFrqBandEnDisAllTxt.setText("Выкл.все");
             }else {
-                objRange1.setRangeMask(0);
-                objRange2.setRangeMask(0);
+                objRange1.setRangeMask(0L);
+                objRange2.setRangeMask(0L);
                 sFrqBandEnDisAllTxt.setText("Вкл.все");
             }
             mSwchEnableDisable = !mSwchEnableDisable;

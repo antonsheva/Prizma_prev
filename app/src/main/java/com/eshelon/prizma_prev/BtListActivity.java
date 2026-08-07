@@ -18,6 +18,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -46,7 +47,7 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class BtListActivity extends AppCompatActivity implements ItemClickListener {
+public class BtListActivity extends AppCompatActivity implements View.OnClickListener {
 
 
     boolean mPermScan   = false;
@@ -74,6 +75,7 @@ public class BtListActivity extends AppCompatActivity implements ItemClickListen
         EdgeToEdge.enable(this);
 
         setContentView(R.layout.activity_bt_list);
+        Log.i("MY_TEG", "onCreate - - BtListActivity");
         init();
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -92,6 +94,7 @@ public class BtListActivity extends AppCompatActivity implements ItemClickListen
     @Override
     protected void onResume() {
         super.onResume();
+        Log.i("MY_TEG", "onResume - - BtListActivity");
         IntentFilter f1 = new IntentFilter(BluetoothDevice.ACTION_FOUND);
         IntentFilter f2 = new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
 
@@ -266,6 +269,16 @@ public class BtListActivity extends AppCompatActivity implements ItemClickListen
         return true;
     }
 
+    void initBtAdapter(){
+        ListView listView = findViewById(R.id.btDevListView);
+        btAdapter = new BtAdapter(this, R.layout.bt_list_item, G_.devList, new ItemClickListener() {
+            @Override
+            public void onItemClick(BtDevData data) {
+                finish();
+            }
+        });
+        listView.setAdapter(btAdapter);
+    }
     private void init(){
         cntxt = this;
         timer = new Timer();
@@ -277,18 +290,7 @@ public class BtListActivity extends AppCompatActivity implements ItemClickListen
         Log.i("MY_TEG", "BT init Ok !!!");
 
         btSearch = findViewById(R.id.btSearch);
-        ListView listView = findViewById(R.id.btDevListView);
-
-        btAdapter = new BtAdapter(this, R.layout.bt_list_item, G_.devList, new ItemClickListener() {
-              @Override
-              public void onItemClick(BtDevData data) {
-                finish();
-              }
-          });
-
-
-        listView.setAdapter(btAdapter);
-
+        initBtAdapter();
         if(bluetoothAdapter.isEnabled()){
             Log.i("MY_TEG", "bluetoothAdapter.isEnabled");
             setBtIcon(C_.BT_ICON_ENABLE);
@@ -331,7 +333,7 @@ public class BtListActivity extends AppCompatActivity implements ItemClickListen
     }
 
     @Override
-    public void onItemClick(BtDevData data) {
+    public void onClick(View v) {
 
     }
 

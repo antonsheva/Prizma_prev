@@ -31,6 +31,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.eshelon.prizma_prev.adapter.DevListAdapter;
+import com.eshelon.prizma_prev.interfaces.CB;
 import com.eshelon.prizma_prev.interfaces.ItemDevSelListener;
 
 import com.eshelon.prizma_prev.objects.JmmrState;
@@ -52,26 +53,22 @@ import java.util.TimerTask;
     RelativeLayout bttnPatt3;
     RelativeLayout bttnPatt4;
 
-
-
-     ImageView btDevInfo;
-     ImageView btDevList;
-     ImageView btSearch;
-     ListView mainLV;
-
-     DevListAdapter devListAdapter;
-     BtConnect btConnect = null;
-
+    ImageView btDevInfo;
+    ImageView btDevList;
+    ImageView btSearch;
+    ListView mainLV;
+    DevListAdapter devListAdapter;
     Vibrator vibrator;
     Context context;
     Timer animeTmBtSign = new Timer();
+    boolean tryToConnect = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
 
         setContentView(R.layout.activity_main);
-
+        Log.i("MY_TEG", "onCreate - - MainActivity");
         init();
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -85,18 +82,11 @@ import java.util.TimerTask;
          super.onStart();
      }
 
-     @Override
-     protected void onResume() {
-         super.onResume();
-         setBtIcon(C_.BT_ICON_ENABLE);
-         if (!G_.selectBtDevice.isDeviceSelected())return;
-         if(G_.btActiveState == BT_ACTIVE_STATE_CONNECTED)return;
-
-         G_.btActiveState = BT_ACTIVE_STATE_CONNECTING;
-         btConnect = new BtConnect(this, G_.selectBtDevice.getMac(), code -> {
-             ReceiveThread rThrd = btConnect.connectThread.getReceiveThread();
+     CB onConnectCb = new CB() {
+         @Override
+         public void cb(int code) {
+             ReceiveThread rThrd = G_.btConnect.connectThread.getReceiveThread();
              if(rThrd == null){
-                 showToast(R.string.error_bt_connect);
                  Log.i("MY_TEG", "Error getReceiveThread");
                  G_.btActiveState = BT_ACTIVE_STATE_ENABLE;
                  return;
@@ -117,10 +107,22 @@ import java.util.TimerTask;
                  Log.i("MY_TEG", "G_.jmmr_list -> null");
              }
              btSendCmd(C_.CMD_GET_JMMR_LIST);
-             setVisibleMenuJmmrList();
+         }
+     };
+     void btConnect(){
+         G_.btConnect.connect();
+     }
+     @Override
+     protected void onResume() {
+         super.onResume();
+         setBtIcon(C_.BT_ICON_ENABLE);
+         if (!G_.selectBtDevice.isDeviceSelected())return;
+         if(G_.btActiveState == BT_ACTIVE_STATE_CONNECTED)return;
 
-         });
-         btConnect.connect();
+         Log.i("MY_TEG", "onResume - - MainActivity");
+         G_.btActiveState = BT_ACTIVE_STATE_CONNECTING;
+         G_.btConnect = new BtConnect(this, G_.selectBtDevice.getMac(), onConnectCb);
+         btConnect();
      }
      private void btSendJmmrList(){
          if(G_.jmmr_list == null)return;
@@ -135,7 +137,7 @@ import java.util.TimerTask;
          if(G_.btActiveState != BT_ACTIVE_STATE_CONNECTED)return;
          String jsonStr = "";
          ObjectMsg msg = (ObjectMsg)o;
-         msg.ad_esp = G_.btDevAddr;
+         msg.addressee = G_.btDevAddr;
          try {
              jsonStr = new Gson().toJson(o);
          }catch (Exception e){
@@ -155,7 +157,7 @@ import java.util.TimerTask;
              public void run() {
                  int ln = (cnt[0] == pcQty[0]) ? qLen[0] : 120;
                  byte[] sendBuff = Arrays.copyOfRange(data, cnt[0] *120, cnt[0] *120+ln);
-                 btConnect.connectThread.getReceiveThread().sendData(sendBuff);
+                 G_.btConnect.connectThread.getReceiveThread().sendData(sendBuff);
                  String str = new String(sendBuff, StandardCharsets.UTF_8);
                  Log.i("MY_TEG", str);
                  cnt[0]++;
@@ -184,7 +186,11 @@ import java.util.TimerTask;
          String jsonStr = new Gson().toJson(msg);
          byte[] data = jsonStr.getBytes();
          Log.i("MY_TEG", new String(data));
-         btConnect.connectThread.getReceiveThread().sendData(data);
+         G_.btConnect.connectThread.getReceiveThread().sendData(data);
+     }
+
+     void tryRecoveryConnection(){
+         btConnect();
      }
      CbBtReceive cbBtReceive = new CbBtReceive() {
          @Override
@@ -195,11 +201,13 @@ import java.util.TimerTask;
              }
              switch (code){
                  case C_.CB_CODE_NEW_DATA   : receiveBtData(data);                           break;
-//                case CB_CODE_DISCONNECT : G_.btActiveState = BT_ACTIVE_STATE_ENABLE;
-//                    Log.i("MY_TEG", "---- BT DISCONNECT  - --------");                break;
+                 case C_.CB_CODE_DISCONNECT :
+                     Log.i("MY_TEG", "---- BT DISCONNECT  - --------");
+                     G_.btActiveState = BT_ACTIVE_STATE_CONNECTING;
+                     tryRecoveryConnection();
+                 break;
+
              }
-
-
          }
      };
      private void showToast(int toastId){
@@ -215,11 +223,9 @@ import java.util.TimerTask;
          animeTmBtSign.schedule(new TimerTask() {
              @Override
              public void run() {
-
                  switch (G_.btActiveState){
                      case BT_ACTIVE_STATE_CONNECTING :
                      case BT_ACTIVE_STATE_SEARCHING  :
-                         setVisibleBtMenuInfo(GONE);
                          if(stt[0])setBtIcon(C_.BT_ICON_ENABLE);
                          else      setBtIcon(C_.BT_ICON_CONNECTED);
                          stt[0] = !stt[0];
@@ -229,26 +235,12 @@ import java.util.TimerTask;
                          break;
                      case BT_ACTIVE_STATE_ENABLE     :
                          setBtIcon(C_.BT_ICON_ENABLE);
-                         if(G_.jmmr_list != null){
-                             Log.i("MY_TEG", "G_.jmmr_list -> clear 11111");
-                             G_.jmmr_list.clear();
-                         }
-                         setVisibleMenuJmmrList();
-                         setVisibleBtMenuInfo(GONE);
                          break;
                  }
              }
          }, 300, 300);
      }
-     private void setVisibleBtMenuInfo(int visible){
-         runOnUiThread(new Runnable() {
-             @Override
-             public void run() {
 
-                 btDevInfo.setVisibility(visible);
-             }
-         });
-     }
      private void setBtIcon(int icon){
          runOnUiThread(new Runnable() {
              @Override
@@ -262,20 +254,12 @@ import java.util.TimerTask;
              }
          });
      }
-     private void setVisibleMenuJmmrList(){
-         runOnUiThread(new Runnable() {
-             @Override
-             public void run() {
-                 int v = GONE;
-                 if(G_.jmmr_list != null)v = G_.jmmr_list.isEmpty() ? GONE  : VISIBLE  ;
-                 btDevList.setVisibility(v);
-             }
-         });
-     }
      private void processingBtData(){
          Log.i("MY_TEG", G_.btData);
          Gson gson = new Gson();
+
          ObjectMsg msg = new ObjectMsg();
+
          try{
              msg = gson.fromJson(G_.btData, ObjectMsg.class);
 
@@ -398,12 +382,13 @@ import java.util.TimerTask;
 //        }
 
         if(devListAdapter != null)devListAdapter = null;
+
         devListAdapter = new DevListAdapter(this, R.layout.dev_list_item, G_.jmmr_list, new ItemDevSelListener() {
             @Override
             public void onItemDevSelClick(int pos) {
                 G_.currentJmmrNum = pos;
                 G_.selectRange = G_.jmmr_list.get(pos).dev_range;
-                int mask = G_.jmmr_list.get(pos).msk1;
+                long mask = G_.jmmr_list.get(pos).msk1;
 
                 showPageNarrowband();
             }
@@ -412,17 +397,6 @@ import java.util.TimerTask;
     }
     void init(){
         Bundle arguments = getIntent().getExtras();
-        if(arguments != null){
-            Log.i("MY_TEG", "there is arguments ");
-            if(arguments.getBoolean("needUpdateBandView")){
-                Log.i("MY_TEG", "--  needUpdateBandView--   ");
-            }
-        }else {
-            G_.init();
-            Log.i("MY_TEG", "arguments ");
-        }
-
-
         G_.currentJmmrNum = -1;
         context = this;
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
@@ -481,10 +455,10 @@ import java.util.TimerTask;
         }
     }
      private void showBtDevList(){
-         if(btConnect!=null){
+         if(G_.btConnect!=null){
              try{
                  G_.currentJmmrNum = -1;
-                 btConnect.connectThread.closeConnection();
+                 G_.btConnect.connectThread.closeConnection();
              }catch (Exception e){
 
              }

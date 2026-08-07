@@ -14,7 +14,7 @@ public class G_ {
     public static final ArrayList<ObjRange> rangeGroupList = new ArrayList<>();
 
 
-    public static ArrayList<JmmrState> jmmr_list;
+    public static ArrayList<JmmrState> jmmr_list = new ArrayList<>();
     public static String  btData = "";
     public static int btPackQty = 0;
     public static boolean btDataOk = false;
@@ -23,17 +23,17 @@ public class G_ {
 
 
 
-    public static ArrayList<BtDevData> devList;
-    public static BtDevData selectBtDevice;
+    public static ArrayList<BtDevData> devList = new ArrayList<>();
+    public static BtDevData selectBtDevice = new BtDevData();
 
     public static String btReceiveData = "";
 
-    public static int msgId;
+    public static int msgId =0;
 
     /**
      * quantity of connected bt devices
      */
-    public static int btDevCnt;
+    public static int btDevCnt = 0;
 
 
     /**
@@ -41,17 +41,18 @@ public class G_ {
      */
     public static int  currentJmmrNum = -1;
 
-    public static JmmrState currentJmmr;
+    public static JmmrState currentJmmr = new JmmrState();
 
 
+    public static BtConnect btConnect;
 
 
     public static void init(){
-        jmmr_list = new ArrayList<>();
-        btDevCnt = 0;
-        devList = new ArrayList<BtDevData>();
-        selectBtDevice = new BtDevData();
-        msgId = 0;
-        currentJmmr = new JmmrState();
+//        jmmr_list = new ArrayList<>();
+//        btDevCnt = 0;
+//        devList = new ArrayList<BtDevData>();
+//        selectBtDevice = new BtDevData();
+//        msgId = 0;
+//        currentJmmr = new JmmrState();
     }
 }

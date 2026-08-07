@@ -22,7 +22,7 @@ public class C_ {
     public static final int CMD_RM_GET_ATW       = 9;
     public static final int CMD_RM_SET_ATW       = 10;
     public static final int CMD_RM_GET_STATE     = 11;
-    public static final int CMD_RM_SET_STATE     = 12;
+    public static final int CMD_SET_JMMR_DATA     = 12;
     public static final int CMD_RM_GET_INFO      = 13;
     public static final int CMD_PRINT_ADDRESSES  = 14;
     public static final int CMD_GET_JMMR_DATA    = 15;
@@ -35,7 +35,7 @@ public class C_ {
     public static final int CMD_GEN_TEST_DATA    = 22;
     public static final int CMD_SET_JMMR_LIST    = 23;
     public static final int CMD_TEST             = 24;
-    public static final int CMD_SET_JMMR_DATA    = 25;
+//    public static final int CMD_SET_JMMR_DATA    = 25;
     public static final int CMD_SET_ADDR_ESP     = 26;
     public static final int CMD_SET_PWR          = 27;
     public static final int CMD_RESTART_ESP      = 28;
@@ -65,7 +65,7 @@ public class C_ {
     public static final String PARAM_ADDRESSEE  = "addr";
     public static final String PARAM_ADDR_RM_1  = "ad_rm1";
     public static final String PARAM_ADDR_RM_2  = "ad_rm2";
-
+    public static final String PARAM_NEED_BT_OFF = "need_bt_off";
 
 
 

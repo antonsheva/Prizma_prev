@@ -7,8 +7,8 @@ public class JmmrState {
     public int  dev_range = 0;
     public int  mc1       = 0;
     public int  mc2       = 0;
-    public int  msk1      = 0;
-    public int  msk2      = 0;
+    public long  msk1      = 0;
+    public long  msk2      = 0;
     public int  ad_esp    = 0;
     public int  ad_rm1    = 0;
     public int  ad_rm2    = 0;

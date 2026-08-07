@@ -6,10 +6,6 @@ import android.os.IBinder;
 
 import androidx.annotation.Nullable;
 
-public class BtService extends Service {
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
+public class BtService  {
+
 }

@@ -19,13 +19,13 @@ public class ObjRange {
     Integer currentBandWidth = 0;
     Integer frqPosition = 0;
     Integer frqCenter = 0;
-    Integer rangeMask = 0;
+    Long rangeMask = 0L;
 
-    public Integer getRangeMask() {
+    public Long getRangeMask() {
         return rangeMask;
     }
 
-    public void setRangeMask(Integer rangeMask) {
+    public void setRangeMask(Long rangeMask) {
         this.rangeMask = rangeMask;
         Log.i("MY_TEG", "setRangeMask      -> "+this.rangeMask);
     }
@@ -147,7 +147,7 @@ public class ObjRange {
         viewBandWidth = currentBandStop + " - " + frqCenter +" - "+ currentBandStart;
 
         currentBandStickQty = bandStickQtyList.get(currentBand);
-        rangeMask = 0;
+        rangeMask = 0L;
         int tmp;
         for(int i=0; i<currentBandStickQty; i++){
             tmp = frqPosition - currentBandStickQty/2+i;
