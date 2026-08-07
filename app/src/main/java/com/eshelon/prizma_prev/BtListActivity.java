@@ -7,6 +7,7 @@ import static android.widget.Toast.LENGTH_SHORT;
 
 import static androidx.core.content.PermissionChecker.PERMISSION_GRANTED;
 
+import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
@@ -38,8 +39,10 @@ import androidx.core.view.WindowInsetsCompat;
 
 
 import com.eshelon.prizma_prev.adapter.BtAdapter;
+import com.eshelon.prizma_prev.interfaces.CB;
 import com.eshelon.prizma_prev.interfaces.ItemClickListener;
 import com.eshelon.prizma_prev.objects.BtDevData;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,16 +58,11 @@ public class BtListActivity extends AppCompatActivity implements View.OnClickLis
     boolean mBtIsEanbled = false;
 
     private BluetoothAdapter bluetoothAdapter;
-
-
-
     CB cb;
     Context cntxt;
 
     Timer timer;
-    ImageView btSearch;
-
-
+    ImageView btSearchIcon;
 
     List<BtDevData> btDevList = new ArrayList<BtDevData>();
     private BtAdapter btAdapter;
@@ -96,11 +94,19 @@ public class BtListActivity extends AppCompatActivity implements View.OnClickLis
         super.onResume();
         Log.i("MY_TEG", "onResume - - BtListActivity");
         IntentFilter f1 = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-        IntentFilter f2 = new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
-
         registerReceiver(broadcastReceiverBltDevFound, f1);
+        IntentFilter f2 = new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
         registerReceiver(broadcastReceiverBltDevFound, f2);
+        IntentFilter f3 = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
+        registerReceiver(broadcastReceiverBltDevFound, f3);
+        IntentFilter f4 = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
+        registerReceiver(broadcastReceiverBltDevFound, f4);
 
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
+            getPermissionsBtConnect();
+            return;
+        }
+        bluetoothAdapter.startDiscovery();
     }
 
     @Override
@@ -115,34 +121,45 @@ public class BtListActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
+    void foundDevise(Intent intent, Context context){
+        BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+        if (ActivityCompat.checkSelfPermission(context, BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+            getPermissionsBtConnect();
+            return;
+        }
+        if(device == null)return;
+        BtDevData devData = new BtDevData();
+        devData.setMac(device.getAddress());
+        devData.setNum(G_.btDevCnt++);
+
+        //// TODO: 22.06.2026
+
+        devData.setName(device.getName());
+        if(devData.getName() == null)return;
+        if(!devData.getName().isEmpty()){
+            if(devData.getName().startsWith("Prizma_JMR")){
+                G_.devList.add(devData);
+                btAdapter.notifyDataSetChanged();
+            }
+        }
+
+        //end  TODO: 22.06.2026
+    }
     private final BroadcastReceiver broadcastReceiverBltDevFound = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if(BluetoothDevice.ACTION_FOUND.equals(action)){
-                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                if (ActivityCompat.checkSelfPermission(context, BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-                    getPermissionsBtConnect();
-                    return;
-                }
-                if(device == null)return;
-                BtDevData devData = new BtDevData();
-                devData.setMac(device.getAddress());
-                devData.setNum(G_.btDevCnt++);
-
-                //// TODO: 22.06.2026
-
-                devData.setName(device.getName());
-                if(devData.getName() == null)return;
-                if(!devData.getName().isEmpty()){
-                    if(devData.getName().startsWith("Prizma_JMR")){
-                        G_.devList.add(devData);
-                        btAdapter.notifyDataSetChanged();
-                    }
-                }
-
-                //end  TODO: 22.06.2026
-
+                Log.i("MY_TEG", "===  =ACTION_FOUND   ------");
+                foundDevise(intent, context);
+            }
+            if(BluetoothAdapter.ACTION_DISCOVERY_STARTED.equals(action)){
+                Log.i("MY_TEG", "===  =ACTION_DISCOVERY_STARTED   ------");
+                G_.btActiveState = C_.BT_STATE_SEARCHING;
+            }
+            if(BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)){
+                Log.i("MY_TEG", "===  =ACTION_DISCOVERY_FINISHED   ------");
+                G_.btActiveState = C_.BT_STATE_SEARCHING_FINISH;
             }
         }
     } ;
@@ -150,58 +167,7 @@ public class BtListActivity extends AppCompatActivity implements View.OnClickLis
     void startJmmrsSearch(){
         Log.i("MY_TEG", "startJmmrsSearch   ------");
         G_.selectBtDevice.setDeviceSelected(false);
-        if(mBtIsEanbled){
-            if (ActivityCompat.checkSelfPermission(this, BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
-                getPermissionsBtConnect();
-                Log.i("MY_TEG", "getPermissionsBtConnect error ------");
-                return;
-            }
-            if(bluetoothAdapter.isDiscovering()){
-                Log.i("MY_TEG", "bluetoothAdapter.isDiscovering ------");
-                return;
-            }
-
-            G_.devList.clear();
-
-            bluetoothAdapter.startDiscovery();
-            final boolean[] stt = {false};
-            Log.i("MY_TEG", "bluetoothAdapter.startDiscovery ------");
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if(stt[0]){
-                                setBtIcon(C_.BT_ICON_ENABLE);
-                                Log.i("MYT_TEG", "BT_ICON_ENABLE");
-                            }
-                            else {
-                                setBtIcon(C_.BT_ICON_CONNECTED);
-                                Log.i("MYT_TEG", "BT_ICON_CONNECTED");
-                            }
-                            stt[0] = !stt[0];
-                        }
-                    });
-                    if (ActivityCompat.checkSelfPermission(cntxt, BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
-                        getPermissionsBtConnect();
-                        return;
-                    }
-                    if(!(bluetoothAdapter.isDiscovering())){
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                setBtIcon(C_.BT_ICON_ENABLE);
-                            }
-                        });
-                        Log.i("MYT_TEG", "Discovering - > STOP");
-                        timer.cancel();
-                    }
-
-                }
-            }, 300, 300);
-
-        }else {
+        if(!mBtIsEanbled){
             Log.i("MY_TEG", "getPermissionsBtConnect   ------");
             int perm = PERMISSION_GRANTED;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -210,6 +176,8 @@ public class BtListActivity extends AppCompatActivity implements View.OnClickLis
             if (perm != PERMISSION_GRANTED)return;
             Intent i = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             enableBltActivityResult.launch(i);
+        }else {
+
         }
     }
     void getPairedDevices(){
@@ -242,6 +210,7 @@ public class BtListActivity extends AppCompatActivity implements View.OnClickLis
             new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult o) {
+                    Log.i("MY_TEG", "enableBltActivityResult   ------");
                     if(o.getResultCode()==RESULT_OK){
                         mBtIsEanbled = true;
                         setBtIcon(C_.BT_ICON_ENABLE);
@@ -289,7 +258,8 @@ public class BtListActivity extends AppCompatActivity implements View.OnClickLis
         }
         Log.i("MY_TEG", "BT init Ok !!!");
 
-        btSearch = findViewById(R.id.btSearch);
+        btSearchIcon = findViewById(R.id.btSearch);
+        btSearchIcon.setOnClickListener(this);
         initBtAdapter();
         if(bluetoothAdapter.isEnabled()){
             Log.i("MY_TEG", "bluetoothAdapter.isEnabled");
@@ -300,16 +270,58 @@ public class BtListActivity extends AppCompatActivity implements View.OnClickLis
             mBtIsEanbled = false;
         }
         startJmmrsSearch();
+        startBtIconTimer();
 //        getPairedDevices();
+
+    }
+
+
+    Timer tmBtIcon = new Timer();
+    void startBtIconTimer(){
+        cntxt = this;
+        final boolean[] stt = {false};
+        tmBtIcon.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                switch (G_.btActiveState){
+                    case C_.BT_STATE_SEARCHING:
+                        if(stt[0])setBtIcon(C_.BT_ICON_ENABLE);
+                        else      setBtIcon(C_.BT_ICON_CONNECTED);
+                        stt[0] = !stt[0];
+                    break;
+                    case C_.BT_STATE_SEARCHING_FINISH:setBtIcon(C_.BT_ICON_ENABLE);
+                    break;
+                }
+                if (ActivityCompat.checkSelfPermission(cntxt, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                if(bluetoothAdapter.isDiscovering()){
+                    Log.i("MY_TEG", "bluetoothAdapter.isDiscovering");
+                }
+
+            }
+        }, 300, 300);
     }
 
     void setBtIcon(int icon){
-        switch (icon){
-            case C_.BT_ICON_DISABLE    : btSearch.setImageResource(R.drawable.bt_disable); break;
-            case C_.BT_ICON_ENABLE     : btSearch.setImageResource(R.drawable.bt_enable); break;
-            case C_.BT_ICON_CONNECTED  : btSearch.setImageResource(R.drawable.bt_connected); break;
-            case C_.BT_ICON_SCAN       : btSearch.setImageResource(R.drawable.bt_scan); break;
-        }
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                switch (icon){
+                    case C_.BT_ICON_DISABLE    : btSearchIcon.setImageResource(R.drawable.bt_disable); break;
+                    case C_.BT_ICON_ENABLE     : btSearchIcon.setImageResource(R.drawable.bt_enable); break;
+                    case C_.BT_ICON_CONNECTED  : btSearchIcon.setImageResource(R.drawable.bt_connected); break;
+                    case C_.BT_ICON_SCAN       : btSearchIcon.setImageResource(R.drawable.bt_scan); break;
+                }
+            }
+        });
     }
 
     @Override
@@ -334,11 +346,14 @@ public class BtListActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-
-    }
-
-
-    public interface CB{
-        void cb(int code);
+        if(v.getId() == R.id.btSearch){
+            if(G_.btActiveState != C_.BT_STATE_SEARCHING){
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
+                    getPermissionsBtConnect();
+                    return;
+                }
+                bluetoothAdapter.startDiscovery();
+            }
+        }
     }
 }

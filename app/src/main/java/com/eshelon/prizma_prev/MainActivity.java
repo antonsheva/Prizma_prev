@@ -1,11 +1,9 @@
  package com.eshelon.prizma_prev;
 
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
-import static com.eshelon.prizma_prev.C_.BT_ACTIVE_STATE_CONNECTED;
-import static com.eshelon.prizma_prev.C_.BT_ACTIVE_STATE_CONNECTING;
-import static com.eshelon.prizma_prev.C_.BT_ACTIVE_STATE_ENABLE;
-import static com.eshelon.prizma_prev.C_.BT_ACTIVE_STATE_SEARCHING;
+import static com.eshelon.prizma_prev.C_.BT_STATE_CONNECTED;
+import static com.eshelon.prizma_prev.C_.BT_STATE_CONNECTING;
+import static com.eshelon.prizma_prev.C_.BT_STATE_ENABLE;
+import static com.eshelon.prizma_prev.C_.BT_STATE_SEARCHING;
 
 
 import android.content.Context;
@@ -88,15 +86,15 @@ import java.util.TimerTask;
              ReceiveThread rThrd = G_.btConnect.connectThread.getReceiveThread();
              if(rThrd == null){
                  Log.i("MY_TEG", "Error getReceiveThread");
-                 G_.btActiveState = BT_ACTIVE_STATE_ENABLE;
+                 G_.btActiveState = BT_STATE_ENABLE;
                  return;
              }
              if(code==C_.CB_CODE_CONNECT){
-                 G_.btActiveState = BT_ACTIVE_STATE_CONNECTED;
+                 G_.btActiveState = BT_STATE_CONNECTED;
 
              }
              else{
-                 G_.btActiveState = BT_ACTIVE_STATE_ENABLE;
+                 G_.btActiveState = BT_STATE_ENABLE;
 
              }
              rThrd.setCbReceive(cbBtReceive);
@@ -117,10 +115,10 @@ import java.util.TimerTask;
          super.onResume();
          setBtIcon(C_.BT_ICON_ENABLE);
          if (!G_.selectBtDevice.isDeviceSelected())return;
-         if(G_.btActiveState == BT_ACTIVE_STATE_CONNECTED)return;
+         if(G_.btActiveState == BT_STATE_CONNECTED)return;
 
          Log.i("MY_TEG", "onResume - - MainActivity");
-         G_.btActiveState = BT_ACTIVE_STATE_CONNECTING;
+         G_.btActiveState = BT_STATE_CONNECTING;
          G_.btConnect = new BtConnect(this, G_.selectBtDevice.getMac(), onConnectCb);
          btConnect();
      }
@@ -134,7 +132,7 @@ import java.util.TimerTask;
          btSendData(msg, 0);
      }
      private void btSendData(Object o, int type){
-         if(G_.btActiveState != BT_ACTIVE_STATE_CONNECTED)return;
+         if(G_.btActiveState != BT_STATE_CONNECTED)return;
          String jsonStr = "";
          ObjectMsg msg = (ObjectMsg)o;
          msg.addressee = G_.btDevAddr;
@@ -203,7 +201,7 @@ import java.util.TimerTask;
                  case C_.CB_CODE_NEW_DATA   : receiveBtData(data);                           break;
                  case C_.CB_CODE_DISCONNECT :
                      Log.i("MY_TEG", "---- BT DISCONNECT  - --------");
-                     G_.btActiveState = BT_ACTIVE_STATE_CONNECTING;
+                     G_.btActiveState = BT_STATE_CONNECTING;
                      tryRecoveryConnection();
                  break;
 
@@ -224,16 +222,16 @@ import java.util.TimerTask;
              @Override
              public void run() {
                  switch (G_.btActiveState){
-                     case BT_ACTIVE_STATE_CONNECTING :
-                     case BT_ACTIVE_STATE_SEARCHING  :
+                     case BT_STATE_CONNECTING:
+                     case BT_STATE_SEARCHING:
                          if(stt[0])setBtIcon(C_.BT_ICON_ENABLE);
                          else      setBtIcon(C_.BT_ICON_CONNECTED);
                          stt[0] = !stt[0];
                          break;
-                     case BT_ACTIVE_STATE_CONNECTED  :
+                     case BT_STATE_CONNECTED:
                          setBtIcon(C_.BT_ICON_CONNECTED);
                          break;
-                     case BT_ACTIVE_STATE_ENABLE     :
+                     case BT_STATE_ENABLE:
                          setBtIcon(C_.BT_ICON_ENABLE);
                          break;
                  }
@@ -387,9 +385,11 @@ import java.util.TimerTask;
             @Override
             public void onItemDevSelClick(int pos) {
                 G_.currentJmmrNum = pos;
-                G_.selectRange = G_.jmmr_list.get(pos).dev_range;
-                long mask = G_.jmmr_list.get(pos).msk1;
-
+                if(G_.jmmr_list != null){
+                    if(G_.jmmr_list.size() >= pos){
+                        G_.selectRange = G_.jmmr_list.get(pos).dev_range;
+                    }
+                }
                 showPageNarrowband();
             }
         });
@@ -565,7 +565,9 @@ import java.util.TimerTask;
 //            G_.btActiveState = BT_ACTIVE_STATE_SEARCHING;
 //            animeBtStateIcon();
         }
-        if(vId == R.id.btSearch)showBtDevList();
+        if(vId == R.id.btSearch){
+            if(G_.btActiveState != BT_STATE_CONNECTED)showBtDevList();
+        }
 
     }
 }

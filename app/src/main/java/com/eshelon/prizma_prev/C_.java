@@ -76,10 +76,12 @@ public class C_ {
     public static final int CB_CODE_ERROR_CONNECT   = 3;
 
     public static final int BT_ACTIVE_STATE_DISABLE     = 0;
-    public static final int BT_ACTIVE_STATE_ENABLE      = 1;
-    public static final int BT_ACTIVE_STATE_SEARCHING   = 2;
-    public static final int BT_ACTIVE_STATE_CONNECTING  = 3;
-    public static final int BT_ACTIVE_STATE_CONNECTED   = 4;
+    public static final int BT_STATE_ENABLE = 1;
+    public static final int BT_STATE_SEARCHING = 2;
+    public static final int BT_STATE_CONNECTING = 3;
+    public static final int BT_STATE_CONNECTED = 4;
+    public static final int BT_STATE_SEARCHING_FINISH = 5;
+    public static final int BT_STATE_DISCONNECTED = 6;
 
 
     public static final int BT_ICON_DISABLE = 0;

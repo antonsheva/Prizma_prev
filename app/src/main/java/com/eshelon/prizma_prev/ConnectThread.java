@@ -1,7 +1,7 @@
 package com.eshelon.prizma_prev;
 
-import static com.eshelon.prizma_prev.C_.BT_ACTIVE_STATE_CONNECTED;
-import static com.eshelon.prizma_prev.C_.BT_ACTIVE_STATE_ENABLE;
+import static com.eshelon.prizma_prev.C_.BT_STATE_CONNECTED;
+import static com.eshelon.prizma_prev.C_.BT_STATE_ENABLE;
 import static com.eshelon.prizma_prev.C_.CB_CODE_CONNECT;
 import static com.eshelon.prizma_prev.C_.CB_CODE_ERROR_CONNECT;
 
@@ -19,7 +19,6 @@ import androidx.core.app.ActivityCompat;
 import com.eshelon.prizma_prev.interfaces.CB;
 
 import java.io.IOException;
-import java.util.UUID;
 
 public class ConnectThread extends Thread{
     private Context context;
@@ -59,19 +58,19 @@ public class ConnectThread extends Thread{
             Log.d("MY_LOG", "Connected");
             receiveThread = new ReceiveThread(btSocket);
             receiveThread.start();
-            G_.btActiveState = BT_ACTIVE_STATE_CONNECTED;
+            G_.btActiveState = BT_STATE_CONNECTED;
             resCode = CB_CODE_CONNECT;
         }catch (IOException e){
             Log.d("MY_LOG", "Not connected");
             closeConnection();
-            G_.btActiveState = BT_ACTIVE_STATE_ENABLE;
+            G_.btActiveState = BT_STATE_ENABLE;
             resCode = CB_CODE_ERROR_CONNECT;
         }
         cb.cb(resCode);
     }
     public void closeConnection(){
         try {
-            G_.btActiveState = BT_ACTIVE_STATE_ENABLE;
+            G_.btActiveState = BT_STATE_ENABLE;
             btSocket.close();
         }catch (IOException ignored){
 

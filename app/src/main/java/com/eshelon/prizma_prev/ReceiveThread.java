@@ -1,7 +1,7 @@
 package com.eshelon.prizma_prev;
 
 
-import static com.eshelon.prizma_prev.C_.BT_ACTIVE_STATE_ENABLE;
+import static com.eshelon.prizma_prev.C_.BT_STATE_ENABLE;
 import static com.eshelon.prizma_prev.C_.CB_CODE_DISCONNECT;
 import static com.eshelon.prizma_prev.C_.CB_CODE_NEW_DATA;
 
@@ -42,13 +42,13 @@ public class ReceiveThread extends Thread{
                 cbReceive.cb(CB_CODE_NEW_DATA, msg);
             }catch (IOException e){
                 Log.i("MY_TEG", "error inputStream.read");
-                G_.btActiveState = BT_ACTIVE_STATE_ENABLE;
+                G_.btActiveState = BT_STATE_ENABLE;
                 cbReceive.cb(CB_CODE_DISCONNECT,null);
                 break;
             }
             try{
                 if(!socket.isConnected()){
-                    G_.btActiveState = BT_ACTIVE_STATE_ENABLE;
+                    G_.btActiveState = BT_STATE_ENABLE;
                     cbReceive.cb(CB_CODE_DISCONNECT,null);
                 }
             }catch (Exception e){
