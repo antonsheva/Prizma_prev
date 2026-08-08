@@ -58,12 +58,12 @@ public class ConnectThread extends Thread{
             Log.d("MY_LOG", "Connected");
             receiveThread = new ReceiveThread(btSocket);
             receiveThread.start();
-            G_.btActiveState = BT_STATE_CONNECTED;
+
             resCode = CB_CODE_CONNECT;
         }catch (IOException e){
             Log.d("MY_LOG", "Not connected");
             closeConnection();
-            G_.btActiveState = BT_STATE_ENABLE;
+
             resCode = CB_CODE_ERROR_CONNECT;
         }
         cb.cb(resCode);

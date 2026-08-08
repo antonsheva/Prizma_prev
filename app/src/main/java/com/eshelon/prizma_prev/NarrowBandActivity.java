@@ -434,6 +434,14 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnClic
         });
     }
 
+    void saveDataToJmmrList(){
+        if(G_.currentJmmrNum != -1){
+            if(G_.jmmr_list != null){
+                G_.jmmr_list.get(G_.currentJmmrNum).msk1 = objRange1.getRangeMask();
+                G_.jmmr_list.get(G_.currentJmmrNum).msk2 = objRange2.getRangeMask();
+            }
+        }
+    }
     void setRangeMask(long rangeNum, long pos){
         long mask = rangeNum == 1 ? objRange1.getRangeMask() : objRange2.getRangeMask();
         mask ^= (1<<pos);
@@ -480,29 +488,18 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnClic
             initOnOffChnlBttn();
         }
         if(v.getId() == R.id.sFrqBandButtonSave){
-            if(G_.currentJmmrNum != -1){
-                if(G_.jmmr_list != null){
-                    G_.jmmr_list.get(G_.currentJmmrNum).msk1 = objRange1.getRangeMask();
-                    G_.jmmr_list.get(G_.currentJmmrNum).msk2 = objRange2.getRangeMask();
-                }
-            }
+            saveDataToJmmrList();
             Intent i = new Intent(context, MainActivity.class);
-            i.putExtra("needResetConnection", false);
-            i.putExtra("needUpdateBandView", true);
-            i.putExtra("return_extras", true);
             startActivity(i);
         }
         if(v.getId() == R.id.sFrqBandOnOffSuppress){
+            saveDataToJmmrList();
             Intent i = new Intent(context, MainActivity.class);
-            i.putExtra("return_extras", true);
-            i.putExtra("need_suppress", true);
+            i.putExtra("cmd_suppress", true);
             startActivity(i);
         }
         if(v.getId() == R.id.sFrqBandButtonCansel){
             Intent i = new Intent(context, MainActivity.class);
-            i.putExtra("needResetConnection", false);
-            i.putExtra("needUpdateBandView", true);
-            i.putExtra("return_extras", true);
             startActivity(i);
         }
     }

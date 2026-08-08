@@ -56,7 +56,8 @@ import java.util.TimerTask;
 
  public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    LinearLayout bttnShowRangesList;
+    RelativeLayout bttnShowRangesList;
+    RelativeLayout sMainButtonSave;
     LinearLayout bttnSuppress;
     RelativeLayout bttnPatt1;
     RelativeLayout bttnPatt2;
@@ -94,24 +95,41 @@ import java.util.TimerTask;
          super.onStart();
      }
 
+     void setAnimateBtState(){
+        switch (G_.btActiveState ){
+            case BT_STATE_DISCONNECTED:
+                mAnimeBtConnectionIconState = BT_CONNECTING_ICON_STATE_ENABLE;
+                mAnimeBtUpdateIconState = BT_UPDATE_ICON_STATE_GONE;
+                break;
+            case BT_STATE_CONNECTED :
+                mAnimeBtConnectionIconState = BT_CONNECTING_ICON_STATE_CONNECTED;
+                mAnimeBtUpdateIconState = BT_UPDATE_ICON_STATE_VISIBLE;
+                break;
+        }
+     }
      CB onConnectCb = new CB() {
          @Override
          public void cb(int code) {
+             Log.i("MY_TEG", "onConnectCb code -> "+code+" ");
              ReceiveThread rThrd = G_.btConnect.connectThread.getReceiveThread();
-             if(rThrd == null){
-                 G_.btActiveState = BT_STATE_DISCONNECTED;
-                 mAnimeBtConnectionIconState = BT_CONNECTING_ICON_STATE_SEARCHING;
-                 mAnimeBtUpdateIconState = BT_UPDATE_ICON_STATE_GONE;
-                 Log.i("MY_TEG", " -- - tryRecoveryConnection  - onConnectCb--------1");
-                 tryRecoveryConnection();
-                 return;
+             if(code == C_.CB_CODE_ERROR_CONNECT){
+                 if(rThrd == null){
+                     G_.btActiveState = BT_STATE_DISCONNECTED;
+                     mAnimeBtConnectionIconState = BT_CONNECTING_ICON_STATE_SEARCHING;
+                     mAnimeBtUpdateIconState = BT_UPDATE_ICON_STATE_GONE;
+                     Log.i("MY_TEG", " -- - tryRecoveryConnection  - onConnectCb--------1");
+                     tryRecoveryConnection();
+                     return;
+                 }
              }
              if(code==C_.CB_CODE_CONNECT){
                  G_.btActiveState = BT_STATE_CONNECTED;
                  mAnimeBtConnectionIconState = BT_CONNECTING_ICON_STATE_CONNECTED;
                  mAnimeBtUpdateIconState = BT_UPDATE_ICON_STATE_VISIBLE;
+                 Log.i("MY_TEG", " -- -  CB_CODE_CONNECT  - onConnectCb--------1");
                  rThrd.setCbReceive(cbBtReceive);
                  getJmmrList();
+
              }
          }
      };
@@ -143,9 +161,11 @@ import java.util.TimerTask;
          G_.btConnect = new BtConnect(this, G_.selectBtDevice.getMac(), onConnectCb);
          btConnect();
      }
-     private void btSendJmmrList(){
+     private void btSendJmmrList(boolean needBtOff){
          if(G_.jmmr_list == null)return;
          ObjectMsg msg = new ObjectMsg();
+         if(needBtOff)msg.need_bt_off = 1;
+         else         msg.need_bt_off = 0;
          msg.cmd = C_.CMD_SET_JMMR_LIST;
 
          msg.jmmr_list = G_.jmmr_list;
@@ -404,6 +424,8 @@ import java.util.TimerTask;
 
         bttnShowRangesList = findViewById(R.id.sMainButtonRanges);
         bttnShowRangesList.setOnClickListener(this);
+        sMainButtonSave = findViewById(R.id.sMainButtonSave);
+        sMainButtonSave.setOnClickListener(this);
 
         bttnSuppress = findViewById(R.id.sMainButtonSuppress);
         bttnSuppress.setOnClickListener(this);
@@ -458,10 +480,16 @@ import java.util.TimerTask;
         });
         mainLV.setAdapter(devListAdapter);
     }
+
+    void checkIntentForExtras(){
+        Intent intent = getIntent();
+        boolean cmd_suppress = intent.getBooleanExtra("cmd_suppress", false);
+        if(cmd_suppress)bttnSuppress();
+        intent.removeExtra("cmd_suppress");
+    }
     void init(){
         mAnimeBtConnectionIconState = BT_CONNECTING_ICON_STATE_ENABLE;
-        mAnimeBtUpdateIconState = BT_UPDATE_ICON_STATE_GONE;
-        Bundle arguments = getIntent().getExtras();
+        setAnimateBtState();
         G_.currentJmmrNum = -1;
         context = this;
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
@@ -470,6 +498,7 @@ import java.util.TimerTask;
         initRangesGroupList();
         animeBtStateIcon();
         initDevListAdapter();
+        checkIntentForExtras();
     }
 
     void showPageRanges(){
@@ -487,8 +516,9 @@ import java.util.TimerTask;
         }else {
             G_.bttnSuppressState = true;
             bttnSuppress.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_suppress_on, null));
-            btSendJmmrList();
+
         }
+        btSendJmmrList(true);
     }
 
     void vibro(){
@@ -631,6 +661,8 @@ import java.util.TimerTask;
         if(vId == R.id.btSearch){
             if(G_.btActiveState != BT_STATE_CONNECTED)showBtDevList();
         }
-
+        if(vId == R.id.sMainButtonSave){
+            btSendJmmrList(false);
+        }
     }
 }

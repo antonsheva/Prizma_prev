@@ -219,43 +219,23 @@
                     android:layout_marginBottom="10dp"
                     android:layout_alignParentBottom="true"
                     >
-                    <LinearLayout
-                        android:id="@+id/sMainButtonRanges"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="@style/sMainButtonPattern"
-                        android:background="@drawable/button_pattern"
-                        android:layout_alignParentStart="true"
-                        >
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Диапазоны"
-                            android:textSize="18dp"
-                            android:textColor="@color/white"
-                            android:textStyle="bold"
-                            android:layout_centerInParent="true"
-                            />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:id="@+id/sMainButtonMode14Hz"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="@style/sMainButtonPattern"
-                        android:background="@drawable/button_pattern"
-                        android:layout_alignParentEnd="true"
-                        >
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Режим 14 Гц"
-                            android:textSize="18dp"
-                            android:textColor="@color/white"
-                            android:textStyle="bold"
-                            android:layout_centerInParent="true"
-                            />
-                    </LinearLayout>
 
+
+                    <RelativeLayout
+                        android:id="@+id/sMainButtonRanges"
+                        style="@style/sMainButtonPattern"
+                        android:layout_width="115dp"
+                        android:layout_alignParentEnd="true"                    >
+                        <TextView android:text="Диапазоны" style="@style/sMainButtonText"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/sMainButtonSave"
+                        style="@style/sMainButtonPattern"
+                        android:layout_width="115dp"
+                        android:layout_alignParentStart="true"                    >
+                        <TextView android:text="Сохранить" style="@style/sMainButtonText"/>
+                    </RelativeLayout>
 
 
 
