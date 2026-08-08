@@ -82,12 +82,36 @@ public class C_ {
     public static final int BT_STATE_CONNECTED = 4;
     public static final int BT_STATE_SEARCHING_FINISH = 5;
     public static final int BT_STATE_DISCONNECTED = 6;
+    public static final int BT_STATE_WAIT_NEW_DATA = 7;
+
 
 
     public static final int BT_ICON_DISABLE = 0;
     public static final int BT_ICON_ENABLE = 1;
     public static final int BT_ICON_CONNECTED = 2;
     public static final int BT_ICON_SCAN = 3;
+
+
+
+    public static final int BT_CONNECTING_ICON_STATE_DISABLE   = 0;
+    public static final int BT_CONNECTING_ICON_STATE_ENABLE    = 1;
+
+    public static final int BT_CONNECTING_ICON_STATE_SEARCHING = 2;
+    public static final int BT_CONNECTING_ICON_STATE_CONNECTED = 3;
+
+
+    public static final int BT_UPDATE_ICON_STATE_GONE    = 0;
+    public static final int BT_UPDATE_ICON_STATE_VISIBLE = 1;
+    public static final int BT_UPDATE_ICON_STATE_UPDATE  = 2;
+
+
+
+
+
+    public static final int UPDATE_ICON_DISABLE = 0;
+    public static final int UPDATE_ICON_ENABLE = 1;
+
+
 
 
 }

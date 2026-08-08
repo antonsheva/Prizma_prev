@@ -4,7 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="main_background_color">#D9D9D9</color>
     <color name="divideLine">#857E7E</color>
-    <color name="mTextColor">#202026</color>
+    <color name="mTextColor">#202020</color>
     <color name="mSpectrumActiveColor">#37FA0B</color>
     <color name="mSpectrumNoActiveColor">#857E7E</color>
     <color name="mSpectrumBackgroundColor">#B3E9DC</color>

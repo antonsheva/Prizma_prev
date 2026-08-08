@@ -42,13 +42,12 @@ public class ReceiveThread extends Thread{
                 cbReceive.cb(CB_CODE_NEW_DATA, msg);
             }catch (IOException e){
                 Log.i("MY_TEG", "error inputStream.read");
-                G_.btActiveState = BT_STATE_ENABLE;
                 cbReceive.cb(CB_CODE_DISCONNECT,null);
                 break;
             }
             try{
                 if(!socket.isConnected()){
-                    G_.btActiveState = BT_STATE_ENABLE;
+
                     cbReceive.cb(CB_CODE_DISCONNECT,null);
                 }
             }catch (Exception e){

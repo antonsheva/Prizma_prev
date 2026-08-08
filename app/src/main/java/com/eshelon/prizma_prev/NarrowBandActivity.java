@@ -97,8 +97,13 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnClic
     }
 
     void getRangeObjects(){
-        objRange2 = G_.rangeList.get(G_.selectRange*2);
-        objRange1 = G_.rangeList.get(G_.selectRange*2+1);
+        if(G_.rangeList != null){
+            if(G_.rangeList.size() >= G_.selectRange*2+1){
+                objRange2 = G_.rangeList.get(G_.selectRange*2);
+                objRange1 = G_.rangeList.get(G_.selectRange*2+1);
+            }
+        }
+
     }
     void initTxtData(){
         String str =    Integer.toString(G_.selectRange)+": "+
