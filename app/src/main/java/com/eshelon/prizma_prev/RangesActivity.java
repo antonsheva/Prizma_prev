@@ -2,6 +2,7 @@ package com.eshelon.prizma_prev;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
@@ -10,9 +11,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -28,8 +31,7 @@ public class RangesActivity extends AppCompatActivity implements View.OnClickLis
     final ArrayList<Integer> panelRangeIdList = new ArrayList<>();
     final ArrayList<LinearLayout> panelRangeViewList = new ArrayList<>();
     final ArrayList<RelativeLayout> buttonRangeViewList = new ArrayList<>();
-    RelativeLayout bttnSetFrqBand;
-
+    final ArrayList<TextView> buttonRangeViewTxtList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +48,7 @@ public class RangesActivity extends AppCompatActivity implements View.OnClickLis
     }
     void resetColorPanels(){
         for(LinearLayout ll : panelRangeViewList){
-            ll.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.range_bacground_no_active, null));
+            ll.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.main_background, null));
         }
         for(RelativeLayout rl : buttonRangeViewList){
             rl.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.range_bacground_no_active, null));
@@ -58,6 +60,10 @@ public class RangesActivity extends AppCompatActivity implements View.OnClickLis
 
         buttonRangeViewList.get(num*2).setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_pattern, null));
         buttonRangeViewList.get(num*2+1).setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_pattern, null));
+
+        buttonRangeViewTxtList.get(num*2).setTextColor(ContextCompat.getColor(this, R.color.mTextColor));
+        buttonRangeViewTxtList.get(num*2+1).setTextColor(ContextCompat.getColor(this, R.color.mTextColor));
+
 
         panelRangeViewList.get(num).setOnClickListener(this);
     }
@@ -72,30 +78,47 @@ public class RangesActivity extends AppCompatActivity implements View.OnClickLis
         String strButton1;
         String strButton2;
 
+        String strTxt1;
+        String strTxt2;
+
         int vIdPanel;
         int vIdButton1;
         int vIdButton2;
+
+        int vIdTxt1;
+        int vIdTxt2;
+
         for(int i = 1; i<=12; i++) {
             strPanel = C_.BASE_SRC_ID_NAME+C_.SRC_ID_NAME_PATT_RANGE_PANEL + Integer.toString(i);
             strButton1 = C_.BASE_SRC_ID_NAME+C_.SRC_ID_NAME_PATT_RANGE_BUTTON + Integer.toString(i*2-1);
             strButton2 = C_.BASE_SRC_ID_NAME+C_.SRC_ID_NAME_PATT_RANGE_BUTTON + Integer.toString(i*2);
 
+            strTxt1 = C_.BASE_SRC_ID_NAME+C_.SRC_ID_NAME_PATT_RANGE_BUTTON_TXT + Integer.toString(i*2-1);
+            strTxt2 = C_.BASE_SRC_ID_NAME+C_.SRC_ID_NAME_PATT_RANGE_BUTTON_TXT + Integer.toString(i*2);
+
             vIdPanel = this.getResources().getIdentifier(strPanel, "id", getPackageName());
             vIdButton1 = this.getResources().getIdentifier(strButton1, "id", getPackageName());
             vIdButton2 = this.getResources().getIdentifier(strButton2, "id", getPackageName());
+
+            vIdTxt1 = this.getResources().getIdentifier(strTxt1, "id", getPackageName());
+            vIdTxt2 = this.getResources().getIdentifier(strTxt2, "id", getPackageName());
 
 
             LinearLayout ll = (LinearLayout) findViewById(vIdPanel);
             RelativeLayout rl1 = (RelativeLayout)findViewById((vIdButton1));
             RelativeLayout rl2 = (RelativeLayout)findViewById((vIdButton2));
 
+            TextView txt1 = (TextView) findViewById((vIdTxt1));
+            TextView txt2 = (TextView) findViewById((vIdTxt2));
+
             panelRangeIdList.add(vIdPanel);
-
-
 
             panelRangeViewList.add(ll);
             buttonRangeViewList .add(rl1);
             buttonRangeViewList .add(rl2);
+            buttonRangeViewTxtList.add(txt1);
+            buttonRangeViewTxtList.add(txt2);
+
         }
 
     }
@@ -103,8 +126,6 @@ public class RangesActivity extends AppCompatActivity implements View.OnClickLis
         initRangePanels();
         resetColorPanels();
         checkActiveRange();
-        bttnSetFrqBand = findViewById(R.id.sRangesButtonSetFrqBand);
-        bttnSetFrqBand.setOnClickListener(this);
     }
     void init(){
         context = this;
@@ -120,8 +141,14 @@ public class RangesActivity extends AppCompatActivity implements View.OnClickLis
 
 
     void selectRange(int rangeNum){
-        G_.selectRange = rangeNum;
-        Log.i("MY_LOG", "range -> "+Integer.toString(rangeNum));
+        G_.selectRange = rangeNum-1;
+        if(G_.jmmr_list != null){
+            for(int i=0; i<G_.jmmr_list.size(); i++){
+                if((G_.jmmr_list.get(i).dev_range) == rangeNum){
+                    G_.currentJmmrNum = i;
+                }
+            }
+        }
         showPageFrqBan();
     }
 
@@ -140,10 +167,7 @@ public class RangesActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         vibro();
         int vId = v.getId();
-        if (vId == R.id.sRangesButtonSetFrqBand)showPageFrqBan();
-
         String vName = getResources().getResourceName(vId);
-
         if(vName.contains("PanelPatt")){
             int num;
             String strNum = vName.substring(vName.lastIndexOf("t")+1);
@@ -152,7 +176,7 @@ public class RangesActivity extends AppCompatActivity implements View.OnClickLis
             }catch (Exception e){
                 num = 0;
             }
-            if(num != 0)selectRange(num-1);
+            if(num != 0)selectRange(num);
         }
 
     }

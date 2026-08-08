@@ -6,6 +6,7 @@ public class C_ {
     public static final String SRC_ID_NAME_PATT_BAND_BUTTON = "sFrqBandButtonBand";
     public static final String SRC_ID_NAME_PATT_BAND_BUTTON_TXT = "sFrqBandTxt";
     public static final String SRC_ID_NAME_PATT_RANGE_PANEL = "sRangesPanelPatt";
+    public static final String SRC_ID_NAME_PATT_RANGE_BUTTON_TXT = "sRangesButtonTxt";
     public static final String SRC_ID_NAME_PATT_SPECTER = "spectrum_";
 
     public static final int FRQ_STEP_QTY  = 31;
