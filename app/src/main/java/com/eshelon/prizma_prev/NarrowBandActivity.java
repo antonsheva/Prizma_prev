@@ -498,5 +498,12 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnClic
             i.putExtra("need_suppress", true);
             startActivity(i);
         }
+        if(v.getId() == R.id.sFrqBandButtonCansel){
+            Intent i = new Intent(context, MainActivity.class);
+            i.putExtra("needResetConnection", false);
+            i.putExtra("needUpdateBandView", true);
+            i.putExtra("return_extras", true);
+            startActivity(i);
+        }
     }
 }

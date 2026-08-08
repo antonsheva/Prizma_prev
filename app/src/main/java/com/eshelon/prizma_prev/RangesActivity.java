@@ -146,6 +146,7 @@ public class RangesActivity extends AppCompatActivity implements View.OnClickLis
             for(int i=0; i<G_.jmmr_list.size(); i++){
                 if((G_.jmmr_list.get(i).dev_range) == rangeNum){
                     G_.currentJmmrNum = i;
+                    break;
                 }
             }
         }
