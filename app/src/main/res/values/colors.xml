@@ -10,5 +10,9 @@
     <color name="mSpectrumBackgroundColor">#B3E9DC</color>
     <color name="mRangeList1">#76958E</color>
     <color name="mRangeList2">#B6948F</color>
+    <color name="buttonClick">#919191</color>
+    <color name="buttonPattern">#C6C0E0</color>
+    <color name="buttonShadow">#7E7D7D</color>
+    <color name="button_suppress">#E37972</color>
 
 </resources>

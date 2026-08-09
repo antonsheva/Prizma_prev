@@ -9,9 +9,6 @@ import static com.eshelon.prizma_prev.C_.BT_CONNECTING_ICON_STATE_SEARCHING;
 import static com.eshelon.prizma_prev.C_.BT_STATE_CONNECTED;
 import static com.eshelon.prizma_prev.C_.BT_STATE_CONNECTING;
 import static com.eshelon.prizma_prev.C_.BT_STATE_DISCONNECTED;
-import static com.eshelon.prizma_prev.C_.BT_STATE_ENABLE;
-import static com.eshelon.prizma_prev.C_.BT_STATE_SEARCHING;
-import static com.eshelon.prizma_prev.C_.BT_STATE_WAIT_NEW_DATA;
 import static com.eshelon.prizma_prev.C_.BT_UPDATE_ICON_STATE_GONE;
 import static com.eshelon.prizma_prev.C_.BT_UPDATE_ICON_STATE_UPDATE;
 import static com.eshelon.prizma_prev.C_.BT_UPDATE_ICON_STATE_VISIBLE;
@@ -75,6 +72,8 @@ import java.util.TimerTask;
     boolean tryToConnect = false;
     int mAnimeBtConnectionIconState = 0;
     int mAnimeBtUpdateIconState     = 0;
+    AnimeViewElements mAnime = new AnimeViewElements();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -231,7 +230,6 @@ import java.util.TimerTask;
          Log.i("MY_TEG", new String(data));
          G_.btConnect.connectThread.getReceiveThread().sendData(data);
      }
-
      void tryRecoveryConnection(){
          btConnect();
      }
@@ -514,14 +512,6 @@ import java.util.TimerTask;
          startActivity(i);
      }
     void bttnSuppress(){
-        if(G_.bttnSuppressState){
-            G_.bttnSuppressState = false;
-            bttnSuppress.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_suppress_off, null));
-        }else {
-            G_.bttnSuppressState = true;
-            bttnSuppress.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_suppress_on, null));
-
-        }
         btSendJmmrList(true);
     }
 
@@ -547,10 +537,10 @@ import java.util.TimerTask;
         G_.selectPattern = bttnId;
         resetColorPatternButtons();
         switch (bttnId){
-            case 1: bttnPatt1.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_pattern_select, null)); break;
-            case 2: bttnPatt2.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_pattern_select, null)); break;
-            case 3: bttnPatt3.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_pattern_select, null)); break;
-            case 4: bttnPatt4.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_pattern_select, null)); break;
+            case 1: bttnPatt1.setBackgroundResource (R.drawable.button_pattern_select); break;
+            case 2: bttnPatt2.setBackgroundResource (R.drawable.button_pattern_select); break;
+            case 3: bttnPatt3.setBackgroundResource (R.drawable.button_pattern_select); break;
+            case 4: bttnPatt4.setBackgroundResource (R.drawable.button_pattern_select); break;
         }
     }
      private void showBtDevList(){
@@ -647,26 +637,27 @@ import java.util.TimerTask;
     }
 
 
+    Timer tmButtonClick = new Timer();
+    static boolean swchOnClick = false;
 
     public void onClick(View v) {
+        boolean anime = false;
         vibro();
 
         int vId = v.getId();
-        if(vId == R.id.sMainButtonRanges)showPageRanges();
-        if(vId == R.id.sMainButtonSuppress)bttnSuppress();
-        if(vId == R.id.sMainButtonPatt1)selectPattern(1);
-        if(vId == R.id.sMainButtonPatt2)selectPattern(2);
-        if(vId == R.id.sMainButtonPatt3)selectPattern(3);
-        if(vId == R.id.sMainButtonPatt4)selectPattern(4);
+        if(vId == R.id.sMainButtonPatt1){selectPattern(1); mAnime.onClick(this,v); }
+        if(vId == R.id.sMainButtonPatt2){selectPattern(2); mAnime.onClick(this,v); }
+        if(vId == R.id.sMainButtonPatt3){selectPattern(3); mAnime.onClick(this,v); }
+        if(vId == R.id.sMainButtonPatt4){selectPattern(4); mAnime.onClick(this,v); }
 
-        if(vId == R.id.btUpdateDevList){
-            if(G_.btActiveState == BT_STATE_CONNECTED) getJmmrList();
-        }
-        if(vId == R.id.btSearch){
-            if(G_.btActiveState != BT_STATE_CONNECTED)showBtDevList();
-        }
-        if(vId == R.id.sMainButtonSave){
-            btSendJmmrList(false);
-        }
+
+        if(vId == R.id.btUpdateDevList)if(G_.btActiveState == BT_STATE_CONNECTED) getJmmrList();
+        if(vId == R.id.btSearch)if(G_.btActiveState != BT_STATE_CONNECTED)showBtDevList();
+
+        if(vId == R.id.sMainButtonSave){btSendJmmrList(false);  mAnime.onClick(this,v);}
+        if(vId == R.id.sMainButtonRanges){showPageRanges();  mAnime.onClick(this,v);}
+        if(vId == R.id.sMainButtonSuppress){bttnSuppress();  mAnime.onClick(this,v);}
+
+
     }
 }

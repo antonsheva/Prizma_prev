@@ -129,82 +129,42 @@
                     android:layout_alignParentBottom="true"
                     android:layout_marginBottom="70dp"
                     >
+
                     <RelativeLayout
                         android:id="@+id/sMainButtonPatt1"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         style="@style/sMainButtonPattern"
-                        android:background="@drawable/button_pattern"
-
-                        >
-                        <TextView
-                            android:id="@+id/sMainButtonPatt1Txt"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="DJI 2.4"
-                            android:textSize="18dp"
-                            android:textColor="@color/white"
-                            android:textStyle="bold"
-                            android:layout_centerInParent="true"
-                            />
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_alignParentStart="true"                    >
+                        <TextView android:id="@+id/sMainButtonPatt1Txt" android:text="DJI 2.4"  style="@style/sMainButtonText"/>
                     </RelativeLayout>
+
+
+
                     <RelativeLayout
                         android:id="@+id/sMainButtonPatt2"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         style="@style/sMainButtonPattern"
-                        android:background="@drawable/button_pattern"
-                        >
-                        <TextView
-                            android:id="@+id/sMainButtonPatt2Txt"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="868 МГц"
-                            android:textSize="18dp"
-                            android:textColor="@color/white"
-                            android:textStyle="bold"
-                            android:layout_centerInParent="true"
-                            />
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_alignParentStart="true">
+                        <TextView android:id="@+id/sMainButtonPatt2Txt" android:text="868 МГц"  style="@style/sMainButtonText"/>
                     </RelativeLayout>
                     <RelativeLayout
                         android:id="@+id/sMainButtonPatt3"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         style="@style/sMainButtonPattern"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:background="@drawable/button_pattern_select"
-                        >
-                        <TextView
-                            android:id="@+id/sMainButtonPatt3Txt"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="GPS"
-                            android:textSize="18dp"
-                            android:textColor="@color/white"
-                            android:textStyle="bold"
-                            android:layout_centerInParent="true"
-                            />
+                        android:layout_alignParentStart="true">
+                        <TextView android:id="@+id/sMainButtonPatt3Txt" android:text="GPS"  style="@style/sMainButtonText"/>
                     </RelativeLayout>
                     <RelativeLayout
                         android:id="@+id/sMainButtonPatt4"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         style="@style/sMainButtonPattern"
-                        android:background="@drawable/button_pattern"
-                        >
-                        <TextView
-                            android:id="@+id/sMainButtonPatt4Txt"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="5.8 ГГц"
-                            android:textSize="18dp"
-                            android:textColor="@color/white"
-                            android:textStyle="bold"
-                            android:layout_centerInParent="true"
-                            />
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_alignParentStart="true">
+                        <TextView android:id="@+id/sMainButtonPatt4Txt" android:text="5.8 ГГц"  style="@style/sMainButtonText"/>
                     </RelativeLayout>
 
 
