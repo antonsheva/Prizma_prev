@@ -170,6 +170,8 @@ import java.util.TimerTask;
              }
          };
      }
+
+     int mTimeBlockButton = 0;
      Timer tmMonitor = new Timer();
      void initTmMonitor(){
          tmMonitor.schedule(new TimerTask() {
@@ -180,6 +182,7 @@ import java.util.TimerTask;
                     G_.btWaitOnConnect = false;
                     getJmmrList();
                 }
+                if(mTimeBlockButton > 0)mTimeBlockButton--;
             }
         },300,300);
      }
@@ -723,10 +726,16 @@ import java.util.TimerTask;
         }
         if(vId == R.id.btSearch)if(G_.btActiveState != BT_STATE_CONNECTED)showBtDevList();
 
-        if(vId == R.id.sMainButtonSave){btSendJmmrList(false);  mAnime.onClick(this,v);}
+        if(vId == R.id.sMainButtonSave){
+            mAnime.onClick(this,v);
+            if(mTimeBlockButton > 0) return;
+            mTimeBlockButton = 3;
+            btSendJmmrList(false);  }
         if(vId == R.id.sMainButtonRanges){showPageRanges();  mAnime.onClick(this,v);}
-        if(vId == R.id.sMainButtonSuppress){bttnSuppress();  mAnime.onClick(this,v);}
-
-
+        if(vId == R.id.sMainButtonSuppress){
+            mAnime.onClick(this,v);
+            if(mTimeBlockButton > 0) return;
+            mTimeBlockButton = 3;
+            bttnSuppress();  }
     }
 }

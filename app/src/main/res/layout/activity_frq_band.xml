@@ -207,7 +207,7 @@
                 <RelativeLayout
                     android:id="@+id/sFrqBandOnOffChnlButton2"
                     style="@style/sMainButtonPattern"
-                    android:layout_width="115dp"
+                    android:layout_width="110dp"
                     android:layout_alignParentEnd="true"                    >
                     <TextView android:id="@+id/sFrqBandOnOffChnlTxt2" android:text="Вкл.канал" style="@style/sMainButtonText"/>
                 </RelativeLayout>

@@ -153,7 +153,7 @@ public class DevListAdapter extends ArrayAdapter<JmmrState> {
             @Override
             public void onClick(View v) {
                 if (jmmrStateList.isEmpty()) {
-                    Toast.makeText(ctxt, "jmmrStateList is empty", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(ctxt, "jmmrStateList is empty", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 listener.onItemDevSelClick(position);

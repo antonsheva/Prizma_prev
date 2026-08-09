@@ -58,11 +58,11 @@ public class BtAdapter extends ArrayAdapter<BtDevData> {
             @Override
             public void onClick(View v) {
                 if(btDevList.isEmpty()){
-                    Toast.makeText(ctxt, "btDevList is empty", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(ctxt, "btDevList is empty", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 BtDevData data = new BtDevData();
-                Toast.makeText(ctxt, btDevList.get(position).getName(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(ctxt, btDevList.get(position).getName(), Toast.LENGTH_SHORT).show();
                 G_.selectBtDevice.setName(btDevList.get(position).getName());
                 G_.selectBtDevice.setMac(btDevList.get(position).getMac());
                 G_.selectBtDevice.setNum(position);

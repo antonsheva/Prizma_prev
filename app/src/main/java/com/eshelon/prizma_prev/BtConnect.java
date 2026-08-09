@@ -24,17 +24,17 @@ public class BtConnect {
 
     public void connect(){
         if(!btAdapter.isEnabled()){
-            Toast.makeText(context, "Need enable bluetooth", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Включите bluetooth", Toast.LENGTH_SHORT).show();
             return;
         }
         if(mac.isEmpty()){
-            Toast.makeText(context, "MAC error", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Ошибка MAC", Toast.LENGTH_SHORT).show();
             return;
         }
 
         btDevice = btAdapter.getRemoteDevice(mac);
         if(btDevice == null){
-            Toast.makeText(context, "Error get ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Ошибка соединения", Toast.LENGTH_SHORT).show();
             return;
         }
 

@@ -381,7 +381,7 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnClic
         }
 
         if((objRange1 == null) || (objRange2 == null)){
-            Toast.makeText(this, "Что-то пошло не так :-(", Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, "Что-то пошло не так :-(", Toast.LENGTH_LONG).show();
             return;
         }
         for(int i=0; i<C_.FRQ_STEP_QTY; i++){
