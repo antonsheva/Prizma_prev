@@ -580,10 +580,10 @@ import java.util.TimerTask;
         G_.selectPattern = bttnId;
         resetColorPatternButtons();
         switch (bttnId){
-            case 1: bttnPatt1.setBackgroundResource (R.drawable.button_pattern_select); break;
-            case 2: bttnPatt2.setBackgroundResource (R.drawable.button_pattern_select); break;
-            case 3: bttnPatt3.setBackgroundResource (R.drawable.button_pattern_select); break;
-            case 4: bttnPatt4.setBackgroundResource (R.drawable.button_pattern_select); break;
+            case 0: bttnPatt1.setBackgroundResource (R.drawable.button_pattern_select); break;
+            case 1: bttnPatt2.setBackgroundResource (R.drawable.button_pattern_select); break;
+            case 2: bttnPatt3.setBackgroundResource (R.drawable.button_pattern_select); break;
+            case 3: bttnPatt4.setBackgroundResource (R.drawable.button_pattern_select); break;
         }
     }
      private void showBtDevList(){
@@ -680,19 +680,30 @@ import java.util.TimerTask;
         G_.rangeList.add(o);
     }
 
-
-    Timer tmButtonClick = new Timer();
-    static boolean swchOnClick = false;
+     void setPatternBand(int patt){
+         selectPattern(patt);
+         if(G_.jmmr_list != null){
+             long mask = 0xFFL;
+             mask = (mask << (patt*8));
+             mask &= 0x000000007FFFFFFFL;
+             for(int i=0; i<G_.jmmr_list.size(); i++){
+                 G_.jmmr_list.get(i).msk1 = mask;
+                 G_.jmmr_list.get(i).msk2 = mask;
+                 Log.i("MY_TEG", "pwr jmmr "+i+1+" -> "+G_.jmmr_list.get(i).batt_stt);
+             }
+             initDevListAdapter();
+         }
+     }
 
     public void onClick(View v) {
         boolean anime = false;
         vibro();
 
         int vId = v.getId();
-        if(vId == R.id.sMainButtonPatt1){selectPattern(1); mAnime.onClick(this,v); }
-        if(vId == R.id.sMainButtonPatt2){selectPattern(2); mAnime.onClick(this,v); }
-        if(vId == R.id.sMainButtonPatt3){selectPattern(3); mAnime.onClick(this,v); }
-        if(vId == R.id.sMainButtonPatt4){selectPattern(4); mAnime.onClick(this,v); }
+        if(vId == R.id.sMainButtonPatt1){setPatternBand(0); mAnime.onClick(this,v); }
+        if(vId == R.id.sMainButtonPatt2){setPatternBand(1); mAnime.onClick(this,v); }
+        if(vId == R.id.sMainButtonPatt3){setPatternBand(2); mAnime.onClick(this,v); }
+        if(vId == R.id.sMainButtonPatt4){setPatternBand(3); mAnime.onClick(this,v); }
 
 
         if(vId == R.id.btUpdateDevList){
