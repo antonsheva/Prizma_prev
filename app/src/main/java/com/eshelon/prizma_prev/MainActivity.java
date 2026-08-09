@@ -127,6 +127,10 @@ import java.util.TimerTask;
                  mAnimeBtConnectionIconState = BT_CONNECTING_ICON_STATE_CONNECTED;
                  mAnimeBtUpdateIconState = BT_UPDATE_ICON_STATE_VISIBLE;
                  Log.i("MY_TEG", " -- -  CB_CODE_CONNECT  - onConnectCb--------1");
+                 if(rThrd == null){
+                     tryRecoveryConnection();
+                     return;
+                 }
                  rThrd.setCbReceive(cbBtReceive);
                  getJmmrList();
 
