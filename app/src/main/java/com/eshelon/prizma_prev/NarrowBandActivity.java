@@ -108,7 +108,16 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnClic
         }
 
     }
+
+    void checkObjRange(){
+        if((objRange2==null)||(objRange1==null)){
+            objRange1 = new ObjRange(400,600);
+            objRange1 = new ObjRange(600,800);
+            Log.e("MY_TEG", "error objRange");
+        }
+    }
     void initTxtData(){
+        checkObjRange();
         String str =    Integer.toString(G_.selectRange)+": "+
                         Integer.toString(objRange2.getStart())+" - "+Integer.toString(objRange1.getStop());
         txtSelectRange.setText(str);
@@ -380,10 +389,7 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnClic
             viewBandStepButtonList2.add(rl2);
         }
 
-        if((objRange1 == null) || (objRange2 == null)){
-//            Toast.makeText(this, "Что-то пошло не так :-(", Toast.LENGTH_LONG).show();
-            return;
-        }
+        checkObjRange();
         for(int i=0; i<C_.FRQ_STEP_QTY; i++){
             viewBandStepButtonTextList1.get(i).setText(objRange1.getViewBandStepList().get(i));
             viewBandStepButtonTextList2.get(i).setText(objRange2.getViewBandStepList().get(i));

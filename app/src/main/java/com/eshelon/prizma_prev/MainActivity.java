@@ -108,7 +108,12 @@ import java.util.TimerTask;
                 break;
         }
      }
-
+     void reInitCbFunctions(){
+         cbBtReceive = null;
+         onConnectCb = null;
+         initCbBtReceive();
+         initCbOnConnect();
+     }
      void initCbFunctions(){
          initCbBtReceive();
          initCbOnConnect();
@@ -126,7 +131,7 @@ import java.util.TimerTask;
                          G_.animeBtConnectionIconState = BT_CONNECTING_ICON_STATE_SEARCHING;
                          G_.animeBtUpdateIconState = BT_UPDATE_ICON_STATE_GONE;
                          Log.i("MY_TEG", " -- - tryRecoveryConnection  - cbBtReceive--------2");
-                         tryRecoveryConnection();
+                         btConnect();
                          break;
                  }
              }
@@ -151,7 +156,7 @@ import java.util.TimerTask;
                          G_.animeBtConnectionIconState = BT_CONNECTING_ICON_STATE_SEARCHING;
                          G_.animeBtUpdateIconState = BT_UPDATE_ICON_STATE_GONE;
                          Log.i("MY_TEG", " -- - tryRecoveryConnection  - onConnectCb--------1");
-                         tryRecoveryConnection();
+                         btConnect();
                          return;
                      }
                  }
@@ -161,7 +166,7 @@ import java.util.TimerTask;
                      G_.animeBtUpdateIconState = BT_UPDATE_ICON_STATE_VISIBLE;
                      Log.i("MY_TEG", " -- -  CB_CODE_CONNECT  - onConnectCb--------1");
                      if(rThrd == null){
-                         tryRecoveryConnection();
+                         btConnect();
                          return;
                      }
                      rThrd.setCbReceive(cbBtReceive);
@@ -171,6 +176,7 @@ import java.util.TimerTask;
          };
      }
 
+     int mNeedCloseConnection = 0;
      int mTimeBlockButton = 0;
      Timer tmMonitor = new Timer();
      void initTmMonitor(){
@@ -182,7 +188,11 @@ import java.util.TimerTask;
                     G_.btWaitOnConnect = false;
                     getJmmrList();
                 }
+
                 if(mTimeBlockButton > 0)mTimeBlockButton--;
+
+                if(mNeedCloseConnection > 0)mNeedCloseConnection--;
+                if(mNeedCloseConnection == 1)closeBtConnectionFull();
             }
         },300,300);
      }
@@ -218,6 +228,10 @@ import java.util.TimerTask;
          btSendCmd(C_.CMD_GET_JMMR_LIST);
     }
      void btConnect(){
+        if(G_.btConnect == null){
+            G_.animeBtConnectionIconState = BT_CONNECTING_ICON_STATE_ENABLE;
+            return;
+        }
          G_.animeBtConnectionIconState = BT_CONNECTING_ICON_STATE_SEARCHING;
          G_.btConnect.connect();
      }
@@ -290,9 +304,7 @@ import java.util.TimerTask;
          Log.i("MY_TEG", new String(data));
          G_.btConnect.connectThread.getReceiveThread().sendData(data);
      }
-     void tryRecoveryConnection(){
-         btConnect();
-     }
+
 
      private void showToast(int toastId){
          runOnUiThread(new Runnable() {
@@ -564,6 +576,7 @@ import java.util.TimerTask;
          startActivity(i);
      }
     void bttnSuppress(){
+        mNeedCloseConnection = 5;
         btSendJmmrList(true);
     }
 
@@ -595,21 +608,41 @@ import java.util.TimerTask;
             case 3: bttnPatt4.setBackgroundResource (R.drawable.button_pattern_select); break;
         }
     }
-     private void showBtDevList(){
-         if(G_.btConnect!=null){
-             try{
-                 G_.currentJmmrNum = -1;
-                 G_.btConnect.connectThread.closeConnection();
 
-             }catch (Exception e){
 
-             }
-             try{
-                 G_.btConnect = null;
-             }catch (Exception e){
 
-             }
-         }
+    void closeBtConnectionThread(){
+        if(G_.btConnect!=null) {
+            try {
+                G_.currentJmmrNum = -1;
+                G_.btConnect.connectThread.closeConnection();
+            } catch (Exception e) {
+
+            }
+        }
+    }
+    void closeBtConnectionFull(){
+        G_.btActiveState = C_.CB_CODE_DISCONNECT;
+        G_.animeBtConnectionIconState = BT_CONNECTING_ICON_STATE_ENABLE;
+        G_.animeBtUpdateIconState = BT_UPDATE_ICON_STATE_GONE;
+        if(G_.btConnect!=null){
+            try{
+                G_.currentJmmrNum = -1;
+                G_.btConnect.connectThread.closeConnection();
+
+            }catch (Exception e){
+
+            }
+            try{
+                G_.btConnect = null;
+            }catch (Exception e){
+
+            }
+            reInitCbFunctions();
+        }
+     }
+    private void showBtDevList(){
+         closeBtConnectionFull();
          Intent i = new Intent(context, BtListActivity.class);
          startActivity(i);
      }
