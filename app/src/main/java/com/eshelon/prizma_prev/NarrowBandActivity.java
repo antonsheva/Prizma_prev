@@ -1,5 +1,7 @@
 package com.eshelon.prizma_prev;
 
+import static android.widget.Toast.LENGTH_LONG;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -14,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -375,6 +378,11 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnClic
 
             viewBandStepButtonList1.add(rl1);
             viewBandStepButtonList2.add(rl2);
+        }
+
+        if((objRange1 == null) || (objRange2 == null)){
+            Toast.makeText(this, "Что-то пошло не так :-(", Toast.LENGTH_LONG).show();
+            return;
         }
         for(int i=0; i<C_.FRQ_STEP_QTY; i++){
             viewBandStepButtonTextList1.get(i).setText(objRange1.getViewBandStepList().get(i));

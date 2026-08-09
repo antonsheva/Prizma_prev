@@ -138,6 +138,12 @@ import java.util.TimerTask;
              @Override
              public void cb(int code) {
                  Log.i("MY_TEG", "onConnectCb code -> "+code+" ");
+                 if(G_.btConnect == null){
+                     Log.i("MY_TEG", "G_.btConnect =  null");
+                     return;
+                 }
+
+                 
                  ReceiveThread rThrd = G_.btConnect.connectThread.getReceiveThread();
                  if(code == C_.CB_CODE_ERROR_CONNECT){
                      if(rThrd == null){
@@ -592,6 +598,11 @@ import java.util.TimerTask;
                  G_.currentJmmrNum = -1;
                  G_.btConnect.connectThread.closeConnection();
 
+             }catch (Exception e){
+
+             }
+             try{
+                 G_.btConnect = null;
              }catch (Exception e){
 
              }
