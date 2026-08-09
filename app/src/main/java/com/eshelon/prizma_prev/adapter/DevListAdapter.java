@@ -60,9 +60,10 @@ public class DevListAdapter extends ArrayAdapter<JmmrState> {
         if (convertView == null) {
             viewHolder = new ViewHolder();
             convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.dev_list_item, null, false);
-            viewHolder.txtDevInfo = convertView.findViewById(R.id.txtDevInfo);
+            viewHolder.txtDevInfo  = convertView.findViewById(R.id.txtDevInfo);
             viewHolder.devInfoItem = convertView.findViewById(R.id.devInfoItem1);
             viewHolder.devListItem = convertView.findViewById(R.id.devListItem);
+            viewHolder.battState   = convertView.findViewById(R.id.battState);
             String str;
             int vId;
 
@@ -79,10 +80,6 @@ public class DevListAdapter extends ArrayAdapter<JmmrState> {
             }
             convertView.setTag(viewHolder);
         } else {
-
-
-
-
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
@@ -95,7 +92,7 @@ public class DevListAdapter extends ArrayAdapter<JmmrState> {
             devRange  = G_.rangeGroupList.get(jmmrState.dev_range - 1);
             rangeStr  = "диап. "+devRange.getViewRange();
         }
-
+        setBattState(viewHolder, jmmrState.batt_stt);
         String typeStr = jmmrState.dev_type == 1 ? "A " : "B ";
         String addressEsp = Integer.toString(jmmrState.ad_esp);
 
@@ -150,6 +147,8 @@ public class DevListAdapter extends ArrayAdapter<JmmrState> {
             }
         }
 
+
+
         viewHolder.devListItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -164,10 +163,20 @@ public class DevListAdapter extends ArrayAdapter<JmmrState> {
         return convertView;
     }
 
+    void setBattState(ViewHolder viewHolder, int stt){
+        int val = 33;
+        if( stt < 2300) val = 1;
+        if((stt >= 2300)&&(stt < 2450))val = 25;
+        if((stt >= 2450)&&(stt < 2600))val = 50;
+        if((stt >= 2650)&&(stt < 2800))val = 75;
+        if( stt >= 2800)val = 100;
+        viewHolder.battState.setText(val+"%");
+    }
     static class ViewHolder{
         TextView txtDevInfo;
         LinearLayout devInfoItem;
         LinearLayout devListItem;
+        TextView battState;
         ArrayList<LinearLayout>specterPiece1 = new ArrayList<>();
         ArrayList<LinearLayout>specterPiece2 = new ArrayList<>();
 

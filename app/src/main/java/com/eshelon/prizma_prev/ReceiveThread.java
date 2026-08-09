@@ -39,10 +39,12 @@ public class ReceiveThread extends Thread{
                 int dataLen = inputStream.read(rBuff);
                 String msg = new String(rBuff, 0, dataLen);
                 G_.btReceiveData = msg;
+
                 cbReceive.cb(CB_CODE_NEW_DATA, msg);
+                Log.i("MY_TEG", "ok inputStream.read");
             }catch (IOException e){
                 Log.i("MY_TEG", "error inputStream.read");
-                cbReceive.cb(CB_CODE_DISCONNECT,null);
+                if(cbReceive != null)cbReceive.cb(CB_CODE_DISCONNECT,null);
                 break;
             }
             try{

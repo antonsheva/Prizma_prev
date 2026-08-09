@@ -1,5 +1,6 @@
 package com.eshelon.prizma_prev;
 
+import com.eshelon.prizma_prev.interfaces.CB;
 import com.eshelon.prizma_prev.objects.BtDevData;
 import com.eshelon.prizma_prev.objects.ObjRange;
 import com.eshelon.prizma_prev.objects.JmmrState;
@@ -43,9 +44,11 @@ public class G_ {
 
     public static JmmrState currentJmmr = new JmmrState();
 
-
+    public static boolean btHasNewData = false;
     public static BtConnect btConnect;
-
+    public static int animeBtConnectionIconState = 0;
+    public static int animeBtUpdateIconState = 0;
+    public static boolean btWaitOnConnect = false;
 
     public static void init(){
 //        jmmr_list = new ArrayList<>();

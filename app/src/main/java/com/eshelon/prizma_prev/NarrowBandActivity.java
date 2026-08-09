@@ -449,6 +449,7 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnClic
         else             objRange2.setRangeMask(mask);
         updateViewElements("setRangeMask");
     }
+
     @Override
     public void onClick(View v) {
         vibro();
@@ -490,17 +491,22 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnClic
         if(v.getId() == R.id.sFrqBandButtonSave){
             saveDataToJmmrList();
             Intent i = new Intent(context, MainActivity.class);
+            i.putExtra("cmd_return", true);
             startActivity(i);
         }
         if(v.getId() == R.id.sFrqBandOnOffSuppress){
             saveDataToJmmrList();
             Intent i = new Intent(context, MainActivity.class);
             i.putExtra("cmd_suppress", true);
+            i.putExtra("cmd_return", true);
             startActivity(i);
         }
         if(v.getId() == R.id.sFrqBandButtonCansel){
             Intent i = new Intent(context, MainActivity.class);
+            i.putExtra("cmd_return", true);
             startActivity(i);
         }
     }
+
+
 }
