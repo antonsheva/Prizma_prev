@@ -25,6 +25,7 @@
             android:text="TextView"
             android:textSize="20sp"
             android:textStyle="bold"
+            android:textColor="@color/mTextColor"
             />
 
         <TextView
@@ -35,6 +36,7 @@
             android:layout_marginTop="10dp"
             tools:ignore="MissingConstraints"
             android:textSize="20sp"
+            android:textColor="@color/mTextColor"
             />
 
         <TextView
@@ -46,6 +48,7 @@
             tools:layout_editor_absoluteY="55dp"
             android:layout_marginTop="10dp"
             tools:ignore="MissingConstraints"
+            android:textColor="@color/mTextColor"
             android:visibility="gone"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

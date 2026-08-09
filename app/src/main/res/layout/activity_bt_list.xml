@@ -12,11 +12,12 @@
     <LinearLayout
         android:id="@+id/btDevListScreen"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="1dp"
         tools:ignore="MissingConstraints"
+        android:background="@drawable/main_background"
 
         >
         <RelativeLayout
@@ -43,12 +44,14 @@
         </RelativeLayout>
 
 
+
         <ListView
             android:id="@+id/btDevListView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical"
             android:padding="10dp"
+            android:background="@drawable/main_background"
             />
 
     </LinearLayout>

@@ -25,6 +25,7 @@
                 android:text="@string/select_range"
                 android:textSize="25sp"
                 android:textStyle="bold"
+                android:textColor="@color/mTextColor"
                 android:layout_centerInParent="true"/>
         </RelativeLayout>
         <LinearLayout
@@ -49,19 +50,15 @@
                 android:paddingEnd="10dp"
                 >
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.25"
                     android:text="B1 "
-                    android:textSize="20sp"
-                    android:layout_marginTop="10dp"
+                    android:layout_width="0dp" android:layout_weight="0.25"
+                    android:layout_marginTop="7dp"
                     android:layout_marginStart="7dp"
-                    />
+                    style="@style/sMainButtonText"/>
                 <RelativeLayout
                     android:id="@+id/sRangesButtonPatt1"
                     android:layout_height="wrap_content"
                     style="@style/sRangesButtonPattern"
-
                     android:background="@drawable/button_pattern">
                     <TextView
                         android:id="@+id/sRangesButtonTxt1"
@@ -91,14 +88,11 @@
                 android:paddingEnd="10dp"
                 >
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.25"
                     android:text="B2 "
-                    android:textSize="20sp"
-                    android:layout_marginTop="10dp"
+                    android:layout_width="0dp" android:layout_weight="0.25"
+                    android:layout_marginTop="7dp"
                     android:layout_marginStart="7dp"
-                    />
+                    style="@style/sMainButtonText"/>
                 <RelativeLayout
                     android:id="@+id/sRangesButtonPatt3"
                     android:layout_height="wrap_content"
@@ -131,14 +125,11 @@
                 android:paddingEnd="10dp"
                 >
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.25"
                     android:text="B3 "
-                    android:textSize="20sp"
-                    android:layout_marginTop="10dp"
+                    android:layout_width="0dp" android:layout_weight="0.25"
+                    android:layout_marginTop="7dp"
                     android:layout_marginStart="7dp"
-                    />
+                    style="@style/sMainButtonText"/>
                 <RelativeLayout
                     android:id="@+id/sRangesButtonPatt5"
                     android:layout_height="wrap_content"
@@ -171,14 +162,11 @@
                 android:paddingEnd="10dp"
                 >
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.25"
                     android:text="B4 "
-                    android:textSize="20sp"
-                    android:layout_marginTop="10dp"
+                    android:layout_width="0dp" android:layout_weight="0.25"
+                    android:layout_marginTop="7dp"
                     android:layout_marginStart="7dp"
-                    />
+                    style="@style/sMainButtonText"/>
                 <RelativeLayout
                     android:id="@+id/sRangesButtonPatt7"
                     android:layout_height="wrap_content"
@@ -211,14 +199,11 @@
                 android:paddingEnd="10dp"
                 >
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.25"
                     android:text="B5 "
-                    android:textSize="20sp"
-                    android:layout_marginTop="10dp"
+                    android:layout_width="0dp" android:layout_weight="0.25"
+                    android:layout_marginTop="7dp"
                     android:layout_marginStart="7dp"
-                    />
+                    style="@style/sMainButtonText"/>
                 <RelativeLayout
                     android:id="@+id/sRangesButtonPatt9"
                     android:layout_height="wrap_content"
@@ -251,14 +236,11 @@
                 android:paddingEnd="10dp"
                 >
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.25"
                     android:text="B6 "
-                    android:textSize="20sp"
-                    android:layout_marginTop="10dp"
+                    android:layout_width="0dp" android:layout_weight="0.25"
+                    android:layout_marginTop="7dp"
                     android:layout_marginStart="7dp"
-                    />
+                    style="@style/sMainButtonText"/>
                 <RelativeLayout
                     android:id="@+id/sRangesButtonPatt11"
                     android:layout_height="wrap_content"
@@ -291,14 +273,11 @@
                 android:paddingEnd="10dp"
                 >
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.25"
                     android:text="B7 "
-                    android:textSize="20sp"
-                    android:layout_marginTop="10dp"
+                    android:layout_width="0dp" android:layout_weight="0.25"
+                    android:layout_marginTop="7dp"
                     android:layout_marginStart="7dp"
-                    />
+                    style="@style/sMainButtonText"/>
                 <RelativeLayout
                     android:id="@+id/sRangesButtonPatt13"
                     android:layout_height="wrap_content"
@@ -331,14 +310,11 @@
                 android:paddingEnd="10dp"
                 >
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.25"
                     android:text="B8 "
-                    android:textSize="20sp"
-                    android:layout_marginTop="10dp"
+                    android:layout_width="0dp" android:layout_weight="0.25"
+                    android:layout_marginTop="7dp"
                     android:layout_marginStart="7dp"
-                    />
+                    style="@style/sMainButtonText"/>
                 <RelativeLayout
                     android:id="@+id/sRangesButtonPatt15"
                     android:layout_height="wrap_content"
@@ -371,14 +347,11 @@
                 android:paddingEnd="10dp"
                 >
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.25"
                     android:text="B9 "
-                    android:textSize="20sp"
-                    android:layout_marginTop="10dp"
+                    android:layout_width="0dp" android:layout_weight="0.25"
+                    android:layout_marginTop="7dp"
                     android:layout_marginStart="7dp"
-                    />
+                    style="@style/sMainButtonText"/>
                 <RelativeLayout
                     android:id="@+id/sRangesButtonPatt17"
 
@@ -413,14 +386,11 @@
                 android:paddingEnd="10dp"
                 >
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.25"
                     android:text="B10"
-                    android:textSize="20sp"
-                    android:layout_marginTop="10dp"
+                    android:layout_width="0dp" android:layout_weight="0.25"
+                    android:layout_marginTop="7dp"
                     android:layout_marginStart="7dp"
-                    />
+                    style="@style/sMainButtonText"/>
                 <RelativeLayout
                     android:id="@+id/sRangesButtonPatt19"
 
@@ -454,13 +424,11 @@
                 android:paddingEnd="10dp"
                 >
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.25"
                     android:text="B11 "
-                    android:textSize="20sp"
-                    android:layout_marginTop="10dp"
+                    android:layout_width="0dp" android:layout_weight="0.25"
+                    android:layout_marginTop="7dp"
                     android:layout_marginStart="7dp"
+                    style="@style/sMainButtonText"/>
                     />
                 <RelativeLayout
                     android:id="@+id/sRangesButtonPatt21"
@@ -491,17 +459,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:background="@drawable/range_bacground_red"
-                android:paddingEnd="10dp"
+                android:paddingEnd="5dp"
                 >
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.25"
-                    android:text="B12"
-                    android:textSize="20sp"
-                    android:layout_marginTop="10dp"
+                    android:text="B12 "
+                    android:layout_width="0dp" android:layout_weight="0.25"
+                    android:layout_marginTop="7dp"
                     android:layout_marginStart="7dp"
-                    />
+                    style="@style/sMainButtonText"/>
+                />
                 <RelativeLayout
                     android:id="@+id/sRangesButtonPatt23"
                     android:layout_height="wrap_content"

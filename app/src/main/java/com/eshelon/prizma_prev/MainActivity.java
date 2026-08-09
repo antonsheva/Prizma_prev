@@ -145,18 +145,20 @@ import java.util.TimerTask;
                  Log.i("MY_TEG", "onConnectCb code -> "+code+" ");
                  if(G_.btConnect == null){
                      Log.i("MY_TEG", "G_.btConnect =  null");
+                     G_.animeBtConnectionIconState = BT_CONNECTING_ICON_STATE_ENABLE;
                      return;
                  }
 
                  
                  ReceiveThread rThrd = G_.btConnect.connectThread.getReceiveThread();
                  if(code == C_.CB_CODE_ERROR_CONNECT){
+
                      if(rThrd == null){
                          G_.btActiveState = BT_STATE_DISCONNECTED;
                          G_.animeBtConnectionIconState = BT_CONNECTING_ICON_STATE_SEARCHING;
                          G_.animeBtUpdateIconState = BT_UPDATE_ICON_STATE_GONE;
                          Log.i("MY_TEG", " -- - tryRecoveryConnection  - onConnectCb--------1");
-                         btConnect();
+                         mTryConnectTime = 2;
                          return;
                      }
                  }
@@ -176,6 +178,7 @@ import java.util.TimerTask;
          };
      }
 
+     int mTryConnectTime = 0;
      int mNeedCloseConnection = 0;
      int mTimeBlockButton = 0;
      Timer tmMonitor = new Timer();
@@ -193,6 +196,9 @@ import java.util.TimerTask;
 
                 if(mNeedCloseConnection > 0)mNeedCloseConnection--;
                 if(mNeedCloseConnection == 1)closeBtConnectionFull();
+                if(mTryConnectTime > 0)mTryConnectTime--;
+                if(mTryConnectTime == 1)btConnect();
+
             }
         },300,300);
      }
