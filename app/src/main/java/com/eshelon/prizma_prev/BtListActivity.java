@@ -50,7 +50,7 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class BtListActivity extends AppCompatActivity implements View.OnClickListener {
+public class BtListActivity extends AppCompatActivity{
 
 
     boolean mPermScan   = false;
@@ -92,27 +92,12 @@ public class BtListActivity extends AppCompatActivity implements View.OnClickLis
     protected void onResume() {
         super.onResume();
         Log.i("MY_TEG", "onResume - - BtListActivity");
-        IntentFilter f1 = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-        registerReceiver(broadcastReceiverBltDevFound, f1);
-        IntentFilter f2 = new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
-        registerReceiver(broadcastReceiverBltDevFound, f2);
-        IntentFilter f3 = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
-        registerReceiver(broadcastReceiverBltDevFound, f3);
-        IntentFilter f4 = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
-        registerReceiver(broadcastReceiverBltDevFound, f4);
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
-            getPermissionsBtConnect();
-            return;
-        }
-        bluetoothAdapter.startDiscovery();
-        if(!mTimerBtIconIsRunning)startBtIconTimer();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        unregisterReceiver(broadcastReceiverBltDevFound);
+
     }
 
     @Override
@@ -121,52 +106,6 @@ public class BtListActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
-    void foundDevise(Intent intent, Context context){
-        BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-        if (ActivityCompat.checkSelfPermission(context, BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-            getPermissionsBtConnect();
-            return;
-        }
-        if(device == null)return;
-        BtDevData devData = new BtDevData();
-        devData.setMac(device.getAddress());
-        devData.setNum(G_.btDevCnt++);
-
-        //// TODO: 22.06.2026
-
-        devData.setName(device.getName());
-        if(devData.getName() == null)return;
-        if(!devData.getName().isEmpty()){
-            if(devData.getName().startsWith("Prizma_JMR")){
-                boolean searchRes = false;
-                for(BtDevData data : G_.devList){if(data.getName().equals(devData.getName())){searchRes = true;break;}}
-                if(!searchRes){
-                    G_.devList.add(devData);
-                    btAdapter.notifyDataSetChanged();
-                }
-            }
-        }
-
-        //end  TODO: 22.06.2026
-    }
-    private final BroadcastReceiver broadcastReceiverBltDevFound = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if(BluetoothDevice.ACTION_FOUND.equals(action)){
-                Log.i("MY_TEG", "===  =ACTION_FOUND   ------");
-                foundDevise(intent, context);
-            }
-            if(BluetoothAdapter.ACTION_DISCOVERY_STARTED.equals(action)){
-                Log.i("MY_TEG", "===  =ACTION_DISCOVERY_STARTED   ------");
-                G_.btActiveState = C_.BT_STATE_SEARCHING;
-            }
-            if(BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)){
-                Log.i("MY_TEG", "===  =ACTION_DISCOVERY_FINISHED   ------");
-                G_.btActiveState = C_.BT_STATE_SEARCHING_FINISH;
-            }
-        }
-    } ;
 
     void startJmmrsSearch(){
         Log.i("MY_TEG", "startJmmrsSearch   ------");
@@ -235,7 +174,7 @@ public class BtListActivity extends AppCompatActivity implements View.OnClickLis
             mPermScan = (ActivityCompat.checkSelfPermission(this, BLUETOOTH_SCAN) == PackageManager.PERMISSION_GRANTED);
         }
 
-        if(!mPermConnect || !mPermScan){
+        if(!mPermConnect){// || !mPermScan
             getPermissionsBtConnect();
             return false;
         }
@@ -263,7 +202,7 @@ public class BtListActivity extends AppCompatActivity implements View.OnClickLis
         Log.i("MY_TEG", "BT init Ok !!!");
 
         btSearchIcon = findViewById(R.id.btSearch);
-        btSearchIcon.setOnClickListener(this);
+//        btSearchIcon.setOnClickListener(this);
         Log.i("MY_TEG", " tp - 1");
         initBtAdapter();
         if(bluetoothAdapter.isEnabled()){
@@ -278,7 +217,7 @@ public class BtListActivity extends AppCompatActivity implements View.OnClickLis
         startJmmrsSearch();
         Log.i("MY_TEG", " tp - 3");
         mInitIsFinish = true;
-//        getPairedDevices();
+        getPairedDevices();
 
     }
 
@@ -301,9 +240,7 @@ public class BtListActivity extends AppCompatActivity implements View.OnClickLis
                     break;
                 }
                 if (ActivityCompat.checkSelfPermission(cntxt, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {return;}
-//                if(bluetoothAdapter.isDiscovering()){
-//                    Log.i("MY_TEG", "bluetoothAdapter.isDiscovering");
-//                }
+
 
             }
         }, 300, 300);
@@ -342,10 +279,7 @@ public class BtListActivity extends AppCompatActivity implements View.OnClickLis
                     getPermissionsBtConnect();
                     return;
                 }
-                if(!bluetoothAdapter.isDiscovering())bluetoothAdapter.startDiscovery();
                 if(!mInitIsFinish)init();
-                if(!mTimerBtIconIsRunning)startBtIconTimer();
-
             }else {
                 Toast.makeText(this, "Need permission   BLUETOOTH_CONNECT", LENGTH_SHORT).show();
             }
@@ -354,20 +288,9 @@ public class BtListActivity extends AppCompatActivity implements View.OnClickLis
 
     void getPermissionsBtConnect(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            requestPermissions(new String[]{BLUETOOTH_CONNECT, BLUETOOTH_SCAN, ACCESS_FINE_LOCATION}, 120);
+            requestPermissions(new String[]{BLUETOOTH_CONNECT, BLUETOOTH_SCAN}, 120);//, BLUETOOTH_SCAN, ACCESS_FINE_LOCATION
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        if(v.getId() == R.id.btSearch){
-            if(G_.btActiveState != C_.BT_STATE_SEARCHING){
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
-                    getPermissionsBtConnect();
-                    return;
-                }
-                bluetoothAdapter.startDiscovery();
-            }
-        }
-    }
+
 }

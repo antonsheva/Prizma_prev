@@ -236,6 +236,7 @@ import java.util.TimerTask;
      void btConnect(){
         if(G_.btConnect == null){
             G_.animeBtConnectionIconState = BT_CONNECTING_ICON_STATE_ENABLE;
+            Log.i("MY_TEG", "btConnect - - NULL");
             return;
         }
          G_.animeBtConnectionIconState = BT_CONNECTING_ICON_STATE_SEARCHING;
@@ -250,6 +251,8 @@ import java.util.TimerTask;
          if(G_.btActiveState == BT_STATE_CONNECTED)return;
 
          Log.i("MY_TEG", "onResume - - MainActivity 2");
+         Log.i("MY_TEG", "MAC -> "+G_.selectBtDevice.getMac());
+
          G_.btActiveState = BT_STATE_CONNECTING;
          G_.btConnect = new BtConnect(this, G_.selectBtDevice.getMac(), onConnectCb);
          btConnect();

@@ -3,6 +3,7 @@ package com.eshelon.prizma_prev;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.eshelon.prizma_prev.interfaces.CB;
@@ -19,6 +20,9 @@ public class BtConnect {
         cb = callback;
         context = cntxt;
         mac = macAddress;
+
+
+
         btAdapter = BluetoothAdapter.getDefaultAdapter();
     }
 
@@ -37,7 +41,7 @@ public class BtConnect {
             Toast.makeText(context, "Ошибка соединения", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        Log.i("MY_TEG", "connect 1");
         connectThread = new ConnectThread(context, btAdapter, btDevice, cb);
         connectThread.start();
     }
