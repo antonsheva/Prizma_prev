@@ -1,7 +1,9 @@
 package com.eshelon.prizma_prev;
 
+import static android.view.MotionEvent.ACTION_DOWN;
 import static android.widget.Toast.LENGTH_LONG;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -9,6 +11,7 @@ import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
@@ -398,12 +401,12 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnClic
     }
     void initViewElements(){
         sFrqBandOnOffChnlBttn1 = findViewById(R.id.sFrqBandOnOffChnlButton1);
-        sFrqBandOnOffChnlBttn1.setOnClickListener(this);
+        sFrqBandOnOffChnlBttn1.setOnTouchListener(narrowBandOnTouchListener);
         sFrqBandOnOffChnlBttn2 = findViewById(R.id.sFrqBandOnOffChnlButton2);
-        sFrqBandOnOffChnlBttn2.setOnClickListener(this);
+        sFrqBandOnOffChnlBttn2.setOnTouchListener(narrowBandOnTouchListener);
 
         sFrqBandButtonEnableDisableAll = findViewById(R.id.sFrqBandOnOffAllButton);
-        sFrqBandButtonEnableDisableAll.setOnClickListener(this);
+        sFrqBandButtonEnableDisableAll.setOnTouchListener(narrowBandOnTouchListener);
         sFrqBandEnDisAllTxt = findViewById(R.id.sFrqBandEnDisAllTxt);
         sFrqBandEnDisAllTxt.setText(mSwchEnableDisable ? "Выкл. все" : "Вкл. все");
 
@@ -411,7 +414,7 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnClic
         sFrqBandOnOffChnlTxt2 = findViewById(R.id.sFrqBandOnOffChnlTxt2);
 
         sFrqBandOnOffSuppress = findViewById(R.id.sFrqBandOnOffSuppress);
-        sFrqBandOnOffSuppress.setOnClickListener(this);
+        sFrqBandOnOffSuppress.setOnTouchListener(narrowBandOnTouchListener);
 
         sFrqBandDevAddr = findViewById(R.id.sFrqBandDevAddr);
 
@@ -429,13 +432,12 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnClic
         sFrqBandButtonSave = findViewById(R.id.sFrqBandButtonSave)  ;
         bttnCansel         = findViewById(R.id.sFrqBandButtonCansel);
 
-        sFrqBandButtonSave.setOnClickListener(this);
-        bttnCansel.setOnClickListener(this);
+        sFrqBandButtonSave.setOnTouchListener(narrowBandOnTouchListener);
+        bttnCansel.setOnTouchListener(narrowBandOnTouchListener);
 
         initRangeSticks();
         initBandStepPanels();
     }
-
     void updateViewElements(String str){
         runOnUiThread(new Runnable() {
             @Override
@@ -521,6 +523,74 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnClic
             startActivity(i);
         }
     }
+    void onPressButton(int vId){
+        vibro();
+        int pos;
+        String name = getResources().getResourceName(vId);
+        if(name.contains("sFrqBandButtonBand_1")){
+            pos = Integer.parseInt(name.substring(name.lastIndexOf("_")+1));
+            setRangeMask(1, pos);
+        }
+        if(name.contains("sFrqBandButtonBand_2")){
+            pos = Integer.parseInt(name.substring(name.lastIndexOf("_")+1));
+            setRangeMask(2, pos);
+        }
 
+        if(vId == R.id.sFrqBandOnOffAllButton){
+            if(!mSwchEnableDisable){
+                objRange1.setRangeMask(0x7FFFFFFFL);
+                objRange2.setRangeMask(0x7FFFFFFFL);
+                sFrqBandEnDisAllTxt.setText("Выкл.все");
+            }else {
+                objRange1.setRangeMask(0L);
+                objRange2.setRangeMask(0L);
+                sFrqBandEnDisAllTxt.setText("Вкл.все");
+            }
+            mSwchEnableDisable = !mSwchEnableDisable;
 
+            updateViewElements(" ");
+        }
+        if(vId == R.id.sFrqBandOnOffChnlButton1){
+            mSwchOnOffChnl1 = !mSwchOnOffChnl1;
+            G_.jmmr_list.get(G_.currentJmmrNum).pwr1 = mSwchOnOffChnl1 ? 1 : 2;
+            initOnOffChnlBttn();
+        }
+        if(vId == R.id.sFrqBandOnOffChnlButton2){
+            mSwchOnOffChnl2 = !mSwchOnOffChnl2;
+            G_.jmmr_list.get(G_.currentJmmrNum).pwr2 = mSwchOnOffChnl2 ? 1 : 2;
+            initOnOffChnlBttn();
+        }
+        if(vId == R.id.sFrqBandButtonSave){
+            saveDataToJmmrList();
+            Intent i = new Intent(context, MainActivity.class);
+            i.putExtra("cmd_return", true);
+            startActivity(i);
+        }
+        if(vId == R.id.sFrqBandOnOffSuppress){
+            saveDataToJmmrList();
+            Intent i = new Intent(context, MainActivity.class);
+            i.putExtra("cmd_suppress", true);
+            i.putExtra("cmd_return", true);
+            startActivity(i);
+        }
+        if(vId == R.id.sFrqBandButtonCansel){
+            Intent i = new Intent(context, MainActivity.class);
+            i.putExtra("cmd_return", true);
+            startActivity(i);
+        }
+    }
+    View.OnTouchListener narrowBandOnTouchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            AnimeViewElements anime = new AnimeViewElements();
+            int vId = v.getId();
+            switch (event.getAction()){
+                case ACTION_DOWN : anime.onTouch((Activity) context, v, true); return true;
+                case MotionEvent.ACTION_UP: anime.onTouch((Activity) context, v, false);
+                    onPressButton(vId);
+                    break;
+            }
+            return false;
+        }
+    };
 }

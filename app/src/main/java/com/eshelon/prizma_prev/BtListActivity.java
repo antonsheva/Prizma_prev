@@ -240,8 +240,6 @@ public class BtListActivity extends AppCompatActivity{
                     break;
                 }
                 if (ActivityCompat.checkSelfPermission(cntxt, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {return;}
-
-
             }
         }, 300, 300);
     }

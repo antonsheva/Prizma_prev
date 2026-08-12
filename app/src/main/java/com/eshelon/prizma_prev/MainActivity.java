@@ -1,5 +1,7 @@
  package com.eshelon.prizma_prev;
 
+import static android.view.MotionEvent.ACTION_DOWN;
+import static android.view.MotionEvent.ACTION_UP;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static com.eshelon.prizma_prev.C_.BT_CONNECTING_ICON_STATE_CONNECTED;
@@ -14,6 +16,7 @@ import static com.eshelon.prizma_prev.C_.BT_UPDATE_ICON_STATE_UPDATE;
 import static com.eshelon.prizma_prev.C_.BT_UPDATE_ICON_STATE_VISIBLE;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -21,6 +24,7 @@ import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -484,33 +488,34 @@ import java.util.TimerTask;
         mainLV = findViewById(R.id.mainLV);
 
         bttnShowRangesList = findViewById(R.id.sMainButtonRanges);
-        bttnShowRangesList.setOnClickListener(this);
+        bttnShowRangesList.setOnTouchListener(mainOnTouchListener);
         sMainButtonSave = findViewById(R.id.sMainButtonSave);
-        sMainButtonSave.setOnClickListener(this);
+        sMainButtonSave.setOnTouchListener(mainOnTouchListener);
 
         bttnSuppress = findViewById(R.id.sMainButtonSuppress);
-        bttnSuppress.setOnClickListener(this);
+        bttnSuppress.setOnTouchListener(mainOnTouchListener);
+
 
         bttnPatt1 = findViewById(R.id.sMainButtonPatt1);
-        bttnPatt1.setOnClickListener(this);
+        bttnPatt1.setOnTouchListener(mainOnTouchListener);
 
         bttnPatt2 = findViewById(R.id.sMainButtonPatt2);
-        bttnPatt2.setOnClickListener(this);
+        bttnPatt2.setOnTouchListener(mainOnTouchListener);
 
         bttnPatt3 = findViewById(R.id.sMainButtonPatt3);
-        bttnPatt3.setOnClickListener(this);
+        bttnPatt3.setOnTouchListener(mainOnTouchListener);
 
         bttnPatt4 = findViewById(R.id.sMainButtonPatt4);
-        bttnPatt4.setOnClickListener(this);
+        bttnPatt4.setOnTouchListener(mainOnTouchListener);
 
         btDevInfo = findViewById(R.id.btDevInfo);
-        btDevInfo.setOnClickListener(this);
+        btDevInfo.setOnTouchListener(mainOnTouchListener);
 
         btUpdateDevList = findViewById(R.id.btUpdateDevList);
-        btUpdateDevList.setOnClickListener(this);
+        btUpdateDevList.setOnTouchListener(mainOnTouchListener);
 
         btSearch = findViewById(R.id.btSearch);
-        btSearch.setOnClickListener(this);
+        btSearch.setOnTouchListener(mainOnTouchListener);
     }
 
     void initJmmrListTmpVals(){
@@ -561,6 +566,7 @@ import java.util.TimerTask;
     }
 
     void init(){
+        context = this;
         G_.animeBtConnectionIconState = BT_CONNECTING_ICON_STATE_ENABLE;
         setAnimateBtState();
         G_.currentJmmrNum = -1;
@@ -751,23 +757,21 @@ import java.util.TimerTask;
          }
      }
 
+
     public void onClick(View v) {
         boolean anime = false;
         vibro();
-
+        Log.i("MY_TEG", "press button start");
         int vId = v.getId();
         if(vId == R.id.sMainButtonPatt1){setPatternBand(0); mAnime.onClick(this,v); }
         if(vId == R.id.sMainButtonPatt2){setPatternBand(1); mAnime.onClick(this,v); }
         if(vId == R.id.sMainButtonPatt3){setPatternBand(2); mAnime.onClick(this,v); }
         if(vId == R.id.sMainButtonPatt4){setPatternBand(3); mAnime.onClick(this,v); }
-
-
         if(vId == R.id.btUpdateDevList){
             if(mWaitBtresponse)return;
             if(G_.btActiveState == BT_STATE_CONNECTED) getJmmrList();
         }
         if(vId == R.id.btSearch)if(G_.btActiveState != BT_STATE_CONNECTED)showBtDevList();
-
         if(vId == R.id.sMainButtonSave){
             mAnime.onClick(this,v);
             if(mTimeBlockButton > 0) return;
@@ -775,9 +779,47 @@ import java.util.TimerTask;
             btSendJmmrList(false);  }
         if(vId == R.id.sMainButtonRanges){showPageRanges();  mAnime.onClick(this,v);}
         if(vId == R.id.sMainButtonSuppress){
-            mAnime.onClick(this,v);
             if(mTimeBlockButton > 0) return;
             mTimeBlockButton = 3;
             bttnSuppress();  }
     }
-}
+
+
+    void onPressButton(int vId){
+        if(vId == R.id.sMainButtonPatt1){setPatternBand(0);}
+        if(vId == R.id.sMainButtonPatt2){setPatternBand(1);}
+        if(vId == R.id.sMainButtonPatt3){setPatternBand(2);}
+        if(vId == R.id.sMainButtonPatt4){setPatternBand(3);}
+        if(vId == R.id.btUpdateDevList){
+            if(!mWaitBtresponse){
+                if(G_.btActiveState == BT_STATE_CONNECTED) getJmmrList();
+            }
+        }
+        if(vId == R.id.btSearch)if(G_.btActiveState != BT_STATE_CONNECTED)showBtDevList();
+        if(vId == R.id.sMainButtonSave){
+            if(mTimeBlockButton > 0) return;
+            mTimeBlockButton = 3;
+            btSendJmmrList(false);  }
+        if(vId == R.id.sMainButtonRanges){showPageRanges();}
+        if(vId == R.id.sMainButtonSuppress){
+            if(mTimeBlockButton > 0) return;
+            mTimeBlockButton = 3;
+            bttnSuppress();  }
+    }
+     View.OnTouchListener mainOnTouchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            AnimeViewElements anime = new AnimeViewElements();
+            int vId = v.getId();
+            switch (event.getAction()){
+                case ACTION_DOWN : anime.onTouch((Activity) context, v, true); return true;
+                case MotionEvent.ACTION_UP: anime.onTouch((Activity) context, v, false);
+                    onPressButton(vId);
+                break;
+            }
+            return false;
+        }
+    };
+
+
+ }
