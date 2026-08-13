@@ -4,6 +4,7 @@ import static android.view.MotionEvent.ACTION_DOWN;
 import static android.view.MotionEvent.ACTION_UP;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+import static android.widget.Toast.LENGTH_LONG;
 import static com.eshelon.prizma_prev.C_.BT_CONNECTING_ICON_STATE_CONNECTED;
 import static com.eshelon.prizma_prev.C_.BT_CONNECTING_ICON_STATE_DISABLE;
 import static com.eshelon.prizma_prev.C_.BT_CONNECTING_ICON_STATE_ENABLE;
@@ -24,6 +25,7 @@ import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -52,6 +54,7 @@ import com.google.gson.Gson;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.GregorianCalendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -269,7 +272,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          btSendData(msg, 0);
      }
      private void btSendData(Object o, int type){
-         if(G_.btActiveState != BT_STATE_CONNECTED)return;
+         if(G_.btActiveState != BT_STATE_CONNECTED){
+             new MessageBox(this, "Отсутствует подключение");
+             return;
+         }
          String jsonStr = "";
          ObjectMsg msg = (ObjectMsg)o;
          msg.addressee = G_.btDevAddr;
@@ -317,7 +323,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          runOnUiThread(new Runnable() {
              @Override
              public void run() {
-                 Toast.makeText(context, toastId, Toast.LENGTH_LONG).show();
+                 Toast.makeText(context, toastId, LENGTH_LONG).show();
              }
          });
      }

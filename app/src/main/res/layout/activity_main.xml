@@ -8,207 +8,231 @@
     android:layout_marginTop="50dp"
     tools:context=".MainActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/main_background"
-        android:orientation="vertical"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
+        android:layout_height="match_parent">
 
-      >
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp">
-            <TextView
-                android:id="@+id/swVersion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/mTextColor"
-                android:text="Призма вер. 1.0"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                />
-            <ImageView
-                android:id="@+id/btDevInfo"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/bt_dev_info"
-                android:layout_alignParentEnd="true"
-                app:tint="@color/mTextColor"
-                android:layout_marginEnd="80dp"
-                android:visibility="gone"
-                />
-            <ImageView
-                android:id="@+id/btUpdateDevList"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:src="@drawable/update_arrow_0"
-                android:layout_alignParentEnd="true"
-                app:tint="@color/mTextColor"
-                android:layout_marginTop="1dp"
-                android:layout_marginEnd="40dp"
-                android:visibility="gone"/>
-
-            <ImageView
-                android:id="@+id/btSearch"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/bt_enable"
-                android:layout_alignParentEnd="true"
-                app:tint="@color/mTextColor" />
-
-
-
-        </RelativeLayout>
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/main_background"
             android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
 
-            <ListView
-                android:id="@+id/mainLV"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/main_background">
-
-            </ListView>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.2">
+            >
             <RelativeLayout
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                >
-                <LinearLayout
-                    android:id="@+id/sMainButtonSuppress"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+                <TextView
+                    android:id="@+id/swVersion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:background="@drawable/button_red"
-                    android:padding="10dp"
+                    android:textColor="@color/mTextColor"
+                    android:text="Призма вер. 1.0"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    />
+                <ImageView
+                    android:id="@+id/btDevInfo"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/bt_dev_info"
+                    android:layout_alignParentEnd="true"
+                    app:tint="@color/mTextColor"
+                    android:layout_marginEnd="80dp"
+                    android:visibility="gone"
+                    />
+                <ImageView
+                    android:id="@+id/btUpdateDevList"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/update_arrow_0"
+                    android:layout_alignParentEnd="true"
+                    app:tint="@color/mTextColor"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginEnd="40dp"
+                    android:visibility="gone"/>
 
-                    >
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Подавление"
-                        android:textSize="25sp"
-                        android:textColor="@color/mTextColor"
-                        android:textStyle="bold"
+                <ImageView
+                    android:id="@+id/btSearch"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/bt_enable"
+                    android:layout_alignParentEnd="true"
+                    app:tint="@color/mTextColor" />
 
-                        />
-                </LinearLayout>
+
 
             </RelativeLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <ListView
+                    android:id="@+id/mainLV"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/main_background">
+
+                </ListView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.2">
+                <RelativeLayout
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    >
+                    <LinearLayout
+                        android:id="@+id/sMainButtonSuppress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/button_red"
+                        android:padding="10dp"
+
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Подавление"
+                            android:textSize="25sp"
+                            android:textColor="@color/mTextColor"
+                            android:textStyle="bold"
+
+                            />
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.3">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="70dp"
+                        >
+
+                        <RelativeLayout
+                            android:id="@+id/sMainButtonPatt1"
+                            style="@style/sMainButtonPattern"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_alignParentStart="true"                    >
+                            <TextView android:id="@+id/sMainButtonPatt1Txt" android:text="DJI 2.4"  style="@style/sMainButtonText"/>
+                        </RelativeLayout>
+
+
+
+                        <RelativeLayout
+                            android:id="@+id/sMainButtonPatt2"
+                            style="@style/sMainButtonPattern"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_alignParentStart="true">
+                            <TextView android:id="@+id/sMainButtonPatt2Txt" android:text="868 МГц"  style="@style/sMainButtonText"/>
+                        </RelativeLayout>
+                        <RelativeLayout
+                            android:id="@+id/sMainButtonPatt3"
+                            style="@style/sMainButtonPattern"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_alignParentStart="true">
+                            <TextView android:id="@+id/sMainButtonPatt3Txt" android:text="GPS"  style="@style/sMainButtonText"/>
+                        </RelativeLayout>
+                        <RelativeLayout
+                            android:id="@+id/sMainButtonPatt4"
+                            style="@style/sMainButtonPattern"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_alignParentStart="true">
+                            <TextView android:id="@+id/sMainButtonPatt4Txt" android:text="5.8 ГГц"  style="@style/sMainButtonText"/>
+                        </RelativeLayout>
+
+
+
+
+                    </LinearLayout>
+                    <RelativeLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_alignParentBottom="true"
+                        >
+
+
+                        <RelativeLayout
+                            android:id="@+id/sMainButtonRanges"
+                            style="@style/sMainButtonPattern"
+                            android:layout_width="115dp"
+                            android:layout_alignParentEnd="true"                    >
+                            <TextView android:text="Диапазоны" style="@style/sMainButtonText"/>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/sMainButtonSave"
+                            style="@style/sMainButtonPattern"
+                            android:layout_width="115dp"
+                            android:layout_alignParentStart="true"                    >
+                            <TextView android:text="Сохранить" style="@style/sMainButtonText"/>
+                        </RelativeLayout>
+
+
+
+
+                    </RelativeLayout>
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+
+
+
+
 
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.3">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="70dp"
-                    >
-
-                    <RelativeLayout
-                        android:id="@+id/sMainButtonPatt1"
-                        style="@style/sMainButtonPattern"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_alignParentStart="true"                    >
-                        <TextView android:id="@+id/sMainButtonPatt1Txt" android:text="DJI 2.4"  style="@style/sMainButtonText"/>
-                    </RelativeLayout>
-
-
-
-                    <RelativeLayout
-                        android:id="@+id/sMainButtonPatt2"
-                        style="@style/sMainButtonPattern"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_alignParentStart="true">
-                        <TextView android:id="@+id/sMainButtonPatt2Txt" android:text="868 МГц"  style="@style/sMainButtonText"/>
-                    </RelativeLayout>
-                    <RelativeLayout
-                        android:id="@+id/sMainButtonPatt3"
-                        style="@style/sMainButtonPattern"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_alignParentStart="true">
-                        <TextView android:id="@+id/sMainButtonPatt3Txt" android:text="GPS"  style="@style/sMainButtonText"/>
-                    </RelativeLayout>
-                    <RelativeLayout
-                        android:id="@+id/sMainButtonPatt4"
-                        style="@style/sMainButtonPattern"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_alignParentStart="true">
-                        <TextView android:id="@+id/sMainButtonPatt4Txt" android:text="5.8 ГГц"  style="@style/sMainButtonText"/>
-                    </RelativeLayout>
-
-
-
-
-                </LinearLayout>
-                <RelativeLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_alignParentBottom="true"
-                    >
-
-
-                    <RelativeLayout
-                        android:id="@+id/sMainButtonRanges"
-                        style="@style/sMainButtonPattern"
-                        android:layout_width="115dp"
-                        android:layout_alignParentEnd="true"                    >
-                        <TextView android:text="Диапазоны" style="@style/sMainButtonText"/>
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/sMainButtonSave"
-                        style="@style/sMainButtonPattern"
-                        android:layout_width="115dp"
-                        android:layout_alignParentStart="true"                    >
-                        <TextView android:text="Сохранить" style="@style/sMainButtonText"/>
-                    </RelativeLayout>
-
-
-
-
-                </RelativeLayout>
-            </RelativeLayout>
-
-
+            android:id="@+id/messageBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/messageBox"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="100dp"
+            android:visibility="gone">
+            <TextView
+                android:id="@+id/messageBoxTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textColor="@color/mTextColor"
+                android:textStyle="bold"
+                android:text="Text"/>
         </LinearLayout>
+    </RelativeLayout>
 
-
-
-
-
-
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
