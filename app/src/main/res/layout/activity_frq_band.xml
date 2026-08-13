@@ -77,61 +77,7 @@
             <include layout="@layout/range_fragment"/>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal">
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/mTextColor"
-                    android:textSize="16sp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="2dp"
-                    android:text="Полоса:"/>
-                <Spinner
-                    android:id="@+id/sFrqBandFrqSpinner1"
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:dropDownWidth="80dp"
-                    android:background="@null"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="18dp"
-                    />
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/mTextColor"
-                    android:textSize="16sp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="2dp"
-                    android:text="Полоса:"/>
 
-                <Spinner
-                    android:id="@+id/sFrqBandFrqSpinner2"
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:dropDownWidth="80dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="18dp"
-                    android:background="@null"
-                    />
-            </RelativeLayout>
-
-
-        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -168,7 +114,116 @@
             </LinearLayout>
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/mTextColor"
+                    android:textSize="16sp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="2dp"
+                    android:text="Полоса:"/>
+                <Spinner
+                    android:id="@+id/sFrqBandFrqSpinner1"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:dropDownWidth="100dp"
+                    android:background="@null"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="18dp"
+                    />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/mTextColor"
+                    android:textSize="16sp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="2dp"
+                    android:text="Полоса:"/>
 
+                <Spinner
+                    android:id="@+id/sFrqBandFrqSpinner2"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:dropDownWidth="100dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="18dp"
+                    android:background="@null"
+                    />
+            </RelativeLayout>
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/mTextColor"
+                    android:textSize="16sp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="2dp"
+                    android:text="Модул.:"/>
+                <Spinner
+                    android:id="@+id/sFrqBandMcSpinner1"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:dropDownWidth="100dp"
+                    android:background="@null"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="18dp"
+                    />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/mTextColor"
+                    android:textSize="16sp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="2dp"
+                    android:text="Модул.:"/>
+
+                <Spinner
+                    android:id="@+id/sFrqBandMcSpinner2"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:dropDownWidth="100dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="18dp"
+                    android:background="@null"
+                    />
+            </RelativeLayout>
+
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

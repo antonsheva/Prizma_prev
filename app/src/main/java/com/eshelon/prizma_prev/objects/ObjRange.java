@@ -21,6 +21,16 @@ public class ObjRange {
     Integer frqCenter = 0;
     Long rangeMask = 0L;
 
+    Integer modCode = 0;
+
+    public Integer getModCode() {
+        return modCode;
+    }
+
+    public void setModCode(Integer modCode) {
+        this.modCode = modCode;
+    }
+
     public Long getRangeMask() {
         return rangeMask;
     }

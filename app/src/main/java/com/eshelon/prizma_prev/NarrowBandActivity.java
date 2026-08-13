@@ -58,6 +58,10 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
 
     Spinner spinner1;
     Spinner spinner2;
+    Spinner spinnerMc1;
+    Spinner spinnerMc2;
+
+
 
 
     ObjRange objRange1;
@@ -174,10 +178,14 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
                     G_.currentJmmr = G_.jmmr_list.get(G_.currentJmmrNum);
                     objRange1.setRangeMask(G_.jmmr_list.get(G_.currentJmmrNum).msk1);
                     objRange2.setRangeMask(G_.jmmr_list.get(G_.currentJmmrNum).msk2);
+                    objRange1.setModCode(G_.jmmr_list.get(G_.currentJmmrNum).mc1);
+                    objRange2.setModCode(G_.jmmr_list.get(G_.currentJmmrNum).mc2);
                     String str = G_.currentJmmr.ad_esp+" ";
                     sFrqBandDevAddr.setText(str);
                     mSwchOnOffChnl1 = G_.jmmr_list.get(G_.currentJmmrNum).pwr1 == 1;
                     mSwchOnOffChnl2 = G_.jmmr_list.get(G_.currentJmmrNum).pwr2 == 1;
+                    spinnerMc1.setSelection(objRange1.getModCode());
+                    spinnerMc2.setSelection(objRange2.getModCode());
                 }
             }
         }
@@ -216,10 +224,24 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
     boolean spinnerLatch1 = false;
     boolean spinnerLatch2 = false;
     void initSpinner(){
+        ArrayList<String>modCodeList = new ArrayList<>();
+        modCodeList.add("UNIVERSAL");
+        modCodeList.add("FPV-50");
+        modCodeList.add("FPV-100");
+        modCodeList.add("FPV-2.5G");
+        modCodeList.add("MAVIC");
+        modCodeList.add("AN. VIDEO");
+
+
         CustomAdapter customAdapter1=new CustomAdapter(getApplicationContext(),objRange1.getViewBandList());
         spinner1.setAdapter(customAdapter1);
         CustomAdapter customAdapter2=new CustomAdapter(getApplicationContext(),objRange2.getViewBandList());
         spinner2.setAdapter(customAdapter2);
+
+        CustomAdapter customAdapterMc1=new CustomAdapter(getApplicationContext(),modCodeList);
+        spinnerMc1.setAdapter(customAdapterMc1);
+        CustomAdapter customAdapterMc2=new CustomAdapter(getApplicationContext(),modCodeList);
+        spinnerMc2.setAdapter(customAdapterMc2);
 
 
         spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -231,7 +253,6 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
                 }else {
                     spinnerLatch1 = true;
                 }
-
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -248,6 +269,29 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
                     spinnerLatch2 = true;
                 }
 
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spinnerMc1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                objRange1.setModCode(position);
+
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        spinnerMc2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                objRange2.setModCode(position);
+                Log.i("MY_TEG", "pos -> "+position);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -437,6 +481,9 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
         spinner1        = findViewById(R.id.sFrqBandFrqSpinner1) ;
         spinner2        = findViewById(R.id.sFrqBandFrqSpinner2) ;
 
+        spinnerMc1        = findViewById(R.id.sFrqBandMcSpinner1) ;
+        spinnerMc2        = findViewById(R.id.sFrqBandMcSpinner2) ;
+
 
 
 
@@ -460,6 +507,9 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
             if(G_.jmmr_list != null){
                 G_.jmmr_list.get(G_.currentJmmrNum).msk1 = objRange1.getRangeMask();
                 G_.jmmr_list.get(G_.currentJmmrNum).msk2 = objRange2.getRangeMask();
+                G_.jmmr_list.get(G_.currentJmmrNum).mc1 = objRange1.getModCode();
+                G_.jmmr_list.get(G_.currentJmmrNum).mc2 = objRange2.getModCode();
+
             }
         }
     }

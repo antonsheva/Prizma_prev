@@ -154,7 +154,6 @@ public class DevListAdapter extends ArrayAdapter<JmmrState> {
             @Override
             public void onClick(View v) {
                 if (jmmrStateList.isEmpty()) {
-//                    Toast.makeText(ctxt, "jmmrStateList is empty", Toast.LENGTH_SHORT).show();
                     Log.i("MY_TEG", "viewHolder.devListItem.setOnClickListener: (G_.jmmrStateList is empty");
                     return;
                 }
@@ -181,7 +180,5 @@ public class DevListAdapter extends ArrayAdapter<JmmrState> {
         TextView battState;
         ArrayList<LinearLayout>specterPiece1 = new ArrayList<>();
         ArrayList<LinearLayout>specterPiece2 = new ArrayList<>();
-
-
     }
 }
