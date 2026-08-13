@@ -2,7 +2,6 @@ package com.eshelon.prizma_prev;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
@@ -58,8 +57,8 @@ public class RangesActivity extends AppCompatActivity implements View.OnClickLis
         if(num%2 == 0)panelRangeViewList.get(num).setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.range_bacground_red, null));
         else          panelRangeViewList.get(num).setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.range_bacground_blue, null));
 
-        buttonRangeViewList.get(num*2).setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_pattern, null));
-        buttonRangeViewList.get(num*2+1).setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_pattern, null));
+        buttonRangeViewList.get(num*2).setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_unpress, null));
+        buttonRangeViewList.get(num*2+1).setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_unpress, null));
 
         buttonRangeViewTxtList.get(num*2).setTextColor(ContextCompat.getColor(this, R.color.mTextColor));
         buttonRangeViewTxtList.get(num*2+1).setTextColor(ContextCompat.getColor(this, R.color.mTextColor));

@@ -1,10 +1,8 @@
 package com.eshelon.prizma_prev;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.Timer;
@@ -27,7 +25,7 @@ public class AnimeViewElements {
     static Drawable drawablePrev;
     public void onClick(Activity activity, View view){
         if(swchOnClick)return;
-        Drawable dClick = activity.getDrawable(R.drawable.button_pattern_onclick);
+        Drawable dClick = activity.getDrawable(R.drawable.button_onclick_grey);
         Drawable dMain = view.getBackground();
         swchOnClick = true;
 
@@ -40,11 +38,13 @@ public class AnimeViewElements {
             }
         },80);
     }
-    public void onTouch(Activity activity, View view, boolean stt){
+    public void onTouch(Activity activity, View view, boolean stt, int color){
         Drawable drawable;
+
         if(stt){
             drawablePrev = view.getBackground();
-            drawable = activity.getDrawable(R.drawable.button_pattern_onclick);
+            if(color == 1)drawable = activity.getDrawable(R.drawable.button_onclick_yellow);
+            else          drawable = activity.getDrawable(R.drawable.button_onclick_grey);
             Log.i("MY_TEG", "onTouchDown");
         }else{
             drawable = drawablePrev;

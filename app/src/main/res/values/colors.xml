@@ -13,6 +13,7 @@
     <color name="buttonClick">#919191</color>
     <color name="buttonPattern">#C6C0E0</color>
     <color name="buttonShadow">#7E7D7D</color>
-    <color name="button_suppress">#E37972</color>
+    <color name="button_red">#FA6B61</color>
+    <color name="button_yellow">#DCD82D</color>
 
 </resources>

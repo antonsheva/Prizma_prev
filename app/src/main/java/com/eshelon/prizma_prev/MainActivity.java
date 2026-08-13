@@ -595,20 +595,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         vibrator.vibrate(vibrationEffect);
     }
     void resetColorPatternButtons(){
-        bttnPatt1.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_pattern, null));
-        bttnPatt2.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_pattern, null));
-        bttnPatt3.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_pattern, null));
-        bttnPatt4.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_pattern, null));
+        bttnPatt1.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_unpress, null));
+        bttnPatt2.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_unpress, null));
+        bttnPatt3.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_unpress, null));
+        bttnPatt4.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_unpress, null));
 
     }
     void selectPattern(int bttnId){
         G_.selectPattern = bttnId;
         resetColorPatternButtons();
         switch (bttnId){
-            case 0: bttnPatt1.setBackgroundResource (R.drawable.button_pattern_select); break;
-            case 1: bttnPatt2.setBackgroundResource (R.drawable.button_pattern_select); break;
-            case 2: bttnPatt3.setBackgroundResource (R.drawable.button_pattern_select); break;
-            case 3: bttnPatt4.setBackgroundResource (R.drawable.button_pattern_select); break;
+            case 0: bttnPatt1.setBackgroundResource (R.drawable.button_active); break;
+            case 1: bttnPatt2.setBackgroundResource (R.drawable.button_active); break;
+            case 2: bttnPatt3.setBackgroundResource (R.drawable.button_active); break;
+            case 3: bttnPatt4.setBackgroundResource (R.drawable.button_active); break;
         }
     }
     void closeBtConnectionThread(){
@@ -794,11 +794,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      View.OnTouchListener mainOnTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            AnimeViewElements anime = new AnimeViewElements();
             int vId = v.getId();
+            int color  = 0;
+            if(vId == R.id.sMainButtonSuppress)color = 1;
+            AnimeViewElements anime = new AnimeViewElements();
+
             switch (event.getAction()){
-                case ACTION_DOWN : anime.onTouch((Activity) context, v, true); return true;
-                case MotionEvent.ACTION_UP: anime.onTouch((Activity) context, v, false);
+                case ACTION_DOWN : anime.onTouch((Activity) context, v, true, color); return true;
+                case ACTION_UP   : anime.onTouch((Activity) context, v, false, 0);
                     onPressButton(vId);
                 break;
             }

@@ -201,6 +201,7 @@
                     android:id="@+id/sFrqBandOnOffSuppress"
                     style="@style/sMainButtonPattern"
                     android:layout_width="wrap_content"
+                    android:background="@drawable/button_red"
                                         >
                     <TextView android:id="@+id/sFrqBandSuppressTxt" android:text="Подавление" style="@style/sMainButtonText"/>
                 </RelativeLayout>

@@ -1,7 +1,6 @@
 package com.eshelon.prizma_prev;
 
 import static android.view.MotionEvent.ACTION_DOWN;
-import static android.widget.Toast.LENGTH_LONG;
 
 import android.app.Activity;
 import android.content.Context;
@@ -19,7 +18,6 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,7 +29,7 @@ import com.eshelon.prizma_prev.objects.ObjRange;
 
 import java.util.ArrayList;
 
-public class NarrowBandActivity extends AppCompatActivity implements View.OnClickListener {
+public class NarrowBandActivity extends AppCompatActivity implements View.OnTouchListener {
 
     Context context;
     Vibrator vibrator;
@@ -187,18 +185,18 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnClic
     void initOnOffChnlBttn(){
         if(mSwchOnOffChnl1){
             sFrqBandOnOffChnlTxt1.setText("Выкл.канал");
-            sFrqBandOnOffChnlBttn1.setBackgroundResource(R.drawable.button_suppress_on);
+            sFrqBandOnOffChnlBttn1.setBackgroundResource(R.drawable.button_red);
         }else{
             sFrqBandOnOffChnlTxt1.setText("Вкл.канал");
-            sFrqBandOnOffChnlBttn1.setBackgroundResource(R.drawable.button_pattern);
+            sFrqBandOnOffChnlBttn1.setBackgroundResource(R.drawable.button_unpress);
         }
 
         if(mSwchOnOffChnl2){
             sFrqBandOnOffChnlTxt2.setText("Выкл.канал");
-            sFrqBandOnOffChnlBttn2.setBackgroundResource(R.drawable.button_suppress_on);
+            sFrqBandOnOffChnlBttn2.setBackgroundResource(R.drawable.button_red);
         }else{
             sFrqBandOnOffChnlTxt2.setText("Вкл.канал");
-            sFrqBandOnOffChnlBttn2.setBackgroundResource(R.drawable.button_pattern);
+            sFrqBandOnOffChnlBttn2.setBackgroundResource(R.drawable.button_unpress);
         }
     }
     void init(){
@@ -337,11 +335,11 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnClic
             rl2 = viewBandStepButtonList2.get(i);
 
 
-            if(((tmp1 >> i)& 0x1)>0)rl1.setBackgroundResource(R.drawable.button_pattern_active);
-            else                    rl1.setBackgroundResource(R.drawable.button_pattern);
+            if(((tmp1 >> i)& 0x1)>0)rl1.setBackgroundResource(R.drawable.button_active);
+            else                    rl1.setBackgroundResource(R.drawable.button_unpress);
 
-            if(((tmp2 >> i)& 0x1)>0)rl2.setBackgroundResource(R.drawable.button_pattern_active);
-            else                    rl2.setBackgroundResource(R.drawable.button_pattern);
+            if(((tmp2 >> i)& 0x1)>0)rl2.setBackgroundResource(R.drawable.button_active);
+            else                    rl2.setBackgroundResource(R.drawable.button_unpress);
         }
     }
     void initBandStepPanels(){
@@ -383,8 +381,8 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnClic
 
             RelativeLayout rl1 = (RelativeLayout)findViewById(vIdButton1);
             RelativeLayout rl2 = (RelativeLayout)findViewById(vIdButton2);
-            rl1.setOnClickListener(this);
-            rl2.setOnClickListener(this);
+            rl1.setOnTouchListener(this);
+            rl2.setOnTouchListener(this);
             bandStepButtonIdList1.add(vIdButton1);
             bandStepButtonIdList2.add(vIdButton2);
 
@@ -402,12 +400,14 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnClic
     }
     void initViewElements(){
         sFrqBandOnOffChnlBttn1 = findViewById(R.id.sFrqBandOnOffChnlButton1);
-        sFrqBandOnOffChnlBttn1.setOnTouchListener(narrowBandOnTouchListener);
+        sFrqBandOnOffChnlBttn1.setOnTouchListener(this);
+
         sFrqBandOnOffChnlBttn2 = findViewById(R.id.sFrqBandOnOffChnlButton2);
-        sFrqBandOnOffChnlBttn2.setOnTouchListener(narrowBandOnTouchListener);
+        sFrqBandOnOffChnlBttn2.setOnTouchListener(this);
 
         sFrqBandButtonEnableDisableAll = findViewById(R.id.sFrqBandOnOffAllButton);
-        sFrqBandButtonEnableDisableAll.setOnTouchListener(narrowBandOnTouchListener);
+        sFrqBandButtonEnableDisableAll.setOnTouchListener(this);
+
         sFrqBandEnDisAllTxt = findViewById(R.id.sFrqBandEnDisAllTxt);
         sFrqBandEnDisAllTxt.setText(mSwchEnableDisable ? "Выкл. все" : "Вкл. все");
 
@@ -415,7 +415,14 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnClic
         sFrqBandOnOffChnlTxt2 = findViewById(R.id.sFrqBandOnOffChnlTxt2);
 
         sFrqBandOnOffSuppress = findViewById(R.id.sFrqBandOnOffSuppress);
-        sFrqBandOnOffSuppress.setOnTouchListener(narrowBandOnTouchListener);
+        sFrqBandOnOffSuppress.setOnTouchListener(this);
+
+        bttnCansel = findViewById(R.id.sFrqBandButtonCansel);
+        bttnCansel.setOnTouchListener(this);
+
+        sFrqBandButtonSave = findViewById(R.id.sFrqBandButtonSave)  ;
+        sFrqBandButtonSave.setOnTouchListener(this);
+
 
         sFrqBandDevAddr = findViewById(R.id.sFrqBandDevAddr);
 
@@ -430,11 +437,8 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnClic
         spinner1        = findViewById(R.id.sFrqBandFrqSpinner1) ;
         spinner2        = findViewById(R.id.sFrqBandFrqSpinner2) ;
 
-        sFrqBandButtonSave = findViewById(R.id.sFrqBandButtonSave)  ;
-        bttnCansel         = findViewById(R.id.sFrqBandButtonCansel);
 
-        sFrqBandButtonSave.setOnTouchListener(narrowBandOnTouchListener);
-        bttnCansel.setOnTouchListener(narrowBandOnTouchListener);
+
 
         initRangeSticks();
         initBandStepPanels();
@@ -467,63 +471,6 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnClic
         updateViewElements("setRangeMask");
     }
 
-    @Override
-    public void onClick(View v) {
-        vibro();
-        int pos;
-        String name = getResources().getResourceName(v.getId());
-        if(name.contains("sFrqBandButtonBand_1")){
-            pos = Integer.parseInt(name.substring(name.lastIndexOf("_")+1));
-            setRangeMask(1, pos);
-        }
-        if(name.contains("sFrqBandButtonBand_2")){
-            pos = Integer.parseInt(name.substring(name.lastIndexOf("_")+1));
-            setRangeMask(2, pos);
-        }
-
-        if(v.getId() == R.id.sFrqBandOnOffAllButton){
-            if(!mSwchEnableDisable){
-                objRange1.setRangeMask(0x7FFFFFFFL);
-                objRange2.setRangeMask(0x7FFFFFFFL);
-                sFrqBandEnDisAllTxt.setText("Выкл.все");
-            }else {
-                objRange1.setRangeMask(0L);
-                objRange2.setRangeMask(0L);
-                sFrqBandEnDisAllTxt.setText("Вкл.все");
-            }
-            mSwchEnableDisable = !mSwchEnableDisable;
-
-            updateViewElements(" ");
-        }
-        if(v.getId() == R.id.sFrqBandOnOffChnlButton1){
-            mSwchOnOffChnl1 = !mSwchOnOffChnl1;
-            G_.jmmr_list.get(G_.currentJmmrNum).pwr1 = mSwchOnOffChnl1 ? 1 : 2;
-            initOnOffChnlBttn();
-        }
-        if(v.getId() == R.id.sFrqBandOnOffChnlButton2){
-            mSwchOnOffChnl2 = !mSwchOnOffChnl2;
-            G_.jmmr_list.get(G_.currentJmmrNum).pwr2 = mSwchOnOffChnl2 ? 1 : 2;
-            initOnOffChnlBttn();
-        }
-        if(v.getId() == R.id.sFrqBandButtonSave){
-            saveDataToJmmrList();
-            Intent i = new Intent(context, MainActivity.class);
-            i.putExtra("cmd_return", true);
-            startActivity(i);
-        }
-        if(v.getId() == R.id.sFrqBandOnOffSuppress){
-            saveDataToJmmrList();
-            Intent i = new Intent(context, MainActivity.class);
-            i.putExtra("cmd_suppress", true);
-            i.putExtra("cmd_return", true);
-            startActivity(i);
-        }
-        if(v.getId() == R.id.sFrqBandButtonCansel){
-            Intent i = new Intent(context, MainActivity.class);
-            i.putExtra("cmd_return", true);
-            startActivity(i);
-        }
-    }
     void onPressButton(int vId){
         vibro();
         int pos;
@@ -580,18 +527,21 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnClic
             startActivity(i);
         }
     }
-    View.OnTouchListener narrowBandOnTouchListener = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            AnimeViewElements anime = new AnimeViewElements();
-            int vId = v.getId();
-            switch (event.getAction()){
-                case ACTION_DOWN : anime.onTouch((Activity) context, v, true); return true;
-                case MotionEvent.ACTION_UP: anime.onTouch((Activity) context, v, false);
-                    onPressButton(vId);
-                    break;
-            }
-            return false;
+
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        int vId = v.getId();
+        int color  = 0;
+        if(vId == R.id.sFrqBandOnOffSuppress)color = 1;
+        AnimeViewElements anime = new AnimeViewElements();
+        switch (event.getAction()){
+            case ACTION_DOWN : anime.onTouch((Activity) context, v, true, color); return true;
+            case MotionEvent.ACTION_UP: anime.onTouch((Activity) context, v, false, 0);
+                onPressButton(vId);
+                break;
         }
-    };
+
+        return false;
+    }
 }

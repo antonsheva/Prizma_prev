@@ -59,7 +59,7 @@
                     android:id="@+id/sRangesButtonPatt1"
                     android:layout_height="wrap_content"
                     style="@style/sRangesButtonPattern"
-                    android:background="@drawable/button_pattern">
+                    android:background="@drawable/button_unpress">
                     <TextView
                         android:id="@+id/sRangesButtonTxt1"
                         android:text="1   400-600 МГц"
@@ -71,7 +71,7 @@
                     android:id="@+id/sRangesButtonPatt2"
                     android:layout_height="wrap_content"
                     style="@style/sRangesButtonPattern"
-                    android:background="@drawable/button_pattern">
+                    android:background="@drawable/button_unpress">
                     <TextView
                         android:id="@+id/sRangesButtonTxt2"
                         android:text="2   600-800 МГц"
@@ -97,7 +97,7 @@
                     android:id="@+id/sRangesButtonPatt3"
                     android:layout_height="wrap_content"
                     style="@style/sRangesButtonPattern"
-                    android:background="@drawable/button_pattern">
+                    android:background="@drawable/button_unpress">
                     <TextView
                         android:id="@+id/sRangesButtonTxt3"
                         android:text="3   750-900 МГц"
@@ -108,7 +108,7 @@
                     android:id="@+id/sRangesButtonPatt4"
                     android:layout_height="wrap_content"
                     style="@style/sRangesButtonPattern"
-                    android:background="@drawable/button_pattern">
+                    android:background="@drawable/button_unpress">
                     <TextView
                         android:id="@+id/sRangesButtonTxt4"
                         android:text="4   900-1050 МГц"
@@ -134,7 +134,7 @@
                     android:id="@+id/sRangesButtonPatt5"
                     android:layout_height="wrap_content"
                     style="@style/sRangesButtonPattern"
-                    android:background="@drawable/button_pattern">
+                    android:background="@drawable/button_unpress">
                     <TextView
                         android:id="@+id/sRangesButtonTxt5"
                         android:text="5   1000-1300 МГц"
@@ -145,7 +145,7 @@
                     android:id="@+id/sRangesButtonPatt6"
                     android:layout_height="wrap_content"
                     style="@style/sRangesButtonPattern"
-                    android:background="@drawable/button_pattern">
+                    android:background="@drawable/button_unpress">
                     <TextView
                         android:id="@+id/sRangesButtonTxt6"
                         android:text="6   1300-1500 МГц"
@@ -171,7 +171,7 @@
                     android:id="@+id/sRangesButtonPatt7"
                     android:layout_height="wrap_content"
                     style="@style/sRangesButtonPattern"
-                    android:background="@drawable/button_pattern">
+                    android:background="@drawable/button_unpress">
                     <TextView
                         android:id="@+id/sRangesButtonTxt7"
                         android:text="7   1500-1700 МГц"
@@ -182,7 +182,7 @@
                     android:id="@+id/sRangesButtonPatt8"
                     android:layout_height="wrap_content"
                     style="@style/sRangesButtonPattern"
-                    android:background="@drawable/button_pattern">
+                    android:background="@drawable/button_unpress">
                     <TextView
                         android:id="@+id/sRangesButtonTxt8"
                         android:text="8   1700-1900 МГц"
@@ -208,7 +208,7 @@
                     android:id="@+id/sRangesButtonPatt9"
                     android:layout_height="wrap_content"
                     style="@style/sRangesButtonPattern"
-                    android:background="@drawable/button_pattern">
+                    android:background="@drawable/button_unpress">
                     <TextView
                         android:id="@+id/sRangesButtonTxt9"
                         android:text="9   1900-2100 МГц"
@@ -219,7 +219,7 @@
                     android:id="@+id/sRangesButtonPatt10"
                     android:layout_height="wrap_content"
                     style="@style/sRangesButtonPattern"
-                    android:background="@drawable/button_pattern">
+                    android:background="@drawable/button_unpress">
                     <TextView
                         android:id="@+id/sRangesButtonTxt10"
                         android:text="10  2100-2300 МГц"
@@ -245,7 +245,7 @@
                     android:id="@+id/sRangesButtonPatt11"
                     android:layout_height="wrap_content"
                     style="@style/sRangesButtonPattern"
-                    android:background="@drawable/button_pattern">
+                    android:background="@drawable/button_unpress">
                     <TextView
                         android:id="@+id/sRangesButtonTxt11"
                         android:text="11  2300-2500 МГц"
@@ -256,7 +256,7 @@
                     android:id="@+id/sRangesButtonPatt12"
                     android:layout_height="wrap_content"
                     style="@style/sRangesButtonPattern"
-                    android:background="@drawable/button_pattern">
+                    android:background="@drawable/button_unpress">
                     <TextView
                         android:id="@+id/sRangesButtonTxt12"
                         android:text="12  2500-2700 МГц"
@@ -282,7 +282,7 @@
                     android:id="@+id/sRangesButtonPatt13"
                     android:layout_height="wrap_content"
                     style="@style/sRangesButtonPattern"
-                    android:background="@drawable/button_pattern">
+                    android:background="@drawable/button_unpress">
                     <TextView
                         android:id="@+id/sRangesButtonTxt13"
                         android:text="13  2700-2900 МГц"
@@ -293,7 +293,7 @@
                     android:id="@+id/sRangesButtonPatt14"
                     android:layout_height="wrap_content"
                     style="@style/sRangesButtonPattern"
-                    android:background="@drawable/button_pattern">
+                    android:background="@drawable/button_unpress">
                     <TextView
                         android:id="@+id/sRangesButtonTxt14"
                         android:text="14  2900-3100 МГц"
@@ -319,7 +319,7 @@
                     android:id="@+id/sRangesButtonPatt15"
                     android:layout_height="wrap_content"
                     style="@style/sRangesButtonPattern"
-                    android:background="@drawable/button_pattern">
+                    android:background="@drawable/button_unpress">
                     <TextView
                         android:id="@+id/sRangesButtonTxt15"
                         android:text="15  3100-3400 МГц"
@@ -330,7 +330,7 @@
                     android:id="@+id/sRangesButtonPatt16"
                     android:layout_height="wrap_content"
                     style="@style/sRangesButtonPattern"
-                    android:background="@drawable/button_pattern">
+                    android:background="@drawable/button_unpress">
                     <TextView
                         android:id="@+id/sRangesButtonTxt16"
                         android:text="16  3400-3700 МГц"
@@ -357,7 +357,7 @@
 
                     android:layout_height="wrap_content"
                     style="@style/sRangesButtonPattern"
-                    android:background="@drawable/button_pattern">
+                    android:background="@drawable/button_unpress">
                     <TextView
                         android:id="@+id/sRangesButtonTxt17"
                         android:text="17  3700-4000 МГц"
@@ -369,7 +369,7 @@
 
                     android:layout_height="wrap_content"
                     style="@style/sRangesButtonPattern"
-                    android:background="@drawable/button_pattern">
+                    android:background="@drawable/button_unpress">
                     <TextView
                         android:id="@+id/sRangesButtonTxt18"
                         android:text="18   4000-4400 МГц"
@@ -396,7 +396,7 @@
 
                     android:layout_height="wrap_content"
                     style="@style/sRangesButtonPattern"
-                    android:background="@drawable/button_pattern">
+                    android:background="@drawable/button_unpress">
                     <TextView
                         android:id="@+id/sRangesButtonTxt19"
                         android:text="19  4400-4800 МГц"
@@ -407,7 +407,7 @@
                     android:id="@+id/sRangesButtonPatt20"
                     android:layout_height="wrap_content"
                     style="@style/sRangesButtonPattern"
-                    android:background="@drawable/button_pattern">
+                    android:background="@drawable/button_unpress">
                     <TextView
                         android:id="@+id/sRangesButtonTxt20"
                         android:text="20  4800-5100 МГц"
@@ -434,7 +434,7 @@
                     android:id="@+id/sRangesButtonPatt21"
                     android:layout_height="wrap_content"
                     style="@style/sRangesButtonPattern"
-                    android:background="@drawable/button_pattern">
+                    android:background="@drawable/button_unpress">
                     <TextView
                         android:id="@+id/sRangesButtonTxt21"
                         android:text="21  5100-5400 МГц"
@@ -445,7 +445,7 @@
                     android:id="@+id/sRangesButtonPatt22"
                     android:layout_height="wrap_content"
                     style="@style/sRangesButtonPattern"
-                    android:background="@drawable/button_pattern">
+                    android:background="@drawable/button_unpress">
                     <TextView
                         android:id="@+id/sRangesButtonTxt22"
                         android:text="22  5400-5700 МГц"
@@ -472,7 +472,7 @@
                     android:id="@+id/sRangesButtonPatt23"
                     android:layout_height="wrap_content"
                     style="@style/sRangesButtonPattern"
-                    android:background="@drawable/button_pattern">
+                    android:background="@drawable/button_unpress">
                     <TextView
                         android:id="@+id/sRangesButtonTxt23"
                         android:text="23   5700-5900 МГц"
@@ -483,7 +483,7 @@
                     android:id="@+id/sRangesButtonPatt24"
                     android:layout_height="wrap_content"
                     style="@style/sRangesButtonPattern"
-                    android:background="@drawable/button_pattern">
+                    android:background="@drawable/button_unpress">
                     <TextView
                         android:id="@+id/sRangesButtonTxt24"
                         android:text="24  5900-6200 МГц"
