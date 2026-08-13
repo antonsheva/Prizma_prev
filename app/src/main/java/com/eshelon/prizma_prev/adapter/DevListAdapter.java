@@ -47,6 +47,7 @@ public class DevListAdapter extends ArrayAdapter<JmmrState> {
         this.jmmrStateList = objectList;
         this.ctxt = context;
         this.listener = listener;
+        Log.i("MY_TEG", "objectList.size -> "+objectList.size());
     }
 
     @NonNull
@@ -154,6 +155,7 @@ public class DevListAdapter extends ArrayAdapter<JmmrState> {
             public void onClick(View v) {
                 if (jmmrStateList.isEmpty()) {
 //                    Toast.makeText(ctxt, "jmmrStateList is empty", Toast.LENGTH_SHORT).show();
+                    Log.i("MY_TEG", "viewHolder.devListItem.setOnClickListener: (G_.jmmrStateList is empty");
                     return;
                 }
                 listener.onItemDevSelClick(position);

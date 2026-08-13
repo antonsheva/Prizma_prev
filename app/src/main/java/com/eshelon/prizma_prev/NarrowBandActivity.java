@@ -393,6 +393,7 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnClic
         }
 
         checkObjRange();
+        if((objRange2==null)||(objRange1==null))return;
         for(int i=0; i<C_.FRQ_STEP_QTY; i++){
             viewBandStepButtonTextList1.get(i).setText(objRange1.getViewBandStepList().get(i));
             viewBandStepButtonTextList2.get(i).setText(objRange2.getViewBandStepList().get(i));

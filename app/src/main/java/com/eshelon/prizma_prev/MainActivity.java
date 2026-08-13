@@ -55,7 +55,7 @@ import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
- public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     RelativeLayout bttnShowRangesList;
     RelativeLayout sMainButtonSave;
@@ -93,14 +93,29 @@ import java.util.TimerTask;
             return insets;
         });
     }
+    @Override
+    protected void onResume() {
+         super.onResume();
+         Log.i("MY_TEG", "onResume - - MainActivity 1");
+         setBtIcon(C_.BT_ICON_ENABLE);
+         if (!G_.selectBtDevice.isDeviceSelected())return;
+         if(G_.btActiveState == BT_STATE_CONNECTED)return;
 
-     @Override
-     protected void onStart() {
+         Log.i("MY_TEG", "onResume - - MainActivity 2");
+         Log.i("MY_TEG", "MAC -> "+G_.selectBtDevice.getMac());
+
+         G_.btActiveState = BT_STATE_CONNECTING;
+         G_.btConnect = new BtConnect(this, G_.selectBtDevice.getMac(), onConnectCb);
+         btConnect();
+     }
+
+    @Override
+    protected void onStart() {
          super.onStart();
          Log.i("MY_TEG", "---onStart  ---");
      }
 
-     void setAnimateBtState(){
+    void setAnimateBtState(){
         switch (G_.btActiveState ){
             case BT_STATE_DISCONNECTED:
                 G_.animeBtConnectionIconState = BT_CONNECTING_ICON_STATE_ENABLE;
@@ -112,17 +127,17 @@ import java.util.TimerTask;
                 break;
         }
      }
-     void reInitCbFunctions(){
+    void reInitCbFunctions(){
          cbBtReceive = null;
          onConnectCb = null;
          initCbBtReceive();
          initCbOnConnect();
      }
-     void initCbFunctions(){
+    void initCbFunctions(){
          initCbBtReceive();
          initCbOnConnect();
      }
-     void initCbBtReceive(){
+    void initCbBtReceive(){
          cbBtReceive = new CbBtReceive() {
              @Override
              public void cb(int code, String data) {
@@ -142,7 +157,7 @@ import java.util.TimerTask;
          };
      }
 
-     void initCbOnConnect(){
+    void initCbOnConnect(){
          onConnectCb = new CB() {
              @Override
              public void cb(int code) {
@@ -182,11 +197,11 @@ import java.util.TimerTask;
          };
      }
 
-     int mTryConnectTime = 0;
-     int mNeedCloseConnection = 0;
-     int mTimeBlockButton = 0;
-     Timer tmMonitor = new Timer();
-     void initTmMonitor(){
+    int mTryConnectTime = 0;
+    int mNeedCloseConnection = 0;
+    int mTimeBlockButton = 0;
+    Timer tmMonitor = new Timer();
+    void initTmMonitor(){
          tmMonitor.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -206,7 +221,7 @@ import java.util.TimerTask;
             }
         },300,300);
      }
-     boolean mWaitBtresponse = false;
+    boolean mWaitBtresponse = false;
     Timer tmWaitBtResponse;
     void initTmWaitBtResponse(){
         mWaitBtresponse = true;
@@ -227,13 +242,7 @@ import java.util.TimerTask;
     };
     void getJmmrList(){
          initTmWaitBtResponse();
-         if(G_.jmmr_list != null){
-             G_.jmmr_list.clear();
-             Log.i("MY_TEG", "G_.jmmr_list -> clear");
-         }else{
-             Log.i("MY_TEG", "G_.jmmr_list -> null");
-             G_.jmmr_list =new ArrayList<>();
-         }
+        G_.jmmr_list =new ArrayList<>();
          G_.animeBtUpdateIconState = BT_UPDATE_ICON_STATE_UPDATE;
          btSendCmd(C_.CMD_GET_JMMR_LIST);
     }
@@ -246,21 +255,8 @@ import java.util.TimerTask;
          G_.animeBtConnectionIconState = BT_CONNECTING_ICON_STATE_SEARCHING;
          G_.btConnect.connect();
      }
-     @Override
-     protected void onResume() {
-         super.onResume();
-         Log.i("MY_TEG", "onResume - - MainActivity 1");
-         setBtIcon(C_.BT_ICON_ENABLE);
-         if (!G_.selectBtDevice.isDeviceSelected())return;
-         if(G_.btActiveState == BT_STATE_CONNECTED)return;
 
-         Log.i("MY_TEG", "onResume - - MainActivity 2");
-         Log.i("MY_TEG", "MAC -> "+G_.selectBtDevice.getMac());
 
-         G_.btActiveState = BT_STATE_CONNECTING;
-         G_.btConnect = new BtConnect(this, G_.selectBtDevice.getMac(), onConnectCb);
-         btConnect();
-     }
      private void btSendJmmrList(boolean needBtOff){
          if(G_.jmmr_list == null)return;
          ObjectMsg msg = new ObjectMsg();
@@ -317,8 +313,6 @@ import java.util.TimerTask;
          Log.i("MY_TEG", new String(data));
          G_.btConnect.connectThread.getReceiveThread().sendData(data);
      }
-
-
      private void showToast(int toastId){
          runOnUiThread(new Runnable() {
              @Override
@@ -371,7 +365,6 @@ import java.util.TimerTask;
              }
          }, 100, 100);
      }
-
      private void setBtIcon(int icon){
          runOnUiThread(new Runnable() {
              @Override
@@ -429,23 +422,21 @@ import java.util.TimerTask;
          }
      }
      Timer btReceiveTm = null;
-
     private void readJmmrList(ObjectMsg msg){
-         G_.jmmr_list = msg.jmmr_list;
-         if(G_.jmmr_list == null){
-             Log.i("MY_TEG", "G_.jmmr_list -> null 1");
-             G_.btActiveState = BT_STATE_CONNECTED;
-             return;
-         }
-         for(JmmrState jmmr : G_.jmmr_list){
-             if(jmmr.pwr1 != 1)jmmr.pwr1 = 2;
-             if(jmmr.pwr2 != 1)jmmr.pwr2 = 2;
-         }
-//        initDevListAdapter();
+        G_.jmmr_list = msg.jmmr_list;
+        if(G_.jmmr_list == null){
+            Log.i("MY_TEG", "G_.jmmr_list -> null 1");
+            G_.btActiveState = BT_STATE_CONNECTED;
+        return;
+        }
+        for(JmmrState jmmr : G_.jmmr_list){
+            if(jmmr.pwr1 != 1)jmmr.pwr1 = 2;
+            if(jmmr.pwr2 != 1)jmmr.pwr2 = 2;
+        }
+//      initDevListAdapter();
         G_.btHasNewData = true;
         G_.animeBtUpdateIconState = BT_UPDATE_ICON_STATE_VISIBLE;
      }
-
     void btReceivedStartPacket(String data){
         G_.btData = data;
         btReceiveTm = new Timer();
@@ -517,7 +508,6 @@ import java.util.TimerTask;
         btSearch = findViewById(R.id.btSearch);
         btSearch.setOnTouchListener(mainOnTouchListener);
     }
-
     void initJmmrListTmpVals(){
 
         for(int i=0; i<3; i++){
@@ -531,13 +521,15 @@ import java.util.TimerTask;
         }
     }
     void initDevListAdapter(){
+        Log.i("MY_TEG", "G_.jmmr_list.size -> "+G_.jmmr_list.size());
+
         if(devListAdapter != null)devListAdapter = null;
         devListAdapter = new DevListAdapter(this, R.layout.dev_list_item, G_.jmmr_list, new ItemDevSelListener() {
             @Override
             public void onItemDevSelClick(int pos) {
                 G_.currentJmmrNum = pos;
-                if(G_.jmmr_list != null){
-                    if(G_.jmmr_list.size() >= pos){
+                if(G_.jmmr_list != null) {
+                    if (G_.jmmr_list.size() >= pos) {
                         G_.selectRange = G_.jmmr_list.get(pos).dev_range;
                     }
                 }
@@ -551,7 +543,6 @@ import java.util.TimerTask;
             }
         });
     }
-
     void checkIntentForExtras(){
         Intent intent = getIntent();
         boolean cmd_suppress = intent.getBooleanExtra("cmd_suppress", false);
@@ -564,7 +555,6 @@ import java.util.TimerTask;
         intent.removeExtra("cmd_return");
 
     }
-
     void init(){
         context = this;
         G_.animeBtConnectionIconState = BT_CONNECTING_ICON_STATE_ENABLE;
@@ -581,7 +571,6 @@ import java.util.TimerTask;
         checkIntentForExtras();
         initTmMonitor();
     }
-
     void showPageRanges(){
         Intent i = new Intent(context, RangesActivity.class);
         startActivity(i);
@@ -591,10 +580,10 @@ import java.util.TimerTask;
          startActivity(i);
      }
     void bttnSuppress(){
+        G_.selectBtDevice.setDeviceSelected(false);
         mNeedCloseConnection = 5;
         btSendJmmrList(true);
     }
-
     void vibro(){
         final VibrationEffect vibrationEffect;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -605,7 +594,6 @@ import java.util.TimerTask;
         vibrator.cancel();
         vibrator.vibrate(vibrationEffect);
     }
-
     void resetColorPatternButtons(){
         bttnPatt1.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_pattern, null));
         bttnPatt2.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_pattern, null));
@@ -623,9 +611,6 @@ import java.util.TimerTask;
             case 3: bttnPatt4.setBackgroundResource (R.drawable.button_pattern_select); break;
         }
     }
-
-
-
     void closeBtConnectionThread(){
         if(G_.btConnect!=null) {
             try {
