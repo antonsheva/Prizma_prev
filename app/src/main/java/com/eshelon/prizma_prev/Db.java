@@ -5,6 +5,7 @@ import static com.eshelon.prizma_prev.C_.DB_VERSION;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -13,6 +14,11 @@ import androidx.annotation.Nullable;
 
 import com.eshelon.prizma_prev.objects.JmmrState;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 public class Db extends SQLiteOpenHelper {
@@ -29,9 +35,10 @@ public class Db extends SQLiteOpenHelper {
     public  static final String PATT_PWR1       = "pwr1";
     public  static final String PATT_PWR2       = "pwr2";
 
+    Context mContext;
 
-    private static final String DB_PATH = "app/src/main/assets";
-    public  static final String DB_NAME ="band_pattern";
+    private static String DB_PATH;
+    public  static final String DB_NAME ="band_pattern.db";
 
 
     private static final String CREATE_TABLE="create table if not exists "+
@@ -46,27 +53,44 @@ public class Db extends SQLiteOpenHelper {
             PATT_PWR1      + " INTEGER, " +
             PATT_PWR2      + " INTEGER);";
     private static final String DROP_TABLE = "DROP TABLE IF EXISTS "+ TABLE_NAME;
-
+    SQLiteDatabase db;
 
     public Db(@Nullable Context context, @Nullable String str, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DB_NAME, null, db_version);
         Log.i("MY_TEG", "Db constructor");
+        mContext = context;
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
-        Log.e("MY_TEG", "Db onCreate");
-        try{
-            db.execSQL(CREATE_TABLE);
-            Log.i("MY_TEG", "Create table - OK");
-        }catch (Exception e){
-            Log.e("MY_TEG", "Error create table");
-        }
-    }
+    public void onCreate(SQLiteDatabase db) { }
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL(DROP_TABLE);
-        onCreate(db);
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {}
+    void initDb(){
+        DB_PATH = mContext.getDatabasePath(DB_NAME).getPath();//getFilesDir().getPath()+DB_NAME
+        File file = new File(DB_PATH);
+
+        if (!file.exists()) {
+            //получаем локальную бд как поток
+            try(InputStream myInput = mContext.getAssets().open(DB_NAME);
+                // Открываем пустую бд
+                OutputStream myOutput = new FileOutputStream(DB_PATH)) {
+
+                // побайтово копируем данные
+                byte[] buffer = new byte[1024];
+                int length;
+                while ((length = myInput.read(buffer)) > 0) {
+                    myOutput.write(buffer, 0, length);
+                }
+                myOutput.flush();
+            }
+            catch(IOException ex){
+                Log.d("MY_TEG", ex.getMessage());
+            }
+        }
+
+    }
+    public SQLiteDatabase open()throws SQLException {
+        return SQLiteDatabase.openDatabase(DB_PATH, null, SQLiteDatabase.OPEN_READWRITE);
     }
     public boolean insertPattern(JmmrState jmmr){
         SQLiteDatabase db=this.getWritableDatabase();
@@ -86,7 +110,7 @@ public class Db extends SQLiteOpenHelper {
     public ArrayList<JmmrState>readDataFromDb(){
         ArrayList<JmmrState>tmpArray = new ArrayList<>();
         JmmrState jmmr;
-        SQLiteDatabase db=this.getWritableDatabase();
+        db=open();
         Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, null);
         int pattQty = cursor.getCount();
         cursor.moveToFirst();

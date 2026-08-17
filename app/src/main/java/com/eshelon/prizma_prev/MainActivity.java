@@ -21,6 +21,7 @@ import static com.eshelon.prizma_prev.C_.DB_VERSION;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
@@ -229,7 +230,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      }
     boolean mWaitBtresponse = false;
     Timer tmWaitBtResponse;
-
+    SQLiteDatabase db;
     PatternAdapter patternAdapter;
     void initTmWaitBtResponse(){
         mWaitBtresponse = true;
@@ -240,6 +241,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                if(G_.btHasNewData) {
                    G_.animeBtUpdateIconState = BT_UPDATE_ICON_STATE_VISIBLE;
                    initDevListAdapter();
+                   initPatternAdapter();
                    tmWaitBtResponse.cancel();
                    tmWaitBtResponse = null;
                    G_.btHasNewData = false;
@@ -249,10 +251,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         },300, 100);
     };
     void getJmmrList(){
-         initTmWaitBtResponse();
+        initTmWaitBtResponse();
         G_.jmmr_list =new ArrayList<>();
-         G_.animeBtUpdateIconState = BT_UPDATE_ICON_STATE_UPDATE;
-         btSendCmd(C_.CMD_GET_JMMR_LIST);
+        G_.animeBtUpdateIconState = BT_UPDATE_ICON_STATE_UPDATE;
+        btSendCmd(C_.CMD_GET_JMMR_LIST);
     }
      void btConnect(){
         if(G_.btConnect == null){
@@ -444,7 +446,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if(jmmr.pwr1 != 1)jmmr.pwr1 = 2;
             if(jmmr.pwr2 != 1)jmmr.pwr2 = 2;
         }
-//      initDevListAdapter();
         G_.btHasNewData = true;
         G_.animeBtUpdateIconState = BT_UPDATE_ICON_STATE_VISIBLE;
      }
@@ -742,16 +743,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     void initPatterns(){
-        ArrayList<JmmrState>jmmrStates = new ArrayList<>();
-        Db db = new Db(getApplicationContext(), "dbName", null, DB_VERSION);
-        jmmrStates = db.readDataFromDb();
-        if(jmmrStates != null){
-            initPatternAdapter(jmmrStates);
-            for(int i=0; i<jmmrStates.size(); i++){
-                Log.i("MY_TEG", "pattName -> "+jmmrStates.get(i).patt_name+"; mask1 -> "+
-                        jmmrStates.get(i).msk1+ "; mask2 -> "+jmmrStates.get(i).msk2);
+        Db dbHelper = new Db(getApplicationContext(), "dbName", null, DB_VERSION);
+        dbHelper.initDb();
+        G_.pattern_list = dbHelper.readDataFromDb();
+        if(G_.pattern_list != null){
+            initPatternAdapter();
+            for(int i=0; i<G_.pattern_list.size(); i++){
+                Log.i("MY_TEG", "pattName -> "+G_.pattern_list.get(i).patt_name+"; mask1 -> "+
+                        G_.pattern_list.get(i).msk1+ "; mask2 -> "+G_.pattern_list.get(i).msk2);
             }
         }
+        initPatternAdapter();
     }
     void setPatternBand(int patt){
 
@@ -762,16 +764,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    void initPatternAdapter(ArrayList<JmmrState> jmmrStates){
+    void initPatternAdapter(){
         ListView listView = findViewById(R.id.sMainPatternList);
         listView.setVisibility(VISIBLE);
-        patternAdapter = new PatternAdapter(this, R.layout.pattern_list_item, jmmrStates, new ItemPatternListener() {
+        if(patternAdapter != null)patternAdapter = null;
+        patternAdapter = new PatternAdapter(this, R.layout.pattern_list_item, G_.pattern_list, new ItemPatternListener() {
             @Override
             public void cb(JmmrState jmmr) {
 
             }
         });
-        listView.setAdapter(patternAdapter);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                listView.setAdapter(patternAdapter);
+            }
+        });
+
     }
     public void onClick(View v) {
         boolean anime = false;

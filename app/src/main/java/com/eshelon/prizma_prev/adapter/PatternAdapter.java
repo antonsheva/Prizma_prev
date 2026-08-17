@@ -46,11 +46,30 @@ public class PatternAdapter extends ArrayAdapter<JmmrState> {
             convertView.setTag(viewHolder);
         }else {
             viewHolder = (ViewHolder) convertView.getTag();
+            if(G_.jmmr_list != null){
+                for(JmmrState jmmr :  G_.jmmr_list){
+                    if(jmmrStateList.get(position).dev_range == jmmr.dev_range){
+                        viewHolder.pattItem.setBackgroundResource(R.drawable.range_bacground_red);
+                    }else{
+                        viewHolder.pattItem.setBackgroundResource(R.drawable.range_bacground_no_active);
+                    }
+                }
+            }
         }
         viewHolder.txtTitle.setText(jmmrStateList.get(position).patt_name);
         viewHolder.txtRange.setText(G_.rangeGroupList.get(jmmrStateList.get(position).dev_range).getViewRange());
         viewHolder.txtMask1.setText(Math.toIntExact(jmmrStateList.get(position).msk1)+"");
         viewHolder.txtMask2.setText(Math.toIntExact(jmmrStateList.get(position).msk2)+"");
+
+        if(G_.jmmr_list != null){
+            for(JmmrState jmmr :  G_.jmmr_list){
+                if(jmmrStateList.get(position).dev_range == jmmr.dev_range){
+                    viewHolder.pattItem.setBackgroundResource(R.drawable.range_bacground_red);
+                }else{
+                    viewHolder.pattItem.setBackgroundResource(R.drawable.range_bacground_no_active);
+                }
+            }
+        }
 
         viewHolder.pattItem.setOnClickListener(new View.OnClickListener() {
             @Override
