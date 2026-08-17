@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class G_ {
     public static boolean bttnSuppressState = false;
-    public static int selectPattern = 0;
+
     public static int selectRange = 0;
     public static final ArrayList<ObjRange> rangeList = new ArrayList<>();
     public static final ArrayList<ObjRange> rangeGroupList = new ArrayList<>();
@@ -17,6 +17,8 @@ public class G_ {
 
     public static ArrayList<JmmrState> jmmr_list = new ArrayList<>();
     public static ArrayList<JmmrState> pattern_list = new ArrayList<>();
+    public static ArrayList<JmmrState> pattern_select_list = new ArrayList<>();
+
     public static String  btData = "";
     public static int btPackQty = 0;
     public static boolean btDataOk = false;

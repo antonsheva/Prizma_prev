@@ -64,9 +64,9 @@ public class PatternAdapter extends ArrayAdapter<JmmrState> {
         if(G_.jmmr_list != null){
             for(JmmrState jmmr :  G_.jmmr_list){
                 if(jmmrStateList.get(position).dev_range == jmmr.dev_range){
-                    viewHolder.pattItem.setBackgroundResource(R.drawable.range_bacground_red);
+                    viewHolder.pattItem.setBackgroundResource(R.drawable.bacground_active);
                 }else{
-                    viewHolder.pattItem.setBackgroundResource(R.drawable.range_bacground_no_active);
+//                    viewHolder.pattItem.setBackgroundResource(R.drawable.range_bacground_no_active);
                 }
             }
         }

@@ -250,7 +250,7 @@
                 android:id="@+id/sMainPatternList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
+                android:scrollbars="none"
                 android:layout_centerHorizontal="true"
 
                 android:padding="10dp"

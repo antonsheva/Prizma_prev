@@ -15,5 +15,6 @@
     <color name="buttonShadow">#7E7D7D</color>
     <color name="button_red">#FA6B61</color>
     <color name="button_yellow">#DCD82D</color>
+    <color name="background_active">#ADE2A6</color>
 
 </resources>

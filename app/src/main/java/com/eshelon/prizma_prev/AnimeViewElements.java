@@ -24,19 +24,19 @@ public class AnimeViewElements {
     boolean swchOnClick = false;
     static Drawable drawablePrev;
     public void onClick(Activity activity, View view){
-        if(swchOnClick)return;
-        Drawable dClick = activity.getDrawable(R.drawable.button_onclick_grey);
-        Drawable dMain = view.getBackground();
-        swchOnClick = true;
-
-        showView(activity, view, dClick);
-        tmButtonClick.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                showView(activity, view, dMain);
-                swchOnClick = false;
-            }
-        },80);
+//        if(swchOnClick)return;
+//        Drawable dClick = activity.getDrawable(R.drawable.button_onclick_grey);
+//        Drawable dMain = view.getBackground();
+//        swchOnClick = true;
+//
+//        showView(activity, view, dClick);
+//        tmButtonClick.schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//                showView(activity, view, dMain);
+//                swchOnClick = false;
+//            }
+//        },80);
     }
     public void onTouch(Activity activity, View view, boolean stt, int color){
         Drawable drawable;
