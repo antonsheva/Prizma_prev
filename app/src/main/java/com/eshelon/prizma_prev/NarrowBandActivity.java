@@ -1,6 +1,10 @@
 package com.eshelon.prizma_prev;
 
 import static android.view.MotionEvent.ACTION_DOWN;
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
+import static com.eshelon.prizma_prev.C_.DB_VERSION;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,6 +17,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -45,6 +50,9 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
     RelativeLayout sFrqBandButtonSave;
     RelativeLayout bttnCansel;
     RelativeLayout sFrqBandButtonEnableDisableAll;
+    RelativeLayout sFrqBandButtonAddPattern;
+
+
     RelativeLayout sFrqBandOnOffChnlBttn1;
     RelativeLayout sFrqBandOnOffChnlBttn2;
 
@@ -61,8 +69,10 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
     Spinner spinnerMc1;
     Spinner spinnerMc2;
 
-
-
+    EditText sEditWindowTxtPattName;
+    RelativeLayout sEditWindowBttnSave;
+    RelativeLayout sEditWindowBttnCansel;
+    RelativeLayout sEditWindow;
 
     ObjRange objRange1;
     ObjRange objRange2;
@@ -78,8 +88,8 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
     boolean mSwchEnableDisable = false;
     boolean mSwchOnOffChnl1;
     boolean mSwchOnOffChnl2;
-
-
+    boolean mEditWindowIsShow = false;
+    Db db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,7 +147,7 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 objRange1.setFrqPosition(C_.FRQ_STEP_QTY - progress);
-                updateViewElements("onProgressChanged");
+                updateViewElements();
             }
 
             @Override
@@ -157,7 +167,7 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 objRange2.setFrqPosition(C_.FRQ_STEP_QTY - progress);
-                updateViewElements("onProgressChanged 2");
+                updateViewElements();
             }
 
             @Override
@@ -218,7 +228,8 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
 
         initJmmrData();
         initOnOffChnlBttn();
-        updateViewElements("init");
+        updateViewElements();
+        db = new Db(getApplicationContext(), "dbName", null, DB_VERSION);
     }
 
     boolean spinnerLatch1 = false;
@@ -249,7 +260,7 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(spinnerLatch1){
                     objRange1.setCurrentBand(position);
-                    updateViewElements("onItemSelected 1");
+                    updateViewElements();
                 }else {
                     spinnerLatch1 = true;
                 }
@@ -264,7 +275,7 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(spinnerLatch2){
                     objRange2.setCurrentBand(position);
-                    updateViewElements("onItemSelected 2");
+                    updateViewElements();
                 }else {
                     spinnerLatch2 = true;
                 }
@@ -452,6 +463,9 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
         sFrqBandButtonEnableDisableAll = findViewById(R.id.sFrqBandOnOffAllButton);
         sFrqBandButtonEnableDisableAll.setOnTouchListener(this);
 
+        sFrqBandButtonAddPattern = findViewById(R.id.sFrqBandButtonAddPattern);
+        sFrqBandButtonAddPattern.setOnTouchListener(this);
+
         sFrqBandEnDisAllTxt = findViewById(R.id.sFrqBandEnDisAllTxt);
         sFrqBandEnDisAllTxt.setText(mSwchEnableDisable ? "Выкл. все" : "Вкл. все");
 
@@ -486,11 +500,20 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
 
 
 
+        sEditWindowTxtPattName  = findViewById(R.id.sEditWindowTxtPattName);
+        sEditWindowBttnSave     = findViewById(R.id.sEditWindowBttnSave);
+        sEditWindowBttnCansel   = findViewById(R.id.sEditWindowBttnCansel);
+        sEditWindow             = findViewById(R.id.sEditWindow);
+
+        sEditWindowBttnCansel.setOnTouchListener(this);
+        sEditWindowBttnSave.setOnTouchListener(this);
+        sEditWindow.setOnTouchListener(this);
+
 
         initRangeSticks();
         initBandStepPanels();
     }
-    void updateViewElements(String str){
+    void updateViewElements(){
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -501,6 +524,7 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
             }
         });
     }
+
 
     void saveDataToJmmrList(){
         if(G_.currentJmmrNum != -1){
@@ -518,9 +542,16 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
         mask ^= (1<<pos);
         if(rangeNum == 1)objRange1.setRangeMask(mask);
         else             objRange2.setRangeMask(mask);
-        updateViewElements("setRangeMask");
+        updateViewElements();
     }
 
+    void addPatternToDb(){
+        saveDataToJmmrList();
+        G_.jmmr_list.get(G_.currentJmmrNum).patt_name = sEditWindowTxtPattName.getText().toString();
+        boolean res =  db.insertPattern(G_.jmmr_list.get(G_.currentJmmrNum));
+        if(res)Log.i("MY_TEG", "Insert data to DB - ok");
+        else   Log.i("MY_TEG", "Error insert data to DB");
+    }
     void onPressButton(int vId){
         vibro();
         int pos;
@@ -546,7 +577,7 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
             }
             mSwchEnableDisable = !mSwchEnableDisable;
 
-            updateViewElements(" ");
+            updateViewElements();
         }
         if(vId == R.id.sFrqBandOnOffChnlButton1){
             mSwchOnOffChnl1 = !mSwchOnOffChnl1;
@@ -576,12 +607,25 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
             i.putExtra("cmd_return", true);
             startActivity(i);
         }
+        if(vId == R.id.sFrqBandButtonAddPattern){
+            sEditWindow.setVisibility(VISIBLE);
+        }
+        if(vId == R.id.sEditWindowBttnSave){
+            addPatternToDb();
+            sEditWindowTxtPattName.setText("");
+            sEditWindow.setVisibility(GONE);
+        }
+        if(vId == R.id.sEditWindowBttnCansel) {
+            sEditWindowTxtPattName.setText("");
+            sEditWindow.setVisibility(GONE);
+        }
+
+
     }
-
-
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         int vId = v.getId();
+        if(vId == R.id.sEditWindow)return true;
         int color  = 0;
         if(vId == R.id.sFrqBandOnOffSuppress)color = 1;
         AnimeViewElements anime = new AnimeViewElements();
@@ -591,7 +635,12 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
                 onPressButton(vId);
                 break;
         }
-
         return false;
     }
 }
+
+
+
+
+
+

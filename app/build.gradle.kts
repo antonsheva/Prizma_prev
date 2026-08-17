@@ -36,6 +36,7 @@ android {
         dataBinding = true
     }
 
+
 }
 
 dependencies {
@@ -49,9 +50,6 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation(libs.ext.junit)
-
-    implementation("androidx.palette:palette-ktx:1.0.0")
-    implementation("androidx.fragment:fragment:1.8.9")
-
-
+    implementation(libs.palette.ktx)
+    implementation(libs.fragment)
 }

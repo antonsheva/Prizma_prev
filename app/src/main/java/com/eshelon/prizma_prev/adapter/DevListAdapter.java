@@ -165,12 +165,12 @@ public class DevListAdapter extends ArrayAdapter<JmmrState> {
     }
 
     void setBattState(ViewHolder viewHolder, int stt){
-        int val = 33;
-        if( stt < 2300) val = 1;
-        if((stt >= 2300)&&(stt < 2450))val = 25;
-        if((stt >= 2450)&&(stt < 2600))val = 50;
-        if((stt >= 2650)&&(stt < 2800))val = 75;
-        if( stt >= 2800)val = 100;
+        int val = 1;
+        if( stt < 2100) val = 1;
+        if((stt >= 2100)&&(stt < 2350))val = 25;
+        if((stt >= 2350)&&(stt < 2450))val = 50;
+        if((stt >= 2450)&&(stt < 2600))val = 75;
+        if( stt >= 2600)val = 100;
         viewHolder.battState.setText(val+"%");
     }
     static class ViewHolder{

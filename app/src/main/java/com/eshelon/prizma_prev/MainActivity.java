@@ -15,6 +15,7 @@ import static com.eshelon.prizma_prev.C_.BT_STATE_DISCONNECTED;
 import static com.eshelon.prizma_prev.C_.BT_UPDATE_ICON_STATE_GONE;
 import static com.eshelon.prizma_prev.C_.BT_UPDATE_ICON_STATE_UPDATE;
 import static com.eshelon.prizma_prev.C_.BT_UPDATE_ICON_STATE_VISIBLE;
+import static com.eshelon.prizma_prev.C_.DB_VERSION;
 
 
 import android.app.Activity;
@@ -25,13 +26,13 @@ import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 
@@ -43,9 +44,11 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.eshelon.prizma_prev.adapter.DevListAdapter;
+import com.eshelon.prizma_prev.adapter.PatternAdapter;
 import com.eshelon.prizma_prev.interfaces.CB;
 import com.eshelon.prizma_prev.interfaces.ItemDevSelListener;
 
+import com.eshelon.prizma_prev.interfaces.ItemPatternListener;
 import com.eshelon.prizma_prev.objects.JmmrState;
 import com.eshelon.prizma_prev.objects.ObjRange;
 import com.eshelon.prizma_prev.objects.ObjectMsg;
@@ -54,7 +57,6 @@ import com.google.gson.Gson;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.GregorianCalendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -72,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ImageView btUpdateDevList;
     ImageView btSearch;
     ListView mainLV;
+    ListView sMainPatternList;
     DevListAdapter devListAdapter;
     Vibrator vibrator;
     Context context;
@@ -226,6 +229,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      }
     boolean mWaitBtresponse = false;
     Timer tmWaitBtResponse;
+
+    PatternAdapter patternAdapter;
     void initTmWaitBtResponse(){
         mWaitBtresponse = true;
         tmWaitBtResponse = new Timer();
@@ -513,6 +518,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         btSearch = findViewById(R.id.btSearch);
         btSearch.setOnTouchListener(mainOnTouchListener);
+
+        sMainPatternList = findViewById(R.id.sMainPatternList);
     }
     void initJmmrListTmpVals(){
 
@@ -576,6 +583,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initDevListAdapter();
         checkIntentForExtras();
         initTmMonitor();
+        initPatterns();
     }
     void showPageRanges(){
         Intent i = new Intent(context, RangesActivity.class);
@@ -653,7 +661,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          startActivity(i);
      }
 
-     void initRangesGroupList(){
+    void initRangesGroupList(){
          ObjRange o;
          o = new ObjRange( 400,  800);
          G_.rangeGroupList.add(o);
@@ -680,8 +688,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          o = new ObjRange(5700, 6200);
          G_.rangeGroupList.add(o);
 
-     }
-     void initRangesList(){
+    }
+    void initRangesList(){
         ObjRange o;
         o = new ObjRange( 400,  600);
         G_.rangeList.add(o);
@@ -733,22 +741,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         G_.rangeList.add(o);
     }
 
-     void setPatternBand(int patt){
-         selectPattern(patt);
-         if(G_.jmmr_list != null){
-             long mask = 0xFFL;
-             mask = (mask << (patt*8));
-             mask &= 0x000000007FFFFFFFL;
-             for(int i=0; i<G_.jmmr_list.size(); i++){
-                 G_.jmmr_list.get(i).msk1 = mask;
-                 G_.jmmr_list.get(i).msk2 = mask;
-                 Log.i("MY_TEG", "pwr jmmr "+i+1+" -> "+G_.jmmr_list.get(i).batt_stt);
-             }
-             initDevListAdapter();
-         }
-     }
+    void initPatterns(){
+        ArrayList<JmmrState>jmmrStates = new ArrayList<>();
+        Db db = new Db(getApplicationContext(), "dbName", null, DB_VERSION);
+        jmmrStates = db.readDataFromDb();
+        if(jmmrStates != null){
+            initPatternAdapter(jmmrStates);
+            for(int i=0; i<jmmrStates.size(); i++){
+                Log.i("MY_TEG", "pattName -> "+jmmrStates.get(i).patt_name+"; mask1 -> "+
+                        jmmrStates.get(i).msk1+ "; mask2 -> "+jmmrStates.get(i).msk2);
+            }
+        }
+    }
+    void setPatternBand(int patt){
+
+        selectPattern(patt);
 
 
+        initDevListAdapter();
+    }
+
+
+    void initPatternAdapter(ArrayList<JmmrState> jmmrStates){
+        ListView listView = findViewById(R.id.sMainPatternList);
+        listView.setVisibility(VISIBLE);
+        patternAdapter = new PatternAdapter(this, R.layout.pattern_list_item, jmmrStates, new ItemPatternListener() {
+            @Override
+            public void cb(JmmrState jmmr) {
+
+            }
+        });
+        listView.setAdapter(patternAdapter);
+    }
     public void onClick(View v) {
         boolean anime = false;
         vibro();

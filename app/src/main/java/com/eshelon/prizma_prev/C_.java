@@ -112,7 +112,7 @@ public class C_ {
     public static final int UPDATE_ICON_DISABLE = 0;
     public static final int UPDATE_ICON_ENABLE = 1;
 
-
+    public static final int DB_VERSION  = 2;
 
 
 }

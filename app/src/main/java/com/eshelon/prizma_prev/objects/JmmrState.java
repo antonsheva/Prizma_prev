@@ -1,6 +1,7 @@
 package com.eshelon.prizma_prev.objects;
 
 public class JmmrState {
+    public String patt_name = "";
     public long dev_id    = 0;
     public int  group_id  = 0;
     public int  dev_type  = 0;

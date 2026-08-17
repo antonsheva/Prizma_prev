@@ -5,346 +5,401 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="50dp">
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/main_background"
-        android:orientation="vertical"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
-        >
+        android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/main_background"
             android:orientation="vertical"
-            android:gravity="center"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
             >
-            <TextView
-                android:id="@+id/sFrqBandMainTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="НАСТРОЙКА УЗКОЙ ПОЛОСЫ"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginTop="3dp"
-                android:textColor="@color/mTextColor"
-                />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:gravity="center"
                 >
                 <TextView
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/mTextColor"
-                android:textSize="16dp"
-                android:text="Адресс: "/>
-                <TextView
-                    android:id="@+id/sFrqBandDevAddr"
+                    android:id="@+id/sFrqBandMainTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/mTextColor"
-                    android:textSize="16dp"
-                    android:textStyle="bold"
-                    android:text="123"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/mTextColor"
-                    android:textSize="16dp"
-                    android:text="Диапазон "/>
-                <TextView
-                    android:id="@+id/sFrqBandRange"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:layout_marginStart="10dp"
+                    android:text="НАСТРОЙКА УЗКОЙ ПОЛОСЫ"
                     android:textSize="16sp"
-                    android:text="11: 2300–2500 МГц"
-                    android:textColor="@color/mTextColor"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="4dp"
-            android:orientation="vertical">
-            <include layout="@layout/range_fragment"/>
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal">
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-                <SeekBar
-                    android:id="@+id/sFrqBandSeekBar1"
+                    android:textStyle="bold"
+                    android:layout_marginTop="3dp"
+                    android:textColor="@color/mTextColor"
+                    />
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    >
+                    <TextView
 
-                    android:max="20"
-                    android:progress="10"
-                    android:progressDrawable="@drawable/seekbar_style"
-                    android:thumb="@drawable/seekbar_custom_thumb" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/mTextColor"
+                        android:textSize="16dp"
+                        android:text="Адресс: "/>
+                    <TextView
+                        android:id="@+id/sFrqBandDevAddr"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/mTextColor"
+                        android:textSize="16dp"
+                        android:textStyle="bold"
+                        android:text="123"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/mTextColor"
+                        android:textSize="16dp"
+                        android:text="Диапазон "/>
+                    <TextView
+                        android:id="@+id/sFrqBandRange"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:layout_marginStart="10dp"
+                        android:textSize="16sp"
+                        android:text="11: 2300–2500 МГц"
+                        android:textColor="@color/mTextColor"/>
+
+                </LinearLayout>
+
             </LinearLayout>
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="4dp"
                 android:orientation="vertical">
-                <SeekBar
-                    android:id="@+id/sFrqBandSeekBar2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:max="20"
-                    android:progress="10"
-                    android:progressDrawable="@drawable/seekbar_style"
-                    android:thumb="@drawable/seekbar_custom_thumb" />
+                <include layout="@layout/range_fragment"/>
             </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal">
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/mTextColor"
-                    android:textSize="16sp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="2dp"
-                    android:text="Полоса:"/>
-                <Spinner
-                    android:id="@+id/sFrqBandFrqSpinner1"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:dropDownWidth="100dp"
-                    android:background="@null"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="18dp"
-                    />
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/mTextColor"
-                    android:textSize="16sp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="2dp"
-                    android:text="Полоса:"/>
-
-                <Spinner
-                    android:id="@+id/sFrqBandFrqSpinner2"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:dropDownWidth="100dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="18dp"
-                    android:background="@null"
-                    />
-            </RelativeLayout>
-
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal">
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/mTextColor"
-                    android:textSize="16sp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="2dp"
-                    android:text="Модул.:"/>
-                <Spinner
-                    android:id="@+id/sFrqBandMcSpinner1"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:dropDownWidth="100dp"
-                    android:background="@null"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="18dp"
-                    />
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/mTextColor"
-                    android:textSize="16sp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="2dp"
-                    android:text="Модул.:"/>
-
-                <Spinner
-                    android:id="@+id/sFrqBandMcSpinner2"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:dropDownWidth="100dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="18dp"
-                    android:background="@null"
-                    />
-            </RelativeLayout>
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="10dp"
-                android:background="@color/divideLine" />
-            <RelativeLayout
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_marginTop="5dp"
-                android:paddingStart="5dp"
-                android:paddingEnd="5dp"
-                >
-                <RelativeLayout
-                    android:id="@+id/sFrqBandOnOffChnlButton1"
-                    style="@style/sMainButtonPattern"
-                    android:layout_width="115dp"
-                    android:layout_alignParentStart="true"                    >
-                    <TextView android:id="@+id/sFrqBandOnOffChnlTxt1" android:text="Вкл.канал" style="@style/sMainButtonText"/>
-                </RelativeLayout>
-                <RelativeLayout
-                    android:id="@+id/sFrqBandOnOffSuppress"
-                    style="@style/sMainButtonPattern"
-                    android:layout_width="wrap_content"
-                    android:background="@drawable/button_red"
-                                        >
-                    <TextView android:id="@+id/sFrqBandSuppressTxt" android:text="Подавление" style="@style/sMainButtonText"/>
-                </RelativeLayout>
-                <RelativeLayout
-                    android:id="@+id/sFrqBandOnOffChnlButton2"
-                    style="@style/sMainButtonPattern"
-                    android:layout_width="110dp"
-                    android:layout_alignParentEnd="true"                    >
-                    <TextView android:id="@+id/sFrqBandOnOffChnlTxt2" android:text="Вкл.канал" style="@style/sMainButtonText"/>
-                </RelativeLayout>
-            </RelativeLayout>
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <SeekBar
+                        android:id="@+id/sFrqBandSeekBar1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
 
+                        android:max="20"
+                        android:progress="10"
+                        android:progressDrawable="@drawable/seekbar_style"
+                        android:thumb="@drawable/seekbar_custom_thumb" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <SeekBar
+                        android:id="@+id/sFrqBandSeekBar2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:max="20"
+                        android:progress="10"
+                        android:progressDrawable="@drawable/seekbar_style"
+                        android:thumb="@drawable/seekbar_custom_thumb" />
+                </LinearLayout>
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:orientation="horizontal">
                 <RelativeLayout
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical"
-
-                    android:background="@drawable/band_list_background">
-                    <LinearLayout
+                    android:orientation="horizontal">
+                    <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:layout_centerInParent="true">
-                        <include layout="@layout/band_list_1"/>
-                    </LinearLayout>
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/mTextColor"
+                        android:textSize="16sp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="2dp"
+                        android:text="Полоса:"/>
+                    <Spinner
+                        android:id="@+id/sFrqBandFrqSpinner1"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:dropDownWidth="100dp"
+                        android:background="@null"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="18dp"
+                        />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/mTextColor"
+                        android:textSize="16sp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="2dp"
+                        android:text="Полоса:"/>
 
+                    <Spinner
+                        android:id="@+id/sFrqBandFrqSpinner2"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:dropDownWidth="100dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="18dp"
+                        android:background="@null"
+                        />
+                </RelativeLayout>
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/mTextColor"
+                        android:textSize="16sp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="2dp"
+                        android:text="Модул.:"/>
+                    <Spinner
+                        android:id="@+id/sFrqBandMcSpinner1"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:dropDownWidth="100dp"
+                        android:background="@null"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="18dp"
+                        />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/mTextColor"
+                        android:textSize="16sp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="2dp"
+                        android:text="Модул.:"/>
+
+                    <Spinner
+                        android:id="@+id/sFrqBandMcSpinner2"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:dropDownWidth="100dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="18dp"
+                        android:background="@null"
+                        />
+                </RelativeLayout>
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/divideLine" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    >
+                    <RelativeLayout
+                        android:id="@+id/sFrqBandOnOffChnlButton1"
+                        style="@style/sMainButtonPattern"
+                        android:layout_width="115dp"
+                        android:layout_alignParentStart="true"                    >
+                        <TextView android:id="@+id/sFrqBandOnOffChnlTxt1" android:text="Вкл.канал" style="@style/sMainButtonText"/>
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:id="@+id/sFrqBandOnOffSuppress"
+                        style="@style/sMainButtonPattern"
+                        android:layout_width="wrap_content"
+                        android:background="@drawable/button_red"
+                        >
+                        <TextView android:id="@+id/sFrqBandSuppressTxt" android:text="Подавление" style="@style/sMainButtonText"/>
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:id="@+id/sFrqBandOnOffChnlButton2"
+                        style="@style/sMainButtonPattern"
+                        android:layout_width="110dp"
+                        android:layout_alignParentEnd="true"                    >
+                        <TextView android:id="@+id/sFrqBandOnOffChnlTxt2" android:text="Вкл.канал" style="@style/sMainButtonText"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+
+                        android:background="@drawable/band_list_background">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <include layout="@layout/band_list_1" />
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+
+                        android:background="@drawable/band_list_background">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:layout_centerInParent="true">
+                            <include layout="@layout/band_list_2"/>
+                        </LinearLayout>
+
+                    </RelativeLayout>
+                </LinearLayout>
+
+
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_alignParentBottom="true"
+                >
+
+                <RelativeLayout
+                    android:id="@+id/sFrqBandButtonSave"
+                    style="@style/sMainButtonPattern"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    >
+                    <TextView android:text="Сохран." style="@style/sMainButtonText"/>
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/sFrqBandButtonCansel"
+                    style="@style/sMainButtonPattern"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:orientation="vertical"
-
-                    android:background="@drawable/band_list_background">
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:layout_centerInParent="true">
-                        <include layout="@layout/band_list_2"/>
-                    </LinearLayout>
-
+                    >
+                    <TextView android:text="Отмена" style="@style/sMainButtonText"/>
                 </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/sFrqBandButtonAddPattern"
+                    style="@style/sMainButtonPattern"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    >
+                    <TextView android:text="В шабл." style="@style/sMainButtonText"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/sFrqBandOnOffAllButton"
+                    style="@style/sMainButtonPattern"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    >
+                    <TextView android:id="@+id/sFrqBandEnDisAllTxt" android:text="Вкл. все" style="@style/sMainButtonText"/>
+                </RelativeLayout>
+
             </LinearLayout>
-
-
-
-
         </LinearLayout>
-
         <RelativeLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:layout_marginBottom="10dp"
-            android:layout_alignParentBottom="true"
-            >
-
+            android:id="@+id/sEditWindow"
+            android:layout_width="300dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="200dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/edit_box"
+            android:visibility="gone">
+            <EditText
+                android:id="@+id/sEditWindowTxtPattName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:textStyle="bold"
+                android:hint="Название шаблона"/>
             <RelativeLayout
-                android:id="@+id/sFrqBandButtonSave"
+                android:id="@+id/sEditWindowBttnSave"
                 style="@style/sMainButtonPattern"
-                android:layout_alignParentStart="true">
-                <TextView android:text="Применить" style="@style/sMainButtonText"/>
+                android:layout_width="115dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="20dp"
+                android:layout_marginStart="15dp">
+                <TextView android:text="Сохранить" style="@style/sMainButtonText"/>
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/sFrqBandButtonCansel"
-                style="@style/sMainButtonPattern">
-                <TextView android:text="Отменить" style="@style/sMainButtonText"/>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/sFrqBandOnOffAllButton"
+                android:id="@+id/sEditWindowBttnCansel"
                 style="@style/sMainButtonPattern"
+                android:layout_width="115dp"
                 android:layout_alignParentEnd="true"
-                android:layout_width="100dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="20dp"
+                android:layout_marginEnd="15dp"
                 >
-                <TextView android:id="@+id/sFrqBandEnDisAllTxt" android:text="Вкл. все" style="@style/sMainButtonText"/>
+                <TextView android:text="Отмена" style="@style/sMainButtonText"/>
             </RelativeLayout>
 
         </RelativeLayout>
-    </LinearLayout>
+    </RelativeLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
