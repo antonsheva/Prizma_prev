@@ -1,6 +1,7 @@
 package com.eshelon.prizma_prev.adapter;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,26 @@ public class PatternAdapter extends ArrayAdapter<JmmrState> {
         jmmrStateList = objects;
     }
 
+    void setBackground(ViewHolder viewHolder, int position, boolean updateNoActive){
+        if(G_.jmmr_list != null){
+            for(JmmrState jmmr :  G_.jmmr_list){
+                if(jmmrStateList.get(position).dev_range == jmmr.dev_range){
+                    jmmrStateList.get(position).physicalDevice = 1;
+                    viewHolder.pattItem.setBackgroundResource(R.drawable.button_unpress_active);
+                    viewHolder.txtTitle.setTextAppearance(R.style.txtActivePanel);
+                    viewHolder.txtRange.setTextAppearance(R.style.txtActivePanel);
+
+                }else{
+                    if(updateNoActive){
+                        jmmrStateList.get(position).physicalDevice = 0;
+                        viewHolder.pattItem.setBackgroundResource(R.drawable.range_bacground_no_active);
+                        viewHolder.txtTitle.setTextAppearance(R.style.txtUnactivePanel);
+                        viewHolder.txtRange.setTextAppearance(R.style.txtUnactivePanel);
+                    }
+                }
+            }
+        }
+    }
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -44,32 +65,19 @@ public class PatternAdapter extends ArrayAdapter<JmmrState> {
             viewHolder.txtMask2 = convertView.findViewById(R.id.sPattItemMask2);
             viewHolder.pattItem = convertView.findViewById(R.id.sPattItem);
             convertView.setTag(viewHolder);
+            setBackground(viewHolder,position, true);
         }else {
             viewHolder = (ViewHolder) convertView.getTag();
-            if(G_.jmmr_list != null){
-                for(JmmrState jmmr :  G_.jmmr_list){
-                    if(jmmrStateList.get(position).dev_range == jmmr.dev_range){
-                        viewHolder.pattItem.setBackgroundResource(R.drawable.range_bacground_red);
-                    }else{
-                        viewHolder.pattItem.setBackgroundResource(R.drawable.range_bacground_no_active);
-                    }
-                }
-            }
+            setBackground(viewHolder, position, true);
         }
+        String msk1 = Math.toIntExact(jmmrStateList.get(position).msk1)+"";
+        String msk2 = Math.toIntExact(jmmrStateList.get(position).msk2)+"";
         viewHolder.txtTitle.setText(jmmrStateList.get(position).patt_name);
         viewHolder.txtRange.setText(G_.rangeGroupList.get(jmmrStateList.get(position).dev_range).getViewRange());
-        viewHolder.txtMask1.setText(Math.toIntExact(jmmrStateList.get(position).msk1)+"");
-        viewHolder.txtMask2.setText(Math.toIntExact(jmmrStateList.get(position).msk2)+"");
+        viewHolder.txtMask1.setText(msk1);
+        viewHolder.txtMask2.setText(msk2);
 
-        if(G_.jmmr_list != null){
-            for(JmmrState jmmr :  G_.jmmr_list){
-                if(jmmrStateList.get(position).dev_range == jmmr.dev_range){
-                    viewHolder.pattItem.setBackgroundResource(R.drawable.bacground_active);
-                }else{
-//                    viewHolder.pattItem.setBackgroundResource(R.drawable.range_bacground_no_active);
-                }
-            }
-        }
+        setBackground(viewHolder, position, false);
 
         viewHolder.pattItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,10 +87,8 @@ public class PatternAdapter extends ArrayAdapter<JmmrState> {
                 listener.cb(jmmrState);
             }
         });
-
         return convertView;
     }
-
     static class ViewHolder {
         TextView txtTitle, txtRange, txtMask1, txtMask2;
         LinearLayout pattItem;

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sMessageModalWindow"
+    android:layout_width="300dp"
+    android:layout_height="120dp"
+    android:layout_marginTop="200dp"
+
+    android:layout_centerHorizontal="true"
+    style="@style/messageBox"
+    android:visibility="gone">
+    <TextView
+        android:id="@+id/sMessageModalWindowTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:textColor="@color/mTextColor"
+        android:text="Message"/>
+    <RelativeLayout
+        android:id="@+id/sMessageModalWindowBttnConfirm"
+        style="@style/sMainButtonPattern"
+        android:layout_width="115dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="10dp">
+        <TextView android:text="Подтвердить" style="@style/sMainButtonText"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/sMessageModalWindowBttnCansel"
+        style="@style/sMainButtonPattern"
+        android:layout_width="115dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
+        >
+        <TextView android:text="Отмена" style="@style/sMainButtonText"/>
+    </RelativeLayout>
+
+</RelativeLayout>

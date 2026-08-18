@@ -3,7 +3,6 @@
 import static android.view.MotionEvent.ACTION_DOWN;
 import static android.view.MotionEvent.ACTION_UP;
 import static android.view.View.GONE;
-import static android.view.View.TEXT_ALIGNMENT_CENTER;
 import static android.view.View.VISIBLE;
 import static android.widget.Toast.LENGTH_LONG;
 import static com.eshelon.prizma_prev.C_.BT_CONNECTING_ICON_STATE_CONNECTED;
@@ -30,11 +29,11 @@ import android.os.Vibrator;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -78,6 +77,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView sMainButtonPatt3Txt;
     TextView sMainButtonPatt4Txt;
 
+    LinearLayout sMainPatternListPanel;
+
+    FrameLayout sMainSubBackground;
 
     ImageView btDevInfo;
     ImageView btUpdateDevList;
@@ -113,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          super.onResume();
          Log.i("MY_TEG", "onResume - - MainActivity 1");
          setBtIcon(C_.BT_ICON_ENABLE);
+         initPatternsPanel();
          if (!G_.selectBtDevice.isDeviceSelected())return;
          if(G_.btActiveState == BT_STATE_CONNECTED)return;
 
@@ -293,7 +296,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      }
      private void btSendData(Object o, int type){
          if(G_.btActiveState != BT_STATE_CONNECTED){
-             new MessageBox(this, "Отсутствует подключение");
+             new MessageBox(this).showMessage("Отсутствует подключение");
              return;
          }
          String jsonStr = "";
@@ -500,6 +503,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          if(data.startsWith("start___"))btReceivedStartPacket(data);
          else                           btReceiveNextPackets(data);
      }
+
+
+    void initPatternButtons(){
+        bttnPatt1 = findViewById(R.id.sMainButtonPatt1);
+        bttnPatt1.setOnTouchListener(mainOnTouchListener);
+        bttnPatt1.setOnLongClickListener(mainOnLongClickListener);
+
+        bttnPatt2 = findViewById(R.id.sMainButtonPatt2);
+        bttnPatt2.setOnTouchListener(mainOnTouchListener);
+        bttnPatt2.setOnLongClickListener(mainOnLongClickListener);
+
+        bttnPatt3 = findViewById(R.id.sMainButtonPatt3);
+        bttnPatt3.setOnTouchListener(mainOnTouchListener);
+        bttnPatt3.setOnLongClickListener(mainOnLongClickListener);
+
+        bttnPatt4 = findViewById(R.id.sMainButtonPatt4);
+        bttnPatt4.setOnTouchListener(mainOnTouchListener);
+        bttnPatt4.setOnLongClickListener(mainOnLongClickListener);
+    }
     void initViewElements(){
         mainLV = findViewById(R.id.mainLV);
 
@@ -512,17 +534,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bttnSuppress.setOnTouchListener(mainOnTouchListener);
 
 
-        bttnPatt1 = findViewById(R.id.sMainButtonPatt1);
-        bttnPatt1.setOnTouchListener(mainOnTouchListener);
-
-        bttnPatt2 = findViewById(R.id.sMainButtonPatt2);
-        bttnPatt2.setOnTouchListener(mainOnTouchListener);
-
-        bttnPatt3 = findViewById(R.id.sMainButtonPatt3);
-        bttnPatt3.setOnTouchListener(mainOnTouchListener);
-
-        bttnPatt4 = findViewById(R.id.sMainButtonPatt4);
-        bttnPatt4.setOnTouchListener(mainOnTouchListener);
+        initPatternButtons();
 
         btDevInfo = findViewById(R.id.btDevInfo);
         btDevInfo.setOnTouchListener(mainOnTouchListener);
@@ -533,12 +545,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btSearch = findViewById(R.id.btSearch);
         btSearch.setOnTouchListener(mainOnTouchListener);
 
-        sMainPatternList = findViewById(R.id.sMainPatternList);
+        sMainPatternList      = findViewById(R.id.sMainPatternList);
+        sMainPatternListPanel = findViewById(R.id.sMainPatternListPanel);
+
+        sMainSubBackground = findViewById(R.id.sMainSubBackground);
+        sMainSubBackground.setOnTouchListener(mainOnTouchListener);
 
         sMainButtonPatt1Txt = findViewById(R.id.sMainButtonPatt1Txt);
         sMainButtonPatt2Txt = findViewById(R.id.sMainButtonPatt2Txt);
         sMainButtonPatt3Txt = findViewById(R.id.sMainButtonPatt3Txt);
         sMainButtonPatt4Txt = findViewById(R.id.sMainButtonPatt4Txt);
+
+
     }
     void initJmmrListTmpVals(){
 
@@ -634,16 +652,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bttnPatt4.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_unpress, null));
 
         if(G_.pattern_select_list == null) return;
-        if(G_.pattern_select_list.size()>0)bttnPatt1.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.bacground_active, null));
-        if(G_.pattern_select_list.size()>1)bttnPatt2.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.bacground_active, null));
-        if(G_.pattern_select_list.size()>2)bttnPatt3.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.bacground_active, null));
-        if(G_.pattern_select_list.size()>3)bttnPatt4.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.bacground_active, null));
+        if(G_.pattern_select_list.size()>0)bttnPatt1.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_unpress_active, null));
+        if(G_.pattern_select_list.size()>1)bttnPatt2.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_unpress_active, null));
+        if(G_.pattern_select_list.size()>2)bttnPatt3.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_unpress_active, null));
+        if(G_.pattern_select_list.size()>3)bttnPatt4.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_unpress_active, null));
 
     }
     void selectPattern(int bttnId, int color){
         if(bttnId > G_.pattern_select_list.size()-1)return;
         resetColorPatternButtons();
-        int clr = color==1 ? R.drawable.button_active : R.drawable.bacground_active;
+        int clr = color==1 ? R.drawable.button_active : R.drawable.button_unpress_active;
         switch (bttnId){
             case 0: bttnPatt1.setBackgroundResource (clr); break;
             case 1: bttnPatt2.setBackgroundResource (clr); break;
@@ -766,8 +784,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         o = new ObjRange(5900, 6200);
         G_.rangeList.add(o);
     }
-
-
     void setPatternTitle(){
         if(G_.pattern_select_list == null)return;
         runOnUiThread(new Runnable() {
@@ -779,9 +795,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(G_.pattern_select_list.size()>3)sMainButtonPatt4Txt.setText(G_.pattern_select_list.get(3).patt_name);
             }
         });
-
-
-
     }
     void initPatternsPanel(){
         if((G_.jmmr_list != null)&&(G_.pattern_list != null)){
@@ -802,7 +815,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dbHelper.initDb();
         G_.pattern_list = dbHelper.readDataFromDb();
         if(G_.pattern_list != null){
-            initPatternAdapter();
+//            initPatternAdapter();
             for(int i=0; i<G_.pattern_list.size(); i++){
                 Log.i("MY_TEG", "pattName -> "+G_.pattern_list.get(i).patt_name+"; mask1 -> "+
                         G_.pattern_list.get(i).msk1+ "; mask2 -> "+G_.pattern_list.get(i).msk2);
@@ -822,7 +835,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         patternAdapter = new PatternAdapter(this, R.layout.pattern_list_item, G_.pattern_list, new ItemPatternListener() {
             @Override
             public void cb(JmmrState jmmr) {
-
+                Log.i("MY_TEG", "mask1 -> "+jmmr.msk1+ "; mask2 -> "+jmmr.msk2);
             }
         });
         runOnUiThread(new Runnable() {
@@ -859,12 +872,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             bttnSuppress();  }
     }
 
-
-    void onPressButton(int vId){
+    boolean mOnLongToutch = false;
+    void onPressPatternButton(int vId){
+        if(mOnLongToutch){
+            mOnLongToutch = false;
+            return;
+        }
         if(vId == R.id.sMainButtonPatt1){setPatternBand(0);}
         if(vId == R.id.sMainButtonPatt2){setPatternBand(1);}
         if(vId == R.id.sMainButtonPatt3){setPatternBand(2);}
         if(vId == R.id.sMainButtonPatt4){setPatternBand(3);}
+    }
+    void onPressButton(int vId){
+        onPressPatternButton(vId);
         if(vId == R.id.btUpdateDevList){
             if(!mWaitBtresponse){
                 if(G_.btActiveState == BT_STATE_CONNECTED) getJmmrList();
@@ -880,24 +900,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if(mTimeBlockButton > 0) return;
             mTimeBlockButton = 3;
             bttnSuppress();  }
+        if(vId == R.id.sMainSubBackground){
+            sMainSubBackground.setVisibility(GONE);
+            sMainPatternListPanel.setVisibility(GONE);
+        }
+        if(vId == R.id.sMessageModalWindowBttnConfirm){
+
+        }
+
     }
-     View.OnTouchListener mainOnTouchListener = new View.OnTouchListener() {
+    View.OnTouchListener mainOnTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             int vId = v.getId();
             int color  = 0;
+            boolean returnVal = true;
             if(vId == R.id.sMainButtonSuppress)color = 1;
+            if(vId == R.id.sMainButtonPatt1)returnVal = false;
+            if(vId == R.id.sMainButtonPatt2)returnVal = false;
+            if(vId == R.id.sMainButtonPatt3)returnVal = false;
+            if(vId == R.id.sMainButtonPatt4)returnVal = false;
+
             AnimeViewElements anime = new AnimeViewElements();
 
             switch (event.getAction()){
-                case ACTION_DOWN : anime.onTouch((Activity) context, v, true, color); return true;
-                case ACTION_UP   : anime.onTouch((Activity) context, v, false, 0);
-                    onPressButton(vId);
-                break;
+                case ACTION_DOWN : anime.onTouch((Activity) context, v, true, color); return returnVal;
+                case ACTION_UP   : anime.onTouch((Activity) context, v, false, 0);onPressButton(vId); break;
             }
+            v.performClick();
             return false;
         }
     };
 
-
- }
+    View.OnLongClickListener mainOnLongClickListener = new View.OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View v) {
+            mOnLongToutch = true;
+            resetColorPatternButtons();
+            sMainPatternListPanel.setVisibility(VISIBLE);
+            sMainSubBackground.setVisibility(VISIBLE);
+            return true;
+        }
+    };
+}

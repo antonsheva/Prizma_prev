@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sEditWindow"
+    android:layout_width="300dp"
+    android:layout_height="120dp"
+    android:layout_marginTop="200dp"
+
+    android:layout_centerHorizontal="true"
+    android:background="@drawable/edit_box"
+    android:visibility="gone">
+    <EditText
+        android:id="@+id/sEditWindowTxtPattName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:textStyle="bold"
+        android:hint="Название шаблона"/>
+    <RelativeLayout
+        android:id="@+id/sEditWindowBttnSave"
+        style="@style/sMainButtonPattern"
+        android:layout_width="115dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginStart="15dp">
+        <TextView android:text="Сохранить" style="@style/sMainButtonText"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/sEditWindowBttnCansel"
+        style="@style/sMainButtonPattern"
+        android:layout_width="115dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="15dp"
+        >
+        <TextView android:text="Отмена" style="@style/sMainButtonText"/>
+    </RelativeLayout>
+
+</RelativeLayout>

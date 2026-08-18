@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/messageBox"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="100dp"
+    android:layout_centerHorizontal="true"
+    style="@style/messageBox"
+    android:visibility="gone">
+    <TextView
+        android:id="@+id/messageBoxTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_centerInParent="true"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:textColor="@color/mTextColor"
+        android:text="Message"/>
+
+
+</RelativeLayout>

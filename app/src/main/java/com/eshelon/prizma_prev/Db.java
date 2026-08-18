@@ -107,6 +107,12 @@ public class Db extends SQLiteOpenHelper {
         if(result == -1)return false;
         else            return true;
     }
+
+    public void delete(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        int cnt = db.delete(TABLE_NAME, "id = "+id, null);
+        Log.d("MY_TEG", "deleted rows count = " + cnt);
+    }
     public ArrayList<JmmrState>readDataFromDb(){
         ArrayList<JmmrState>tmpArray = new ArrayList<>();
         JmmrState jmmr;
@@ -120,8 +126,12 @@ public class Db extends SQLiteOpenHelper {
             int ind = cursor.getColumnIndex(PATT_NAME);
             if(ind != -1)jmmr.patt_name = cursor.getString(ind);
 
+            ind = cursor.getColumnIndex(PATT_ID);
+            if(ind != -1)jmmr.db_id = cursor.getInt(ind);
+
             ind = cursor.getColumnIndex(PATT_RANGE);
             if(ind != -1)jmmr.dev_range = cursor.getInt(ind);
+
 
             ind = cursor.getColumnIndex(PATT_MASK1);
             if(ind != -1)jmmr.msk1 = cursor.getInt(ind);
