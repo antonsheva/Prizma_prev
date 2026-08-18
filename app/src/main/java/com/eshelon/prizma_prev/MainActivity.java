@@ -15,6 +15,8 @@ import static com.eshelon.prizma_prev.C_.BT_STATE_DISCONNECTED;
 import static com.eshelon.prizma_prev.C_.BT_UPDATE_ICON_STATE_GONE;
 import static com.eshelon.prizma_prev.C_.BT_UPDATE_ICON_STATE_UPDATE;
 import static com.eshelon.prizma_prev.C_.BT_UPDATE_ICON_STATE_VISIBLE;
+import static com.eshelon.prizma_prev.C_.CMD_SELECT_PATTERN;
+import static com.eshelon.prizma_prev.C_.CMD_UPDATE_PATTERN_LIST;
 import static com.eshelon.prizma_prev.C_.DB_VERSION;
 
 
@@ -54,6 +56,7 @@ import com.eshelon.prizma_prev.interfaces.ItemPatternListener;
 import com.eshelon.prizma_prev.objects.JmmrState;
 import com.eshelon.prizma_prev.objects.ObjRange;
 import com.eshelon.prizma_prev.objects.ObjectMsg;
+import com.eshelon.prizma_prev.objects.ObjectProcessingData;
 import com.google.gson.Gson;
 
 import java.nio.charset.StandardCharsets;
@@ -828,14 +831,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    void selectPattern(){
+
+    }
     void initPatternAdapter(){
         ListView listView = findViewById(R.id.sMainPatternList);
         listView.setVisibility(VISIBLE);
         if(patternAdapter != null)patternAdapter = null;
         patternAdapter = new PatternAdapter(this, R.layout.pattern_list_item, G_.pattern_list, new ItemPatternListener() {
             @Override
-            public void cb(JmmrState jmmr) {
-                Log.i("MY_TEG", "mask1 -> "+jmmr.msk1+ "; mask2 -> "+jmmr.msk2);
+            public void cb(ObjectProcessingData o) {
+                switch (o.cmd){
+                    case CMD_SELECT_PATTERN     :selectPattern(); break;
+                    case CMD_UPDATE_PATTERN_LIST: initPatterns(); break;
+                }
             }
         });
         runOnUiThread(new Runnable() {
@@ -847,25 +856,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
     public void onClick(View v) {
-        boolean anime = false;
+
         vibro();
-        Log.i("MY_TEG", "press button start");
         int vId = v.getId();
-        if(vId == R.id.sMainButtonPatt1){setPatternBand(0); mAnime.onClick(this,v); }
-        if(vId == R.id.sMainButtonPatt2){setPatternBand(1); mAnime.onClick(this,v); }
-        if(vId == R.id.sMainButtonPatt3){setPatternBand(2); mAnime.onClick(this,v); }
-        if(vId == R.id.sMainButtonPatt4){setPatternBand(3); mAnime.onClick(this,v); }
+        if(vId == R.id.sMainButtonPatt1){setPatternBand(0);}// mAnime.onClick(this,v);
+        if(vId == R.id.sMainButtonPatt2){setPatternBand(1);}// mAnime.onClick(this,v);
+        if(vId == R.id.sMainButtonPatt3){setPatternBand(2);}// mAnime.onClick(this,v);
+        if(vId == R.id.sMainButtonPatt4){setPatternBand(3);}// mAnime.onClick(this,v);
         if(vId == R.id.btUpdateDevList){
             if(mWaitBtresponse)return;
             if(G_.btActiveState == BT_STATE_CONNECTED) getJmmrList();
         }
         if(vId == R.id.btSearch)if(G_.btActiveState != BT_STATE_CONNECTED)showBtDevList();
         if(vId == R.id.sMainButtonSave){
-            mAnime.onClick(this,v);
             if(mTimeBlockButton > 0) return;
             mTimeBlockButton = 3;
             btSendJmmrList(false);  }
-        if(vId == R.id.sMainButtonRanges){showPageRanges();  mAnime.onClick(this,v);}
+        if(vId == R.id.sMainButtonRanges){showPageRanges();}
         if(vId == R.id.sMainButtonSuppress){
             if(mTimeBlockButton > 0) return;
             mTimeBlockButton = 3;

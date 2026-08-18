@@ -3,6 +3,8 @@ package com.eshelon.prizma_prev;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
+import static com.eshelon.prizma_prev.C_.CMD_REMOVE_DB_LINE;
+import static com.eshelon.prizma_prev.C_.CMD_UPDATE_PATTERN_LIST;
 import static com.eshelon.prizma_prev.C_.DB_VERSION;
 
 import android.app.Activity;
@@ -13,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.eshelon.prizma_prev.interfaces.ItemPatternListener;
 import com.eshelon.prizma_prev.objects.ObjectProcessingData;
 
 import java.util.Timer;
@@ -20,9 +23,6 @@ import java.util.TimerTask;
 
 
 public class MessageBox implements View.OnTouchListener {
-
-    public static final int CMD_REMOVE_DB_LINE   = 1;
-
 
 
     TextView       sMessageModalWindowTxt;
@@ -32,17 +32,18 @@ public class MessageBox implements View.OnTouchListener {
 
 
 
-
+    ItemPatternListener listener;
     Activity activity;
     ObjectProcessingData o;
     public MessageBox(Activity _activity) {
         activity = _activity;
     }
-    public MessageBox(Activity _activity, ObjectProcessingData _o) {
+    public MessageBox(Activity _activity, ObjectProcessingData _o, ItemPatternListener _listener) {
+        listener = _listener;
         activity = _activity;
         o = _o;
     }
-    void showModalWindow(String message){
+    public void showModalWindow(String message){
         sMessageModalWindowTxt           = activity.findViewById(R.id.sMessageModalWindowTxt);
         sMessageModalWindow              = activity.findViewById(R.id.sMessageModalWindow);
         sMessageModalWindowBttnConfirm   = activity.findViewById(R.id.sMessageModalWindowBttnConfirm);
@@ -85,6 +86,9 @@ public class MessageBox implements View.OnTouchListener {
                 Integer id = (Integer) o.object;
                 Db db = new Db((Context) activity.getApplicationContext(), "dbName", null, DB_VERSION);
                 db.delete(id);
+                ObjectProcessingData o = new ObjectProcessingData();
+                o.cmd = CMD_UPDATE_PATTERN_LIST;
+                listener.cb(o);
         }
     }
     @Override
@@ -92,7 +96,7 @@ public class MessageBox implements View.OnTouchListener {
         int vId = v.getId();
         if(vId == R.id.sMessageModalWindowBttnCansel){}
         if(vId == R.id.sMessageModalWindowBttnConfirm){
-
+            processingCmd();
         }
         sMessageModalWindow.setVisibility(GONE);
         v.performClick();

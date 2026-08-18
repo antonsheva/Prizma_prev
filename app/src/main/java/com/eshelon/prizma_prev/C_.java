@@ -114,5 +114,9 @@ public class C_ {
 
     public static final int DB_VERSION  = 2;
 
+    public static final int CMD_REMOVE_DB_LINE          = 1;
+    public static final int CMD_SELECT_PATTERN          = 2;
+    public static final int CMD_UPDATE_PATTERN_LIST     = 3;
+
 
 }

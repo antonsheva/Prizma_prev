@@ -1,8 +1,15 @@
 package com.eshelon.prizma_prev.adapter;
 
+import static com.eshelon.prizma_prev.C_.CMD_REMOVE_DB_LINE;
+import static com.eshelon.prizma_prev.C_.CMD_SELECT_PATTERN;
+
+
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -13,10 +20,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.eshelon.prizma_prev.G_;
+import com.eshelon.prizma_prev.MessageBox;
 import com.eshelon.prizma_prev.R;
 import com.eshelon.prizma_prev.interfaces.CB;
 import com.eshelon.prizma_prev.interfaces.ItemPatternListener;
 import com.eshelon.prizma_prev.objects.JmmrState;
+import com.eshelon.prizma_prev.objects.ObjectProcessingData;
 
 import java.util.List;
 
@@ -82,13 +91,29 @@ public class PatternAdapter extends ArrayAdapter<JmmrState> {
         viewHolder.pattItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                JmmrState jmmrState = new JmmrState();
-                jmmrState = jmmrStateList.get(position);
-                listener.cb(jmmrState);
+                ObjectProcessingData o = new ObjectProcessingData();
+                o.cmd = CMD_SELECT_PATTERN;
+                o.object = jmmrStateList.get(position);
+                listener.cb(o);
             }
         });
+
+        viewHolder.pattItem.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Log.i("MY_TEG", "setOnLongClickListener");
+                ObjectProcessingData o = new ObjectProcessingData();
+                o.cmd = CMD_REMOVE_DB_LINE;
+                o.object = (Integer) jmmrStateList.get(position).db_id;
+                new MessageBox((Activity) ctxt, o, listener).showModalWindow("Удалить шаблон?");
+
+                return true;
+            }
+        });
+
         return convertView;
     }
+
     static class ViewHolder {
         TextView txtTitle, txtRange, txtMask1, txtMask2;
         LinearLayout pattItem;

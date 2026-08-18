@@ -20,7 +20,8 @@ public class AnimeViewElements {
             }
         });
     }
-
+    Timer tmButtonClick = new Timer();
+    boolean swchOnClick = false;
     static Drawable drawablePrev;
 
     public void onTouch(Activity activity, View view, boolean stt, int color){
@@ -36,4 +37,6 @@ public class AnimeViewElements {
         }
         showView(activity,view, drawable);
     }
+
+
 }
