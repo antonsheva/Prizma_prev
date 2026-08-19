@@ -70,22 +70,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     RelativeLayout bttnShowRangesList;
     RelativeLayout sMainButtonSave;
     LinearLayout bttnSuppress;
-    RelativeLayout bttnPatt1;
-    RelativeLayout bttnPatt2;
-    RelativeLayout bttnPatt3;
-    RelativeLayout bttnPatt4;
-
-    TextView sMainButtonPatt1Txt;
-    TextView sMainButtonPatt2Txt;
-    TextView sMainButtonPatt3Txt;
-    TextView sMainButtonPatt4Txt;
-    LinearLayout sMainPatternListPanel;
-    FrameLayout sMainSubBackground;
     ImageView btDevInfo;
     ImageView btUpdateDevList;
     ImageView btSearch;
     ListView mainLV;
-    ListView sMainPatternList;
     DevListAdapter devListAdapter;
     Vibrator vibrator;
     Context context;
@@ -99,10 +87,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int mNeedCloseConnection = 0;
     int mTimeBlockButton = 0;
     boolean mWaitBtresponse = false;
-    int mPatternPanelCnt = 0;
-    int mPatternSelected = 0;
-    ArrayList<Integer>mPatternList = new ArrayList<>();
-    ArrayList<Integer>mPatternActive = new ArrayList<>();
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          super.onResume();
          Log.i("MY_TEG", "onResume - - MainActivity 1");
          setBtIcon(C_.BT_ICON_ENABLE);
-         initPatternsPanel();
+         new Patterns(this).updateView();
          if (!G_.selectBtDevice.isDeviceSelected())return;
          if(G_.btActiveState == BT_STATE_CONNECTED)return;
 
@@ -245,7 +232,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      }
 
     Timer tmWaitBtResponse;
-    PatternAdapter patternAdapter;
+
     void initTmWaitBtResponse(){
         mWaitBtresponse = true;
         tmWaitBtResponse = new Timer();
@@ -255,11 +242,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                if(G_.btHasNewData) {
                    G_.animeBtUpdateIconState = BT_UPDATE_ICON_STATE_VISIBLE;
                    initDevListAdapter();
-                   if(mVisiblePatternList)initPatternAdapter();
+//                   if(mVisiblePatternList)initPatternAdapter();
                    if(G_.pattern_select_list != null)G_.pattern_select_list = null;
-                   mPatternPanelCnt = 0;
                    G_.pattern_select_list = new ArrayList<>();
-                   initPatternsPanel();
+//                   initPatternsPanel();
                    tmWaitBtResponse.cancel();
                    tmWaitBtResponse = null;
                    G_.btHasNewData = false;
@@ -503,23 +489,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          if(data.startsWith("start___"))btReceivedStartPacket(data);
          else                           btReceiveNextPackets(data);
      }
-    void initPatternButtons(){
-        bttnPatt1 = findViewById(R.id.sMainButtonPatt1);
-        bttnPatt1.setOnTouchListener(mainOnTouchListener);
-        bttnPatt1.setOnLongClickListener(mainOnLongClickListener);
 
-        bttnPatt2 = findViewById(R.id.sMainButtonPatt2);
-        bttnPatt2.setOnTouchListener(mainOnTouchListener);
-        bttnPatt2.setOnLongClickListener(mainOnLongClickListener);
-
-        bttnPatt3 = findViewById(R.id.sMainButtonPatt3);
-        bttnPatt3.setOnTouchListener(mainOnTouchListener);
-        bttnPatt3.setOnLongClickListener(mainOnLongClickListener);
-
-        bttnPatt4 = findViewById(R.id.sMainButtonPatt4);
-        bttnPatt4.setOnTouchListener(mainOnTouchListener);
-        bttnPatt4.setOnLongClickListener(mainOnLongClickListener);
-    }
     void initViewElements(){
         mainLV = findViewById(R.id.mainLV);
 
@@ -532,7 +502,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bttnSuppress.setOnTouchListener(mainOnTouchListener);
 
 
-        initPatternButtons();
+
 
         btDevInfo = findViewById(R.id.btDevInfo);
         btDevInfo.setOnTouchListener(mainOnTouchListener);
@@ -543,16 +513,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btSearch = findViewById(R.id.btSearch);
         btSearch.setOnTouchListener(mainOnTouchListener);
 
-        sMainPatternList      = findViewById(R.id.sMainPatternList);
-        sMainPatternListPanel = findViewById(R.id.sMainPatternListPanel);
 
-        sMainSubBackground = findViewById(R.id.sMainSubBackground);
-        sMainSubBackground.setOnTouchListener(mainOnTouchListener);
 
-        sMainButtonPatt1Txt = findViewById(R.id.sMainButtonPatt1Txt);
-        sMainButtonPatt2Txt = findViewById(R.id.sMainButtonPatt2Txt);
-        sMainButtonPatt3Txt = findViewById(R.id.sMainButtonPatt3Txt);
-        sMainButtonPatt4Txt = findViewById(R.id.sMainButtonPatt4Txt);
+
+
+
 
 
     }
@@ -618,8 +583,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initDevListAdapter();
         checkIntentForExtras();
         initTmMonitor();
-        mPatternList = new Preferences(this).getPatternList();
-        initPatterns();
+
     }
     void showPageRanges(){
         Intent i = new Intent(context, RangesActivity.class);
@@ -644,32 +608,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         vibrator.cancel();
         vibrator.vibrate(vibrationEffect);
     }
-    void resetColorPatternButtons(){
-        bttnPatt1.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_unpress, null));
-        bttnPatt2.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_unpress, null));
-        bttnPatt3.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_unpress, null));
-        bttnPatt4.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_unpress, null));
 
-        if(mPatternActive == null) return;
-        if(mPatternActive.isEmpty()) return;
 
-        if(mPatternActive.get(0) == 1)bttnPatt1.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_unpress_active, null));
-        if(mPatternActive.get(1) == 1)bttnPatt2.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_unpress_active, null));
-        if(mPatternActive.get(2) == 1)bttnPatt3.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_unpress_active, null));
-        if(mPatternActive.get(3) == 1)bttnPatt4.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_unpress_active, null));
-
-    }
-    void selectPattern(int bttnId, int color){
-        if(bttnId > G_.pattern_select_list.size()-1)return;
-        resetColorPatternButtons();
-        int clr = color==1 ? R.drawable.button_active : R.drawable.button_unpress_active;
-        switch (bttnId){
-            case 0: bttnPatt1.setBackgroundResource (clr); break;
-            case 1: bttnPatt2.setBackgroundResource (clr); break;
-            case 2: bttnPatt3.setBackgroundResource (clr); break;
-            case 3: bttnPatt4.setBackgroundResource (clr); break;
-        }
-    }
     void closeBtConnectionThread(){
         if(G_.btConnect!=null) {
             try {
@@ -785,99 +725,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         o = new ObjRange(5900, 6200);
         G_.rangeList.add(o);
     }
-    void setPatternTitle(){
-        if(G_.pattern_select_list == null)return;
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if(G_.pattern_select_list.size()>0)sMainButtonPatt1Txt.setText(G_.pattern_select_list.get(0).patt_name);
-                if(G_.pattern_select_list.size()>1)sMainButtonPatt2Txt.setText(G_.pattern_select_list.get(1).patt_name);
-                if(G_.pattern_select_list.size()>2)sMainButtonPatt3Txt.setText(G_.pattern_select_list.get(2).patt_name);
-                if(G_.pattern_select_list.size()>3)sMainButtonPatt4Txt.setText(G_.pattern_select_list.get(3).patt_name);
-            }
-        });
-    }
 
-    JmmrState getJmmrFromDb(int id){
-        if(id == -1)return null;
-        for(JmmrState jmmr : G_.pattern_list){
-            if(jmmr.db_id == id)return jmmr;
-        }
-        return null;
-    }
 
-    void initPatternsPanel(){
-        JmmrState pattern1, pattern2, pattern3, pattern4;
-        resetColorPatternButtons();
-        mPatternActive = new ArrayList<>();
-        if((G_.jmmr_list != null)&&(G_.pattern_list != null)){
-            pattern1 = getJmmrFromDb(mPatternList.get(0));
-            pattern2 = getJmmrFromDb(mPatternList.get(1));
-            pattern3 = getJmmrFromDb(mPatternList.get(2));
-            pattern4 = getJmmrFromDb(mPatternList.get(3));
-            for(int i=0; i<4; i++)mPatternActive.add(0);
-            for(JmmrState jmmr1 : G_.jmmr_list){
-                if(pattern1 != null)if(pattern1.dev_range == jmmr1.dev_range)mPatternActive.set(0, 1);
-                if(pattern2 != null)if(pattern2.dev_range == jmmr1.dev_range)mPatternActive.set(1, 1);
-                if(pattern3 != null)if(pattern3.dev_range == jmmr1.dev_range)mPatternActive.set(2, 1);
-                if(pattern4 != null)if(pattern4.dev_range == jmmr1.dev_range)mPatternActive.set(3, 1);
-                resetColorPatternButtons();
-            }
-        }
-        setPatternTitle();
-    }
-    void initPatterns(){
-        Db dbHelper = new Db(getApplicationContext(), "dbName", null, DB_VERSION);
-        dbHelper.initDb();
-        G_.pattern_list = dbHelper.readDataFromDb();
-        if(G_.pattern_list != null){
-            for(int i=0; i<G_.pattern_list.size(); i++){
-                Log.i("MY_TEG", "pattName -> "+G_.pattern_list.get(i).patt_name+"; mask1 -> "+
-                        G_.pattern_list.get(i).msk1+ "; mask2 -> "+G_.pattern_list.get(i).msk2);
-            }
-        }
-        initPatternAdapter();
-    }
-    void setPatternBand(int patt){
-        selectPattern(patt, 1);
 
-    }
 
-    void selectPattern(ObjectProcessingData o){
-        JmmrState jmmr = (JmmrState)o.object;
-        if(jmmr == null) return;
-        Log.i("MY_TEG", "id -> "+jmmr.db_id);
-        new Preferences(this).setPatternNum(mPatternSelected, jmmr.db_id);
-    }
-    void initPatternAdapter(){
-        ListView listView = findViewById(R.id.sMainPatternList);
-        listView.setVisibility(VISIBLE);
-        if(patternAdapter != null)patternAdapter = null;
-        patternAdapter = new PatternAdapter(this, R.layout.pattern_list_item, G_.pattern_list, new ItemPatternListener() {
-            @Override
-            public void cb(ObjectProcessingData o) {
-                switch (o.cmd){
-                    case CMD_SELECT_PATTERN     :selectPattern(o); break;
-                    case CMD_UPDATE_PATTERN_LIST: initPatterns(); break;
-                }
-            }
-        });
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                listView.setAdapter(patternAdapter);
-            }
-        });
 
-    }
+
+
     public void onClick(View v) {
 
         vibro();
         int vId = v.getId();
-        if(vId == R.id.sMainButtonPatt1){setPatternBand(0);}// mAnime.onClick(this,v);
-        if(vId == R.id.sMainButtonPatt2){setPatternBand(1);}// mAnime.onClick(this,v);
-        if(vId == R.id.sMainButtonPatt3){setPatternBand(2);}// mAnime.onClick(this,v);
-        if(vId == R.id.sMainButtonPatt4){setPatternBand(3);}// mAnime.onClick(this,v);
         if(vId == R.id.btUpdateDevList){
             if(mWaitBtresponse)return;
             if(G_.btActiveState == BT_STATE_CONNECTED) getJmmrList();
@@ -894,18 +752,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             bttnSuppress();  }
     }
     boolean mOnLongToutch = false;
-    void onPressPatternButton(int vId){
-        if(mOnLongToutch){
-            mOnLongToutch = false;
-            return;
-        }
-        if(vId == R.id.sMainButtonPatt1){setPatternBand(0);}
-        if(vId == R.id.sMainButtonPatt2){setPatternBand(1);}
-        if(vId == R.id.sMainButtonPatt3){setPatternBand(2);}
-        if(vId == R.id.sMainButtonPatt4){setPatternBand(3);}
-    }
+
     void onPressButton(int vId){
-        onPressPatternButton(vId);
+
         if(vId == R.id.btUpdateDevList){
             if(!mWaitBtresponse){
                 if(G_.btActiveState == BT_STATE_CONNECTED) getJmmrList();
@@ -921,14 +770,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if(mTimeBlockButton > 0) return;
             mTimeBlockButton = 3;
             bttnSuppress();  }
-        if(vId == R.id.sMainSubBackground){
-            sMainSubBackground.setVisibility(GONE);
-            sMainPatternListPanel.setVisibility(GONE);
-        }
+
         if(vId == R.id.sMessageModalWindowBttnConfirm){
 
         }
-
     }
     View.OnTouchListener mainOnTouchListener = new View.OnTouchListener() {
         @Override
@@ -937,10 +782,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             int color  = 0;
             boolean returnVal = true;
             if(vId == R.id.sMainButtonSuppress)color = 1;
-            if(vId == R.id.sMainButtonPatt1)returnVal = false;
-            if(vId == R.id.sMainButtonPatt2)returnVal = false;
-            if(vId == R.id.sMainButtonPatt3)returnVal = false;
-            if(vId == R.id.sMainButtonPatt4)returnVal = false;
             AnimeViewElements anime = new AnimeViewElements();
 
             switch (event.getAction()){
@@ -952,19 +793,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     };
 
-    View.OnLongClickListener mainOnLongClickListener = new View.OnLongClickListener() {
-        @Override
-        public boolean onLongClick(View v) {
-            int vId = v.getId();
-            mOnLongToutch = true;
-            resetColorPatternButtons();
-            sMainPatternListPanel.setVisibility(VISIBLE);
-            sMainSubBackground.setVisibility(VISIBLE);
-            if(vId == R.id.sMainButtonPatt1)mPatternSelected = 1;
-            if(vId == R.id.sMainButtonPatt2)mPatternSelected = 2;
-            if(vId == R.id.sMainButtonPatt3)mPatternSelected = 3;
-            if(vId == R.id.sMainButtonPatt4)mPatternSelected = 4;
-            return true;
-        }
-    };
 }
