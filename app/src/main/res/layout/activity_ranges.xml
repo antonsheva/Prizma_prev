@@ -503,6 +503,31 @@
             android:layout_marginEnd="10dp"
             android:layout_marginTop="20dp"
             />
+        <RelativeLayout
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            >
+            <LinearLayout
+                android:id="@+id/sMainButtonSuppress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/button_red"
+                android:padding="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Подавление"
+                    android:textSize="25sp"
+                    android:textColor="@color/mTextColor"
+                    android:textStyle="bold"
+
+                    />
+            </LinearLayout>
+
+        </RelativeLayout>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

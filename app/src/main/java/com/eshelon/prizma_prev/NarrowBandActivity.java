@@ -18,6 +18,7 @@ import android.os.Vibrator;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -548,11 +549,13 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
     }
 
     void addPatternToDb(){
+        String message = "";
         saveDataToJmmrList();
         G_.jmmr_list.get(G_.currentJmmrNum).patt_name = sEditWindowTxtPattName.getText().toString();
         boolean res =  db.insertPattern(G_.jmmr_list.get(G_.currentJmmrNum));
-        if(res)Log.i("MY_TEG", "Insert data to DB - ok");
-        else   Log.i("MY_TEG", "Error insert data to DB");
+        if(res)message = "Шаблон сохранен";
+        else   message = "Что-то пошло не так :-(";
+        new MessageBox((Activity)context).showMessage(message);
     }
     void onPressButton(int vId){
         vibro();
@@ -613,16 +616,28 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
             sEditWindow.setVisibility(VISIBLE);
         }
         if(vId == R.id.sEditWindowBttnSave){
+            hideKeyboard();
             addPatternToDb();
             sEditWindowTxtPattName.setText("");
             sEditWindow.setVisibility(GONE);
         }
         if(vId == R.id.sEditWindowBttnCansel) {
+            hideKeyboard();
             sEditWindowTxtPattName.setText("");
             sEditWindow.setVisibility(GONE);
         }
 
 
+    }
+    void hideKeyboard(){
+        Log.i("MY_TEG", "hideKeyboard");
+        View view = ((Activity)context).findViewById(R.id.sEditWindowTxtPattName);
+        view.requestFocus();
+        InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE );
+        if(imm != null)imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        else{
+            Log.i("MY_TEG", "imm = null");
+        }
     }
     @Override
     public boolean onTouch(View v, MotionEvent event) {

@@ -33,6 +33,7 @@ import java.util.ArrayList;
 public class RangesActivity extends AppCompatActivity implements View.OnClickListener {
     Context context;
     Vibrator vibrator;
+    LinearLayout sMainButtonSuppress;
     final ArrayList<Integer> panelRangeIdList = new ArrayList<>();
     final ArrayList<LinearLayout> panelRangeViewList = new ArrayList<>();
     final ArrayList<RelativeLayout> buttonRangeViewList = new ArrayList<>();
@@ -138,6 +139,15 @@ public class RangesActivity extends AppCompatActivity implements View.OnClickLis
         initRangePanels();
         resetColorPanels();
         checkActiveRange();
+        sMainButtonSuppress = findViewById(R.id.sMainButtonSuppress);
+        sMainButtonSuppress.setOnTouchListener(rangeOnTouchListener);
+
+    }
+    void suppressButtonClick(){
+        Intent i = new Intent(context, MainActivity.class);
+        i.putExtra("cmd_suppress", true);
+        i.putExtra("cmd_return", true);
+        startActivity(i);
     }
     void init(){
         context = this;
@@ -195,6 +205,8 @@ public class RangesActivity extends AppCompatActivity implements View.OnClickLis
         public boolean onTouch(View v, MotionEvent event) {
             vibro();
             int vId = v.getId();
+            int color  = 0;
+            boolean returnVal = true;
             String vName = getResources().getResourceName(vId);
             if(vName.contains("PanelPatt")){
                 int num;
@@ -207,9 +219,13 @@ public class RangesActivity extends AppCompatActivity implements View.OnClickLis
                 if(num != 0)selectRange(num);
             }
 
+            if(vId == R.id.sMainButtonSuppress){
+                color = 1;
+                suppressButtonClick();
+            }
             AnimeViewElements anime = new AnimeViewElements();
             int eId = event.getAction();
-            if(eId == ACTION_DOWN){anime.onTouch((Activity) context, v, true, 0); }
+            if(eId == ACTION_DOWN){anime.onTouch((Activity) context, v, true, color); }
             if(eId == ACTION_UP){anime.onTouch((Activity) context, v, false, 0);}
 //            if(eId == ACTION_MOVE){anime.onTouch((Activity) context, v, false, 0);}
 

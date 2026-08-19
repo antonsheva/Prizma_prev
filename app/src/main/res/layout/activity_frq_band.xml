@@ -359,8 +359,9 @@
 
             </LinearLayout>
         </LinearLayout>
-        <include
-            layout="@layout/edit_window"/>
+        <include layout="@layout/edit_window"/>
+        <include layout="@layout/message_window"/>
+        <include layout="@layout/message_window_modal"/>
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -227,7 +227,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                    if(G_.pattern_select_list != null)G_.pattern_select_list = null;
                    G_.pattern_select_list = new ArrayList<>();
                    new Patterns(context, mainInterface).updateView();
-                   tmWaitBtResponse.cancel();
+                   if(tmWaitBtResponse != null)tmWaitBtResponse.cancel();
                    tmWaitBtResponse = null;
                    G_.btHasNewData = false;
                    mWaitBtresponse = false;

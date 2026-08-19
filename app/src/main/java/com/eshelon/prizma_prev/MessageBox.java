@@ -1,16 +1,20 @@
 package com.eshelon.prizma_prev;
 
+import static android.content.Context.INPUT_METHOD_SERVICE;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
+import static androidx.core.content.ContextCompat.getSystemService;
 import static com.eshelon.prizma_prev.C_.CMD_REMOVE_DB_LINE;
 import static com.eshelon.prizma_prev.C_.CMD_UPDATE_PATTERN_LIST;
 import static com.eshelon.prizma_prev.C_.DB_VERSION;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -22,15 +26,10 @@ import java.util.TimerTask;
 
 
 public class MessageBox implements View.OnTouchListener {
-
-
     TextView       sMessageModalWindowTxt;
     RelativeLayout sMessageModalWindow;
     RelativeLayout sMessageModalWindowBttnConfirm;
     RelativeLayout sMessageModalWindowBttnCansel;
-
-
-
     MainInterface listener;
     Activity activity;
     ObjectProcessingData o;
@@ -56,7 +55,7 @@ public class MessageBox implements View.OnTouchListener {
     void animeMessage(boolean stt, String message){
         int vis = stt ? VISIBLE : GONE;
         RelativeLayout mBox   = activity.findViewById(R.id.messageBox);
-        TextView     msgTxt = activity.findViewById(R.id.messageBoxTxt);
+        TextView     msgTxt   = activity.findViewById(R.id.messageBoxTxt);
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -74,7 +73,8 @@ public class MessageBox implements View.OnTouchListener {
         },tm);
     }
     void showMessage(String message){
-        int tm = message.length()*50;
+        int tm = message.length()*60;
+        if(tm < 1000) tm = 1000;
         animeMessage(  true,  message);
         startHidingTimer(tm);
     }
@@ -90,6 +90,9 @@ public class MessageBox implements View.OnTouchListener {
                 listener.cb(o);
         }
     }
+
+
+
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         int vId = v.getId();

@@ -98,9 +98,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:background="@drawable/button_red"
-                        android:padding="10dp"
-
-                        >
+                        android:padding="10dp">
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
