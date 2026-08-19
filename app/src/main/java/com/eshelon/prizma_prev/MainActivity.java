@@ -15,15 +15,12 @@ import static com.eshelon.prizma_prev.C_.BT_STATE_DISCONNECTED;
 import static com.eshelon.prizma_prev.C_.BT_UPDATE_ICON_STATE_GONE;
 import static com.eshelon.prizma_prev.C_.BT_UPDATE_ICON_STATE_UPDATE;
 import static com.eshelon.prizma_prev.C_.BT_UPDATE_ICON_STATE_VISIBLE;
-import static com.eshelon.prizma_prev.C_.CMD_SELECT_PATTERN;
-import static com.eshelon.prizma_prev.C_.CMD_UPDATE_PATTERN_LIST;
-import static com.eshelon.prizma_prev.C_.DB_VERSION;
+import static com.eshelon.prizma_prev.C_.CMD_UPDATE_JMMR_LIST_PANEL;
 
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
@@ -31,12 +28,10 @@ import android.os.Vibrator;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -49,9 +44,11 @@ import androidx.core.view.WindowInsetsCompat;
 import com.eshelon.prizma_prev.adapter.DevListAdapter;
 import com.eshelon.prizma_prev.interfaces.CB;
 import com.eshelon.prizma_prev.interfaces.ItemDevSelListener;
+import com.eshelon.prizma_prev.interfaces.MainInterface;
 import com.eshelon.prizma_prev.objects.JmmrState;
 import com.eshelon.prizma_prev.objects.ObjRange;
 import com.eshelon.prizma_prev.objects.ObjectMsg;
+import com.eshelon.prizma_prev.objects.ObjectProcessingData;
 import com.google.gson.Gson;
 
 import java.nio.charset.StandardCharsets;
@@ -81,10 +78,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int mNeedCloseConnection = 0;
     int mTimeBlockButton = 0;
     boolean mWaitBtresponse = false;
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          super.onResume();
          Log.i("MY_TEG", "onResume - - MainActivity 1");
          setBtIcon(C_.BT_ICON_ENABLE);
-         new Patterns(this).updateView();
+         new Patterns(this, mainInterface).updateView();
          if (!G_.selectBtDevice.isDeviceSelected())return;
          if(G_.btActiveState == BT_STATE_CONNECTED)return;
 
@@ -115,13 +108,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          G_.btConnect = new BtConnect(this, G_.selectBtDevice.getMac(), onConnectCb);
          btConnect();
      }
-
     @Override
     protected void onStart() {
          super.onStart();
          Log.i("MY_TEG", "---onStart  ---");
      }
-
     void setAnimateBtState(){
         switch (G_.btActiveState ){
             case BT_STATE_DISCONNECTED:
@@ -202,7 +193,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
              }
          };
      }
-
     Timer tmMonitor = new Timer();
     void initTmMonitor(){
          tmMonitor.schedule(new TimerTask() {
@@ -224,9 +214,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         },300,300);
      }
-
     Timer tmWaitBtResponse;
-
     void initTmWaitBtResponse(){
         mWaitBtresponse = true;
         tmWaitBtResponse = new Timer();
@@ -238,7 +226,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                    initDevListAdapter();
                    if(G_.pattern_select_list != null)G_.pattern_select_list = null;
                    G_.pattern_select_list = new ArrayList<>();
-                   new Patterns(context).updateView();
+                   new Patterns(context, mainInterface).updateView();
                    tmWaitBtResponse.cancel();
                    tmWaitBtResponse = null;
                    G_.btHasNewData = false;
@@ -247,7 +235,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         },300, 100);
     };
-    void getJmmrList(){
+    public void getJmmrList(){
         initTmWaitBtResponse();
         G_.jmmr_list =new ArrayList<>();
         G_.animeBtUpdateIconState = BT_UPDATE_ICON_STATE_UPDATE;
@@ -718,13 +706,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         o = new ObjRange(5900, 6200);
         G_.rangeList.add(o);
     }
-
-
-
-
-
-
-
     public void onClick(View v) {
 
         vibro();
@@ -745,7 +726,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             bttnSuppress();  }
     }
     boolean mOnLongToutch = false;
-
     void onPressButton(int vId){
 
         if(vId == R.id.btUpdateDevList){
@@ -786,4 +766,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     };
 
+    MainInterface mainInterface = new MainInterface() {
+        @Override
+        public void cb(ObjectProcessingData o) {
+            Log.i("MY_TEG", "MainInterface cmd-> "+o.cmd);
+            if(o.cmd == CMD_UPDATE_JMMR_LIST_PANEL)initDevListAdapter();
+        }
+    };
 }

@@ -11,11 +11,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.eshelon.prizma_prev.interfaces.ItemPatternListener;
+import com.eshelon.prizma_prev.interfaces.MainInterface;
 import com.eshelon.prizma_prev.objects.ObjectProcessingData;
 
 import java.util.Timer;
@@ -32,13 +31,13 @@ public class MessageBox implements View.OnTouchListener {
 
 
 
-    ItemPatternListener listener;
+    MainInterface listener;
     Activity activity;
     ObjectProcessingData o;
     public MessageBox(Activity _activity) {
         activity = _activity;
     }
-    public MessageBox(Activity _activity, ObjectProcessingData _o, ItemPatternListener _listener) {
+    public MessageBox(Activity _activity, ObjectProcessingData _o, MainInterface _listener) {
         listener = _listener;
         activity = _activity;
         o = _o;

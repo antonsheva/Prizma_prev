@@ -125,14 +125,14 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="5dp"
                         android:layout_alignParentBottom="true"
-                        android:layout_marginBottom="70dp"
+                        android:layout_marginBottom="100dp"
                         >
-
                         <RelativeLayout
                             android:id="@+id/sMainButtonPatt1"
                             style="@style/sMainButtonPattern"
@@ -142,8 +142,6 @@
                             <TextView android:id="@+id/sMainButtonPatt1Txt" android:text="Шаблон 1"  style="@style/sMainButtonText"/>
                         </RelativeLayout>
 
-
-
                         <RelativeLayout
                             android:id="@+id/sMainButtonPatt2"
                             style="@style/sMainButtonPattern"
@@ -152,6 +150,16 @@
                             android:layout_alignParentStart="true">
                             <TextView android:id="@+id/sMainButtonPatt2Txt" android:text="Шаблон 2"  style="@style/sMainButtonText"/>
                         </RelativeLayout>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="60dp"
+                        >
+
+
                         <RelativeLayout
                             android:id="@+id/sMainButtonPatt3"
                             style="@style/sMainButtonPattern"
