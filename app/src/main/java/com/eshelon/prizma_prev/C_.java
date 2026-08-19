@@ -107,6 +107,7 @@ public class C_ {
 
 
 
+    public static final String PREFS_FILE = "PRIZMA_PREFS";
 
 
     public static final int UPDATE_ICON_DISABLE = 0;

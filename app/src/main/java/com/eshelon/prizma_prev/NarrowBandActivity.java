@@ -1,6 +1,8 @@
 package com.eshelon.prizma_prev;
 
 import static android.view.MotionEvent.ACTION_DOWN;
+import static android.view.MotionEvent.ACTION_MOVE;
+import static android.view.MotionEvent.ACTION_UP;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
@@ -629,14 +631,14 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
         int color  = 0;
         if(vId == R.id.sFrqBandOnOffSuppress)color = 1;
         AnimeViewElements anime = new AnimeViewElements();
-        switch (event.getAction()){
-            case ACTION_DOWN : anime.onTouch((Activity) context, v, true, color); return true;
-            case MotionEvent.ACTION_UP: anime.onTouch((Activity) context, v, false, 0);
-                onPressButton(vId);
-                break;
-        }
+        int eId = event.getAction();
+        if(eId == ACTION_DOWN){anime.onTouch((Activity) context, v, true, color); return true;}
+        if(eId == ACTION_UP){anime.onTouch((Activity) context, v, false, 0);onPressButton(vId);}
+        if(eId == ACTION_MOVE){anime.onTouch((Activity) context, v, false, 0);return true;}
         return false;
     }
+
+
 }
 
 

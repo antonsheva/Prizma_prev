@@ -1,5 +1,10 @@
 package com.eshelon.prizma_prev;
 
+import static android.view.MotionEvent.ACTION_DOWN;
+import static android.view.MotionEvent.ACTION_MOVE;
+import static android.view.MotionEvent.ACTION_UP;
+
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -7,6 +12,7 @@ import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -45,6 +51,13 @@ public class RangesActivity extends AppCompatActivity implements View.OnClickLis
             return insets;
         });
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        init();
+    }
+
     void resetColorPanels(){
         for(LinearLayout ll : panelRangeViewList){
             ll.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.main_background, null));
@@ -64,12 +77,12 @@ public class RangesActivity extends AppCompatActivity implements View.OnClickLis
         buttonRangeViewTxtList.get(num*2+1).setTextColor(ContextCompat.getColor(this, R.color.mTextColor));
 
 
-        panelRangeViewList.get(num).setOnClickListener(this);
+//        panelRangeViewList.get(num).setOnClickListener(this);
+        panelRangeViewList.get(num).setOnTouchListener(rangeOnTouchListener);
     }
     void checkActiveRange(){
         for (JmmrState jmmr : G_.jmmr_list){
             if(jmmr.dev_range > 0)setColorPanel(jmmr.dev_range - 1);
-            else Log.e("MY_ERR", "Error range parameter");
         }
     }
     void initRangePanels(){
@@ -131,14 +144,10 @@ public class RangesActivity extends AppCompatActivity implements View.OnClickLis
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         initViewElements();
     }
-
-
     void showPageFrqBan(){
         Intent i = new Intent(context, NarrowBandActivity.class);
         startActivity(i);
     }
-
-
     void selectRange(int rangeNum){
         G_.selectRange = rangeNum-1;
         if(G_.jmmr_list != null){
@@ -151,7 +160,6 @@ public class RangesActivity extends AppCompatActivity implements View.OnClickLis
         }
         showPageFrqBan();
     }
-
     void vibro(){
         final VibrationEffect vibrationEffect;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -162,7 +170,6 @@ public class RangesActivity extends AppCompatActivity implements View.OnClickLis
         vibrator.cancel();
         vibrator.vibrate(vibrationEffect);
     }
-
     @Override
     public void onClick(View v) {
         vibro();
@@ -180,4 +187,34 @@ public class RangesActivity extends AppCompatActivity implements View.OnClickLis
         }
 
     }
+
+
+
+    View.OnTouchListener rangeOnTouchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            vibro();
+            int vId = v.getId();
+            String vName = getResources().getResourceName(vId);
+            if(vName.contains("PanelPatt")){
+                int num;
+                String strNum = vName.substring(vName.lastIndexOf("t")+1);
+                try{
+                    num = Integer.parseInt(strNum);
+                }catch (Exception e){
+                    num = 0;
+                }
+                if(num != 0)selectRange(num);
+            }
+
+            AnimeViewElements anime = new AnimeViewElements();
+            int eId = event.getAction();
+            if(eId == ACTION_DOWN){anime.onTouch((Activity) context, v, true, 0); }
+            if(eId == ACTION_UP){anime.onTouch((Activity) context, v, false, 0);}
+//            if(eId == ACTION_MOVE){anime.onTouch((Activity) context, v, false, 0);}
+
+            v.performClick();
+            return false;
+        }
+    };
 }

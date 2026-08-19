@@ -79,11 +79,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView sMainButtonPatt2Txt;
     TextView sMainButtonPatt3Txt;
     TextView sMainButtonPatt4Txt;
-
     LinearLayout sMainPatternListPanel;
-
     FrameLayout sMainSubBackground;
-
     ImageView btDevInfo;
     ImageView btUpdateDevList;
     ImageView btSearch;
@@ -95,9 +92,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Timer animeTmBtSign = new Timer();
     boolean tryToConnect = false;
     boolean mVisiblePatternList = false;
-     CB onConnectCb;
-     CbBtReceive cbBtReceive;
+    CB onConnectCb;
+    CbBtReceive cbBtReceive;
     AnimeViewElements mAnime = new AnimeViewElements();
+    int mTryConnectTime = 0;
+    int mNeedCloseConnection = 0;
+    int mTimeBlockButton = 0;
+    boolean mWaitBtresponse = false;
+    int mPatternPanelCnt = 0;
+    int mPatternSelected = 0;
+    ArrayList<Integer>mPatternList = new ArrayList<>();
+    ArrayList<Integer>mPatternActive = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -177,7 +182,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
              }
          };
      }
-
     void initCbOnConnect(){
          onConnectCb = new CB() {
              @Override
@@ -218,9 +222,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          };
      }
 
-    int mTryConnectTime = 0;
-    int mNeedCloseConnection = 0;
-    int mTimeBlockButton = 0;
     Timer tmMonitor = new Timer();
     void initTmMonitor(){
          tmMonitor.schedule(new TimerTask() {
@@ -242,10 +243,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         },300,300);
      }
-    boolean mWaitBtresponse = false;
-    int mPatternPanelCnt = 0;
+
     Timer tmWaitBtResponse;
-    SQLiteDatabase db;
     PatternAdapter patternAdapter;
     void initTmWaitBtResponse(){
         mWaitBtresponse = true;
@@ -275,7 +274,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         G_.animeBtUpdateIconState = BT_UPDATE_ICON_STATE_UPDATE;
         btSendCmd(C_.CMD_GET_JMMR_LIST);
     }
-     void btConnect(){
+    void btConnect(){
         if(G_.btConnect == null){
             G_.animeBtConnectionIconState = BT_CONNECTING_ICON_STATE_ENABLE;
             Log.i("MY_TEG", "btConnect - - NULL");
@@ -284,9 +283,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          G_.animeBtConnectionIconState = BT_CONNECTING_ICON_STATE_SEARCHING;
          G_.btConnect.connect();
      }
-
-
-     private void btSendJmmrList(boolean needBtOff){
+    private void btSendJmmrList(boolean needBtOff){
          if(G_.jmmr_list == null)return;
          ObjectMsg msg = new ObjectMsg();
          if(needBtOff)msg.need_bt_off = 1;
@@ -296,8 +293,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          msg.jmmr_list = G_.jmmr_list;
          msg.jmmr_list_len = G_.jmmr_list.size();
          btSendData(msg, 0);
-     }
-     private void btSendData(Object o, int type){
+    }
+    private void btSendData(Object o, int type){
          if(G_.btActiveState != BT_STATE_CONNECTED){
              new MessageBox(this).showMessage("Отсутствует подключение");
              return;
@@ -337,7 +334,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          }, 10, 50);
 
      }
-     private void btSendCmd(int cmd){
+    private void btSendCmd(int cmd){
          ObjectMsg msg = new ObjectMsg();
          msg.cmd = cmd;
          String jsonStr = new Gson().toJson(msg);
@@ -345,7 +342,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          Log.i("MY_TEG", new String(data));
          G_.btConnect.connectThread.getReceiveThread().sendData(data);
      }
-     private void showToast(int toastId){
+    private void showToast(int toastId){
          runOnUiThread(new Runnable() {
              @Override
              public void run() {
@@ -353,7 +350,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
              }
          });
      }
-     private void animeBtStateIcon(){
+    private void animeBtStateIcon(){
          final boolean[] stt = {false};
          final int[] stt1 = {0};
          final int[] cnt = {0};
@@ -397,7 +394,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
              }
          }, 100, 100);
      }
-     private void setBtIcon(int icon){
+    private void setBtIcon(int icon){
          runOnUiThread(new Runnable() {
              @Override
              public void run() {
@@ -410,7 +407,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
              }
          });
      }
-     private void setUpdateIcon(int icon){
+    private void setUpdateIcon(int icon){
          runOnUiThread(new Runnable() {
              @Override
              public void run() {
@@ -426,7 +423,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
              }
          });
      }
-     private void processingBtData(){
+    private void processingBtData(){
          Log.i("MY_TEG", G_.btData);
          Gson gson = new Gson();
 
@@ -453,7 +450,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
              case C_.CMD_GET_JMMR_LIST:readJmmrList(msg);
          }
      }
-     Timer btReceiveTm = null;
+    Timer btReceiveTm = null;
     private void readJmmrList(ObjectMsg msg){
         G_.jmmr_list = msg.jmmr_list;
         if(G_.jmmr_list == null){
@@ -506,8 +503,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          if(data.startsWith("start___"))btReceivedStartPacket(data);
          else                           btReceiveNextPackets(data);
      }
-
-
     void initPatternButtons(){
         bttnPatt1 = findViewById(R.id.sMainButtonPatt1);
         bttnPatt1.setOnTouchListener(mainOnTouchListener);
@@ -623,6 +618,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initDevListAdapter();
         checkIntentForExtras();
         initTmMonitor();
+        mPatternList = new Preferences(this).getPatternList();
         initPatterns();
     }
     void showPageRanges(){
@@ -654,11 +650,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bttnPatt3.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_unpress, null));
         bttnPatt4.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_unpress, null));
 
-        if(G_.pattern_select_list == null) return;
-        if(G_.pattern_select_list.size()>0)bttnPatt1.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_unpress_active, null));
-        if(G_.pattern_select_list.size()>1)bttnPatt2.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_unpress_active, null));
-        if(G_.pattern_select_list.size()>2)bttnPatt3.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_unpress_active, null));
-        if(G_.pattern_select_list.size()>3)bttnPatt4.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_unpress_active, null));
+        if(mPatternActive == null) return;
+        if(mPatternActive.isEmpty()) return;
+
+        if(mPatternActive.get(0) == 1)bttnPatt1.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_unpress_active, null));
+        if(mPatternActive.get(1) == 1)bttnPatt2.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_unpress_active, null));
+        if(mPatternActive.get(2) == 1)bttnPatt3.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_unpress_active, null));
+        if(mPatternActive.get(3) == 1)bttnPatt4.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_unpress_active, null));
 
     }
     void selectPattern(int bttnId, int color){
@@ -799,16 +797,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
     }
+
+    JmmrState getJmmrFromDb(int id){
+        if(id == -1)return null;
+        for(JmmrState jmmr : G_.pattern_list){
+            if(jmmr.db_id == id)return jmmr;
+        }
+        return null;
+    }
+
     void initPatternsPanel(){
+        JmmrState pattern1, pattern2, pattern3, pattern4;
+        resetColorPatternButtons();
+        mPatternActive = new ArrayList<>();
         if((G_.jmmr_list != null)&&(G_.pattern_list != null)){
+            pattern1 = getJmmrFromDb(mPatternList.get(0));
+            pattern2 = getJmmrFromDb(mPatternList.get(1));
+            pattern3 = getJmmrFromDb(mPatternList.get(2));
+            pattern4 = getJmmrFromDb(mPatternList.get(3));
+            for(int i=0; i<4; i++)mPatternActive.add(0);
             for(JmmrState jmmr1 : G_.jmmr_list){
-                for(JmmrState jmmr2 : G_.pattern_list){
-                    if(jmmr1.dev_range == jmmr2.dev_range){
-                        G_.pattern_select_list.add(jmmr2);
-                        selectPattern(G_.pattern_select_list.size()-1, 0);
-                        mPatternPanelCnt++;
-                    }
-                }
+                if(pattern1 != null)if(pattern1.dev_range == jmmr1.dev_range)mPatternActive.set(0, 1);
+                if(pattern2 != null)if(pattern2.dev_range == jmmr1.dev_range)mPatternActive.set(1, 1);
+                if(pattern3 != null)if(pattern3.dev_range == jmmr1.dev_range)mPatternActive.set(2, 1);
+                if(pattern4 != null)if(pattern4.dev_range == jmmr1.dev_range)mPatternActive.set(3, 1);
+                resetColorPatternButtons();
             }
         }
         setPatternTitle();
@@ -818,7 +831,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dbHelper.initDb();
         G_.pattern_list = dbHelper.readDataFromDb();
         if(G_.pattern_list != null){
-//            initPatternAdapter();
             for(int i=0; i<G_.pattern_list.size(); i++){
                 Log.i("MY_TEG", "pattName -> "+G_.pattern_list.get(i).patt_name+"; mask1 -> "+
                         G_.pattern_list.get(i).msk1+ "; mask2 -> "+G_.pattern_list.get(i).msk2);
@@ -831,8 +843,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    void selectPattern(){
-
+    void selectPattern(ObjectProcessingData o){
+        JmmrState jmmr = (JmmrState)o.object;
+        if(jmmr == null) return;
+        Log.i("MY_TEG", "id -> "+jmmr.db_id);
+        new Preferences(this).setPatternNum(mPatternSelected, jmmr.db_id);
     }
     void initPatternAdapter(){
         ListView listView = findViewById(R.id.sMainPatternList);
@@ -842,7 +857,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void cb(ObjectProcessingData o) {
                 switch (o.cmd){
-                    case CMD_SELECT_PATTERN     :selectPattern(); break;
+                    case CMD_SELECT_PATTERN     :selectPattern(o); break;
                     case CMD_UPDATE_PATTERN_LIST: initPatterns(); break;
                 }
             }
@@ -878,7 +893,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mTimeBlockButton = 3;
             bttnSuppress();  }
     }
-
     boolean mOnLongToutch = false;
     void onPressPatternButton(int vId){
         if(mOnLongToutch){
@@ -927,7 +941,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if(vId == R.id.sMainButtonPatt2)returnVal = false;
             if(vId == R.id.sMainButtonPatt3)returnVal = false;
             if(vId == R.id.sMainButtonPatt4)returnVal = false;
-
             AnimeViewElements anime = new AnimeViewElements();
 
             switch (event.getAction()){
@@ -942,10 +955,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     View.OnLongClickListener mainOnLongClickListener = new View.OnLongClickListener() {
         @Override
         public boolean onLongClick(View v) {
+            int vId = v.getId();
             mOnLongToutch = true;
             resetColorPatternButtons();
             sMainPatternListPanel.setVisibility(VISIBLE);
             sMainSubBackground.setVisibility(VISIBLE);
+            if(vId == R.id.sMainButtonPatt1)mPatternSelected = 1;
+            if(vId == R.id.sMainButtonPatt2)mPatternSelected = 2;
+            if(vId == R.id.sMainButtonPatt3)mPatternSelected = 3;
+            if(vId == R.id.sMainButtonPatt4)mPatternSelected = 4;
             return true;
         }
     };
