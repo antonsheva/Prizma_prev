@@ -42,21 +42,16 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.eshelon.prizma_prev.adapter.DevListAdapter;
-import com.eshelon.prizma_prev.adapter.PatternAdapter;
 import com.eshelon.prizma_prev.interfaces.CB;
 import com.eshelon.prizma_prev.interfaces.ItemDevSelListener;
-
-import com.eshelon.prizma_prev.interfaces.ItemPatternListener;
 import com.eshelon.prizma_prev.objects.JmmrState;
 import com.eshelon.prizma_prev.objects.ObjRange;
 import com.eshelon.prizma_prev.objects.ObjectMsg;
-import com.eshelon.prizma_prev.objects.ObjectProcessingData;
 import com.google.gson.Gson;
 
 import java.nio.charset.StandardCharsets;
@@ -78,8 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Vibrator vibrator;
     Context context;
     Timer animeTmBtSign = new Timer();
-    boolean tryToConnect = false;
-    boolean mVisiblePatternList = false;
+
     CB onConnectCb;
     CbBtReceive cbBtReceive;
     AnimeViewElements mAnime = new AnimeViewElements();
@@ -242,10 +236,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                if(G_.btHasNewData) {
                    G_.animeBtUpdateIconState = BT_UPDATE_ICON_STATE_VISIBLE;
                    initDevListAdapter();
-//                   if(mVisiblePatternList)initPatternAdapter();
                    if(G_.pattern_select_list != null)G_.pattern_select_list = null;
                    G_.pattern_select_list = new ArrayList<>();
-//                   initPatternsPanel();
+                   new Patterns(context).updateView();
                    tmWaitBtResponse.cancel();
                    tmWaitBtResponse = null;
                    G_.btHasNewData = false;

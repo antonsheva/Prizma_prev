@@ -53,20 +53,18 @@ public class Patterns {
         context = _context;
         init();
     }
-
-    void init(){
+    private void init(){
         initViewElements();
         mPatternList = new Preferences(context).getPatternList();
         initPatterns();
     }
-
-    void selectPattern(ObjectProcessingData o){
+    private void selectPattern(ObjectProcessingData o){
         JmmrState jmmr = (JmmrState)o.object;
         if(jmmr == null) return;
         Log.i("MY_TEG", "id -> "+jmmr.db_id);
         new Preferences(context).setPatternNum(mPatternSelected, jmmr.db_id);
     }
-    void initPatternAdapter(){
+    private void initPatternAdapter(){
         ListView listView = ((Activity)context).findViewById(R.id.sMainPatternList);
         listView.setVisibility(VISIBLE);
         if(patternAdapter != null)patternAdapter = null;
@@ -88,7 +86,7 @@ public class Patterns {
 
     }
 
-    void initPatterns(){
+    private void initPatterns(){
         Db dbHelper = new Db(context.getApplicationContext(), "dbName", null, DB_VERSION);
         dbHelper.initDb();
         G_.pattern_list = dbHelper.readDataFromDb();
@@ -100,7 +98,7 @@ public class Patterns {
         }
         initPatternAdapter();
     }
-    void selectPattern(int bttnId, int color){
+    private void selectPattern(int bttnId, int color){
         if(bttnId > G_.pattern_select_list.size()-1)return;
         resetColorPatternButtons();
         int clr = color==1 ? R.drawable.button_active : R.drawable.button_unpress_active;
@@ -111,7 +109,7 @@ public class Patterns {
             case 3: bttnPatt4.setBackgroundResource (clr); break;
         }
     }
-    void resetColorPatternButtons(){
+    private void resetColorPatternButtons(){
         bttnPatt1.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.button_unpress, null));
         bttnPatt2.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.button_unpress, null));
         bttnPatt3.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.button_unpress, null));
@@ -126,7 +124,7 @@ public class Patterns {
         if(mPatternActive.get(3) == 1)bttnPatt4.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.button_unpress_active, null));
 
     }
-    JmmrState getJmmrFromDb(int id){
+    private JmmrState getJmmrFromDb(int id){
         if(id == -1)return null;
         for(JmmrState jmmr : G_.pattern_list){
             if(jmmr.db_id == id)return jmmr;
@@ -134,26 +132,26 @@ public class Patterns {
         return null;
     }
     public void updateView(){
-        JmmrState pattern1, pattern2, pattern3, pattern4;
+        if((G_.jmmr_list == null)||(G_.pattern_list == null))return;
+        ArrayList<JmmrState>patterns = new ArrayList<>();
+
         resetColorPatternButtons();
         mPatternActive = new ArrayList<>();
-        if((G_.jmmr_list != null)&&(G_.pattern_list != null)){
-            pattern1 = getJmmrFromDb(mPatternList.get(0));
-            pattern2 = getJmmrFromDb(mPatternList.get(1));
-            pattern3 = getJmmrFromDb(mPatternList.get(2));
-            pattern4 = getJmmrFromDb(mPatternList.get(3));
-            for(int i=0; i<4; i++)mPatternActive.add(0);
-            for(JmmrState jmmr1 : G_.jmmr_list){
-                if(pattern1 != null)if(pattern1.dev_range == jmmr1.dev_range)mPatternActive.set(0, 1);
-                if(pattern2 != null)if(pattern2.dev_range == jmmr1.dev_range)mPatternActive.set(1, 1);
-                if(pattern3 != null)if(pattern3.dev_range == jmmr1.dev_range)mPatternActive.set(2, 1);
-                if(pattern4 != null)if(pattern4.dev_range == jmmr1.dev_range)mPatternActive.set(3, 1);
-                resetColorPatternButtons();
+        for(int i=0; i<4; i++)patterns.add(getJmmrFromDb(mPatternList.get(i)));
+        for(int i=0; i<4; i++)mPatternActive.add(0);
+
+        for(JmmrState jmmr1 : G_.jmmr_list){
+            for(int i=0; i<4; i++){
+                if(patterns.get(i) != null){
+                    if(patterns.get(i).dev_range == jmmr1.dev_range)mPatternActive.set(i, 1);
+                    setPatternTitle(i, patterns.get(i).patt_name);
+                }
             }
+            resetColorPatternButtons();
         }
-        setPatternTitle();
+
     }
-    void initViewElements(){
+    private void initViewElements(){
         sMainPatternList      = ((Activity)context).findViewById(R.id.sMainPatternList);
         sMainPatternListPanel = ((Activity)context).findViewById(R.id.sMainPatternListPanel);
 
@@ -181,7 +179,7 @@ public class Patterns {
         sMainButtonPatt3Txt = ((Activity)context).findViewById(R.id.sMainButtonPatt3Txt);
         sMainButtonPatt4Txt = ((Activity)context).findViewById(R.id.sMainButtonPatt4Txt);
     }
-    void onPressButton(int vId){
+    private void onPressButton(int vId){
         if(mOnLongToutch){
             mOnLongToutch = false;
             return;
@@ -197,23 +195,19 @@ public class Patterns {
         }
 
     }
-    void setPatternTitle(){
-        if(G_.pattern_select_list == null)return;
-        ((Activity)context).runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if(G_.pattern_select_list.size()>0)sMainButtonPatt1Txt.setText(G_.pattern_select_list.get(0).patt_name);
-                if(G_.pattern_select_list.size()>1)sMainButtonPatt2Txt.setText(G_.pattern_select_list.get(1).patt_name);
-                if(G_.pattern_select_list.size()>2)sMainButtonPatt3Txt.setText(G_.pattern_select_list.get(2).patt_name);
-                if(G_.pattern_select_list.size()>3)sMainButtonPatt4Txt.setText(G_.pattern_select_list.get(3).patt_name);
-            }
-        });
+    private void setPatternTitle(int patternBttn, String title){
+        switch (patternBttn){
+            case 0: sMainButtonPatt1Txt.setText(title);  break;
+            case 1: sMainButtonPatt2Txt.setText(title);  break;
+            case 2: sMainButtonPatt3Txt.setText(title);  break;
+            case 3: sMainButtonPatt4Txt.setText(title);  break;
+        }
     }
-    void setPatternBand(int patt){
+    private void setPatternBand(int patt){
         selectPattern(patt, 1);
 
     }
-    View.OnTouchListener mainOnTouchListener = new View.OnTouchListener() {
+    private final View.OnTouchListener mainOnTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             int vId = v.getId();
@@ -234,7 +228,7 @@ public class Patterns {
             return false;
         }
     };
-    View.OnLongClickListener mainOnLongClickListener = new View.OnLongClickListener() {
+    private final View.OnLongClickListener mainOnLongClickListener = new View.OnLongClickListener() {
         @Override
         public boolean onLongClick(View v) {
             int vId = v.getId();
