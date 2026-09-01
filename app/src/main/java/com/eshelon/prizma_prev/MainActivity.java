@@ -203,14 +203,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     G_.btWaitOnConnect = false;
                     getJmmrList();
                 }
-
                 if(mTimeBlockButton > 0)mTimeBlockButton--;
-
                 if(mNeedCloseConnection > 0)mNeedCloseConnection--;
                 if(mNeedCloseConnection == 1)closeBtConnectionFull();
                 if(mTryConnectTime > 0)mTryConnectTime--;
                 if(mTryConnectTime == 1)btConnect();
-
             }
         },300,300);
      }
@@ -576,7 +573,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      }
     void bttnSuppress(){
         G_.selectBtDevice.setDeviceSelected(false);
-        mNeedCloseConnection = 5;
+        mNeedCloseConnection = 10;
         btSendJmmrList(true);
     }
     void vibro(){
