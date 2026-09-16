@@ -136,7 +136,7 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
     }
     void initTxtData(){
         checkObjRange();
-        String str =    Integer.toString(G_.selectRange)+": "+
+        String str =    Integer.toString(G_.selectRange+1)+": "+
                         Integer.toString(objRange2.getStart())+" - "+Integer.toString(objRange1.getStop());
         txtSelectRange.setText(str);
 
@@ -149,7 +149,7 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
         seekBar1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                objRange1.setFrqPosition(C_.FRQ_STEP_QTY - progress);
+                objRange1.setFrqPosition(progress);//C_.FRQ_STEP_QTY - progress
                 updateViewElements();
             }
 
@@ -169,7 +169,7 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
         seekBar2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                objRange2.setFrqPosition(C_.FRQ_STEP_QTY - progress);
+                objRange2.setFrqPosition(progress);
                 updateViewElements();
             }
 
@@ -333,8 +333,8 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
         LinearLayout llChngParam;
         LinearLayout.LayoutParams lParams;
         for(int i=0; i<31; i++){
-            swch1 = ((mask1 << i) & 0x00000001L) == 0x00000001L;
-            swch2 = ((mask2 << i) & 0x00000001L) == 0x00000001L;
+            swch1 = ((mask1 >> i) & 0x00000001L) == 0x00000001L;
+            swch2 = ((mask2 >> i) & 0x00000001L) == 0x00000001L;
 
             llChngParam = specterPiece1.get(i);
             lParams = (LinearLayout.LayoutParams) llChngParam.getLayoutParams();

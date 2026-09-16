@@ -137,14 +137,15 @@
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="2dp"
                         android:text="Полоса:"/>
+
                     <Spinner
-                        android:id="@+id/sFrqBandFrqSpinner1"
+                        android:id="@+id/sFrqBandFrqSpinner2"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:dropDownWidth="100dp"
-                        android:background="@null"
                         android:layout_alignParentEnd="true"
                         android:layout_marginEnd="18dp"
+                        android:background="@null"
                         />
                 </RelativeLayout>
                 <RelativeLayout
@@ -160,48 +161,22 @@
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="2dp"
                         android:text="Полоса:"/>
-
                     <Spinner
-                        android:id="@+id/sFrqBandFrqSpinner2"
+                        android:id="@+id/sFrqBandFrqSpinner1"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:dropDownWidth="100dp"
+                        android:background="@null"
                         android:layout_alignParentEnd="true"
                         android:layout_marginEnd="18dp"
-                        android:background="@null"
                         />
                 </RelativeLayout>
-
-
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:orientation="horizontal">
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/mTextColor"
-                        android:textSize="16sp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="2dp"
-                        android:text="Модул.:"/>
-                    <Spinner
-                        android:id="@+id/sFrqBandMcSpinner1"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:dropDownWidth="100dp"
-                        android:background="@null"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="18dp"
-                        />
-                </RelativeLayout>
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -226,6 +201,30 @@
                         android:background="@null"
                         />
                 </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/mTextColor"
+                        android:textSize="16sp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="2dp"
+                        android:text="Модул.:"/>
+                    <Spinner
+                        android:id="@+id/sFrqBandMcSpinner1"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:dropDownWidth="100dp"
+                        android:background="@null"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="18dp"
+                        />
+                </RelativeLayout>
+
 
 
             </LinearLayout>
@@ -252,10 +251,12 @@
                     <RelativeLayout
                         android:id="@+id/sFrqBandOnOffChnlButton1"
                         style="@style/sMainButtonPattern"
-                        android:layout_width="115dp"
-                        android:layout_alignParentStart="true"                    >
+                        android:layout_width="110dp"
+                        android:layout_alignParentEnd="true"                    >
                         <TextView android:id="@+id/sFrqBandOnOffChnlTxt1" android:text="Вкл.канал" style="@style/sMainButtonText"/>
                     </RelativeLayout>
+
+
                     <RelativeLayout
                         android:id="@+id/sFrqBandOnOffSuppress"
                         style="@style/sMainButtonPattern"
@@ -264,11 +265,14 @@
                         >
                         <TextView android:id="@+id/sFrqBandSuppressTxt" android:text="Подавление" style="@style/sMainButtonText"/>
                     </RelativeLayout>
+
+
+
                     <RelativeLayout
                         android:id="@+id/sFrqBandOnOffChnlButton2"
                         style="@style/sMainButtonPattern"
                         android:layout_width="110dp"
-                        android:layout_alignParentEnd="true"                    >
+                        android:layout_alignParentStart="true"                    >
                         <TextView android:id="@+id/sFrqBandOnOffChnlTxt2" android:text="Вкл.канал" style="@style/sMainButtonText"/>
                     </RelativeLayout>
                 </RelativeLayout>
@@ -283,7 +287,6 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:orientation="vertical"
                         android:background="@drawable/band_list_background">
 
                         <LinearLayout
@@ -300,13 +303,12 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:orientation="vertical"
-
                         android:background="@drawable/band_list_background">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
+                            android:layout_centerInParent="true">
                             android:orientation="vertical">
 
                             <include layout="@layout/band_list_1" />

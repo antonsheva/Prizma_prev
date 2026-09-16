@@ -117,8 +117,8 @@ public class DevListAdapter extends ArrayAdapter<JmmrState> {
         long mask2 = jmmrState.msk2;
 
         for(int i=0; i<C_.FRQ_STEP_QTY; i++){
-            swch1 = ((mask1 << i) & 0x40000000L) == 0x40000000L;
-            swch2 = ((mask2 << i) & 0x40000000L) == 0x40000000L;
+            swch1 = ((mask1 >> i) & 0x00000001L) == 0x00000001L;
+            swch2 = ((mask2 >> i) & 0x00000001L) == 0x00000001L;
 
             llChngParam = viewHolder.specterPiece1.get(i);
             lParams = (LinearLayout.LayoutParams) llChngParam.getLayoutParams();

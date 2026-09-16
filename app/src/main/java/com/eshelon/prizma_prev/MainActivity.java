@@ -521,7 +521,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 G_.currentJmmrNum = pos;
                 if(G_.jmmr_list != null) {
                     if (G_.jmmr_list.size() >= pos) {
-                        G_.selectRange = G_.jmmr_list.get(pos).dev_range;
+                        G_.selectRange = G_.jmmr_list.get(pos).dev_range-1;
                     }
                 }
                 showPageNarrowband();
