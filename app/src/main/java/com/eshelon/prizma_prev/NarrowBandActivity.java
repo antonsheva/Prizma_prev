@@ -333,8 +333,8 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
         LinearLayout llChngParam;
         LinearLayout.LayoutParams lParams;
         for(int i=0; i<31; i++){
-            swch1 = ((mask1 << i) & 0x40000000L) == 0x40000000L;
-            swch2 = ((mask2 << i) & 0x40000000L) == 0x40000000L;
+            swch1 = ((mask1 << i) & 0x00000001L) == 0x00000001L;
+            swch2 = ((mask2 << i) & 0x00000001L) == 0x00000001L;
 
             llChngParam = specterPiece1.get(i);
             lParams = (LinearLayout.LayoutParams) llChngParam.getLayoutParams();

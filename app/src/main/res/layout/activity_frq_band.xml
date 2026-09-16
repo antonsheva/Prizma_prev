@@ -84,6 +84,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <SeekBar
+                        android:id="@+id/sFrqBandSeekBar2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:max="20"
+                        android:progress="10"
+                        android:progressDrawable="@drawable/seekbar_style"
+                        android:thumb="@drawable/seekbar_custom_thumb" />
+                </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -99,21 +115,10 @@
                         android:progressDrawable="@drawable/seekbar_style"
                         android:thumb="@drawable/seekbar_custom_thumb" />
                 </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-                    <SeekBar
-                        android:id="@+id/sFrqBandSeekBar2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:max="20"
-                        android:progress="10"
-                        android:progressDrawable="@drawable/seekbar_style"
-                        android:thumb="@drawable/seekbar_custom_thumb" />
-                </LinearLayout>
+
             </LinearLayout>
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -273,6 +278,24 @@
                     android:layout_height="match_parent"
                     android:layout_marginTop="10dp"
                     android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:background="@drawable/band_list_background">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:layout_centerInParent="true">
+                            <include layout="@layout/band_list_2"/>
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
                     <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -291,22 +314,9 @@
 
                     </RelativeLayout>
 
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
 
-                        android:background="@drawable/band_list_background">
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical"
-                            android:layout_centerInParent="true">
-                            <include layout="@layout/band_list_2"/>
-                        </LinearLayout>
 
-                    </RelativeLayout>
+
                 </LinearLayout>
 
 
