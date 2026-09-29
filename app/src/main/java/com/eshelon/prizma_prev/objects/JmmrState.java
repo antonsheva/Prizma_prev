@@ -7,6 +7,9 @@ public class JmmrState {
     public int  group_id  = 0;
     public int  dev_type  = 0;
     public int  dev_range = 0;
+    public int  rng_msk_1 = 0;
+    public int  rng_msk_2 = 0;
+
     public int  mc1       = 0;
     public int  mc2       = 0;
     public long  msk1      = 0;

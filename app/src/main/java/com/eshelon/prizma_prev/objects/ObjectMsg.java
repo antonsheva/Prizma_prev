@@ -19,6 +19,8 @@ public class ObjectMsg {
     public Integer   group_id  = null;
     public Integer   dev_type  = null;
     public Integer   dev_range  = null;
+    public Integer   rng_msk_1  = null;
+    public Integer   rng_msk_2  = null;
     public Integer   ad_esp  = null;
     public Integer   ad_rm1  = null;
     public Integer   ad_rm2  = null;

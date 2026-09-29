@@ -21,6 +21,24 @@ public class ObjRange {
     Float frqCenter = 0f;
     Long rangeMask = 0L;
 
+    public int getOffMaskLeft() {
+        return offMaskLeft;
+    }
+    public int getOffMaskRight() {
+        return offMaskRight;
+    }
+    int offMaskLeft = 0;
+    int offMaskRight = 0;
+    int onMaskLength = 0;
+
+
+    public Integer getOffMask() {
+        return offMask;
+    }
+
+    Integer offMask = 0;
+
+
     Integer modCode = 0;
 
     public Integer getModCode() {
@@ -37,6 +55,7 @@ public class ObjRange {
 
     public void setRangeMask(Long rangeMask) {
         if(rangeMask > 0x7FFFFFFFL)rangeMask &=0x7FFFFFFFL;
+        rangeMask &= offMask;
         this.rangeMask = rangeMask;
         Log.i("MY_TEG", "setRangeMask      -> "+this.rangeMask);
     }
@@ -136,11 +155,9 @@ public class ObjRange {
         boolean canChange = true;
         Log.i("MY_TEG","pos -> "+frqPosition);
         if(frqPosition+currentBandStickQty/2 >= C_.FRQ_STEP_QTY+1){
-//            frqPosition -= frqPosition+currentBandStickQty/2 - C_.FRQ_STEP_QTY;
             canChange = false;
         }
         if(frqPosition-currentBandStickQty/2 < 0){
-//            frqPosition = frqPosition+currentBandStickQty/2;
             canChange = false;
         }
         if(canChange)this.frqPosition = frqPosition;
@@ -158,7 +175,6 @@ public class ObjRange {
         currentBandWidth = bandList.get(currentBand);
         frqCenter = frqStep * frqPosition+start;//+currentBandWidth/2
         currentBandStart =  frqCenter - currentBandWidth/2;
-//        currentBandStop  = frqCenter + currentBandWidth/2;
         currentBandStop  = currentBandWidth+currentBandStart;
         if(currentBandStop > stop)currentBandStop = (float)stop;
         if(frqPosition+currentBandStickQty/2>C_.FRQ_STEP_QTY-1)currentBandStop =  (float)stop;
@@ -179,6 +195,26 @@ public class ObjRange {
 
     public ArrayList<String> getViewBandList() {
         return viewBandList;
+    }
+
+
+
+    public void setOffMask(Integer offMask) {
+        offMaskLeft = 0;
+        this.offMask = ~offMask;
+        for(int i=0; i<15; i++){
+            if((0x40000000 & (offMask<<i))!=0)offMaskLeft++;
+            else break;;
+        }
+        for(int i=0; i<15; i++){
+            if((0x1 & (offMask>>i))!=0)offMaskRight++;
+            else break;
+        }
+        onMaskLength = 0;
+        for(int i=0; i<31; i++){
+            if(((this.offMask << i) & 0x40000000) != 0) onMaskLength++;
+        }
+
     }
 
     public ObjRange(int _start, int _stop){

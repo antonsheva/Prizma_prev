@@ -144,8 +144,11 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
         txtBandCenter2.setText(objRange2.getViewBandWidth());
     }
     void initSeekBar(){
-        seekBar1.setMax(C_.FRQ_STEP_QTY);
-        seekBar1.setProgress(C_.FRQ_STEP_QTY/2);
+
+        seekBar1.setMin(objRange1.getOffMaskRight());//C_.FRQ_STEP_QTY
+        seekBar1.setMax(31 - objRange1.getOffMaskLeft());//C_.FRQ_STEP_QTY
+
+        seekBar1.setProgress((seekBar1.getMax() - seekBar1.getMin())/2+seekBar1.getMin());//C_.FRQ_STEP_QTY/2
         seekBar1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -164,8 +167,10 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
             }
         });
 
-        seekBar2.setMax(C_.FRQ_STEP_QTY);
-        seekBar2.setProgress(C_.FRQ_STEP_QTY/2);
+        seekBar2.setMin(objRange2.getOffMaskRight());//C_.FRQ_STEP_QTY
+        seekBar2.setMax(31 - objRange2.getOffMaskLeft());//C_.FRQ_STEP_QTY
+
+        seekBar2.setProgress((seekBar2.getMax() - seekBar2.getMin())/2+seekBar2.getMin());//C_.FRQ_STEP_QTY/2
         seekBar2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -189,6 +194,9 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
             if(G_.jmmr_list != null){
                 if((G_.jmmr_list.get(G_.currentJmmrNum) != null)){
                     G_.currentJmmr = G_.jmmr_list.get(G_.currentJmmrNum);
+                    objRange1.setOffMask(G_.jmmr_list.get(G_.currentJmmrNum).rng_msk_1);
+                    objRange2.setOffMask(G_.jmmr_list.get(G_.currentJmmrNum).rng_msk_2);
+
                     objRange1.setRangeMask(G_.jmmr_list.get(G_.currentJmmrNum).msk1);
                     objRange2.setRangeMask(G_.jmmr_list.get(G_.currentJmmrNum).msk2);
                     objRange1.setModCode(G_.jmmr_list.get(G_.currentJmmrNum).mc1);
@@ -225,11 +233,11 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         getRangeObjects();
         initViewElements();
+        initJmmrData();
         initTxtData();
         initSeekBar();
         initSpinner();
 
-        initJmmrData();
         initOnOffChnlBttn();
         updateViewElements();
         db = new Db(getApplicationContext(), "dbName", null, DB_VERSION);
@@ -349,6 +357,11 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
                 lParams.height = activeHeight;
                 lParams.topMargin = margTopActive;
             }
+            if((objRange1.getOffMask() & (1<<i)) == 0){
+                llChngParam.setVisibility(GONE);
+            }
+
+
 
             llChngParam = specterPiece2.get(i);
             lParams = (LinearLayout.LayoutParams) llChngParam.getLayoutParams();
@@ -361,6 +374,9 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
                 llChngParam.setBackgroundResource(R.drawable.range_active);
                 lParams.height = activeHeight;
                 lParams.topMargin = margTopActive;
+            }
+            if((objRange2.getOffMask() & (1<<i)) == 0){
+                llChngParam.setVisibility(GONE);
             }
         }
     }
