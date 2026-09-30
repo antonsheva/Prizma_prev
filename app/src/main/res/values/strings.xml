@@ -16,5 +16,6 @@
     <string name="infoAboutDevice">Информация об устройстве</string>
     <string name="load">Загрузить</string>
     <string name="genConfig">Автоконфиг</string>
+    <string name="pattern_list">Список шаблонов</string>
 
 </resources>

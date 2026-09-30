@@ -124,7 +124,6 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
                 objRange1 = G_.rangeList.get(G_.selectRange*2+1);
             }
         }
-
     }
 
     void checkObjRange(){
@@ -145,7 +144,7 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
     }
     void initSeekBar(){
         seekBar1.setMax(objRange1.getOnMaskLength());
-        seekBar1.setProgress(objRange1.getOnMaskLength()/2);//C_.FRQ_STEP_QTY/2
+        seekBar1.setProgress(objRange1.getSeekBarPosition());//C_.FRQ_STEP_QTY/2
         seekBar1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -166,7 +165,7 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
 
 
         seekBar2.setMax(objRange2.getOnMaskLength());//C_.FRQ_STEP_QTY
-        seekBar2.setProgress(objRange2.getOnMaskLength()/2);//C_.FRQ_STEP_QTY/2
+        seekBar2.setProgress(objRange2.getSeekBarPosition());//C_.FRQ_STEP_QTY/2
         seekBar2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {

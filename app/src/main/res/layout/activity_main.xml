@@ -230,7 +230,9 @@
                     android:textStyle="bold"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
-                    android:text="Список шаблонов"/>
+                    android:text="@string/pattern_list"
+                    android:textColor="@color/mTextColor"
+                    />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="2dp"

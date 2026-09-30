@@ -20,7 +20,7 @@ public class ObjRange {
     Integer frqPosition = 0;
     Float frqCenter = 0f;
     Long rangeMask = 0L;
-
+    int seekBarPosition = 0;
     public int getOffMaskLeft() {
         return offMaskLeft;
     }
@@ -156,7 +156,12 @@ public class ObjRange {
         this.currentBand = currentBand;
         applyNewParameters();
     }
-    int seekBarPosition = 0;
+
+    public int getSeekBarPosition() {
+        return seekBarPosition;
+    }
+
+
     public void setFrqPosition(Integer frqPosition) {
         boolean canChange = true;
         seekBarPosition = frqPosition;
@@ -172,7 +177,6 @@ public class ObjRange {
             this.frqPosition = frqPosition;
             applyNewParameters();
         }
-
     }
     ArrayList<String>viewBandStepList = new ArrayList<>();
 
@@ -212,11 +216,13 @@ public class ObjRange {
 
     public void setOffMask(Integer offMask) {
         offMaskLeft = 0;
+        offMaskRight = 0;
         this.offMask = ~offMask;
         for(int i=0; i<15; i++){
             if((0x40000000 & (offMask<<i))!=0)offMaskLeft++;
             else break;;
         }
+
         for(int i=0; i<15; i++){
             if((0x1 & (offMask>>i))!=0)offMaskRight++;
             else break;
@@ -226,7 +232,7 @@ public class ObjRange {
             if(((this.offMask << i) & 0x40000000) != 0) onMaskLength++;
         }
         initFrqStep();
-
+        seekBarPosition = onMaskLength/2;
     }
 
     private void initFrqStep(){

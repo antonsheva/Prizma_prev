@@ -563,6 +563,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initTmMonitor();
 
     }
+
     void showPageRanges(){
         Intent i = new Intent(context, RangesActivity.class);
         startActivity(i);

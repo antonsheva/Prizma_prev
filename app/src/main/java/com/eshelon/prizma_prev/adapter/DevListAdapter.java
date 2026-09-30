@@ -1,5 +1,6 @@
 package com.eshelon.prizma_prev.adapter;
 
+import static android.view.View.GONE;
 import static androidx.core.content.ContextCompat.startActivity;
 
 import android.content.Context;
@@ -96,8 +97,6 @@ public class DevListAdapter extends ArrayAdapter<JmmrState> {
         setBattState(viewHolder, jmmrState.batt_stt);
         String typeStr = jmmrState.dev_type == 1 ? "A " : "B ";
         String addressEsp = Integer.toString(jmmrState.ad_esp);
-
-
         String title = "Тип "+typeStr+" адр."+addressEsp+"  "+rangeStr;
 
         viewHolder.txtDevInfo.setText(title);
@@ -134,6 +133,10 @@ public class DevListAdapter extends ArrayAdapter<JmmrState> {
                 lParams.topMargin = margTopActive;
             }
 
+            if(((jmmrState.rng_msk_1>>i) & 0x00000001)  != 0){
+                llChngParam.setVisibility(GONE);
+            }
+
             llChngParam = viewHolder.specterPiece2.get(i);
             lParams = (LinearLayout.LayoutParams) llChngParam.getLayoutParams();
             if(!swch2){
@@ -146,6 +149,10 @@ public class DevListAdapter extends ArrayAdapter<JmmrState> {
                 lParams.height = activeHeight;
                 lParams.topMargin = margTopActive;
             }
+            if(((jmmrState.rng_msk_2>>i) & 0x00000001)  != 0){
+                llChngParam.setVisibility(GONE);
+            }
+
         }
 
 
