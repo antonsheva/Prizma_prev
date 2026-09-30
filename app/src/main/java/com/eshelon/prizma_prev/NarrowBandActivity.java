@@ -233,7 +233,7 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
         initTxtData();
         initSeekBar();
         initSpinner();
-
+        initBandStepPanels();
         initOnOffChnlBttn();
         updateViewElements();
         db = new Db(getApplicationContext(), "dbName", null, DB_VERSION);
@@ -427,6 +427,8 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
         int vIdButtonTxt1;
         int vIdButtonTxt2;
 
+        int txtCnt1 = 0;
+        int txtCnt2 = 0;
 
         for(int i = 0; i<C_.FRQ_STEP_QTY; i++) {
             strButtonTxt1 = C_.BASE_SRC_ID_NAME+C_.SRC_ID_NAME_PATT_BAND_BUTTON_TXT+"_1_"+Integer.toString(i);
@@ -458,15 +460,23 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
 
             viewBandStepButtonList1.add(rl1);
             viewBandStepButtonList2.add(rl2);
-        }
 
-        checkObjRange();
-        if((objRange2==null)||(objRange1==null))return;
-        for(int i=0; i<C_.FRQ_STEP_QTY; i++){
-            viewBandStepButtonTextList1.get(i).setText(objRange1.getViewBandStepList().get(i));
-            viewBandStepButtonTextList2.get(i).setText(objRange2.getViewBandStepList().get(i));
-        }
+            if((objRange2==null)||(objRange1==null))continue;
 
+            if((objRange1.getOffMask() & (1<<i)) == 0){
+                rl1.setVisibility(GONE);
+            }else {
+                viewBandStepButtonTextList1.get(i).setText(objRange1.getViewBandStepList().get(txtCnt1));
+                txtCnt1++;
+            }
+            if((objRange2.getOffMask() & (1<<i)) == 0){
+                rl2.setVisibility(GONE);
+            }else {
+                viewBandStepButtonTextList2.get(i).setText(objRange2.getViewBandStepList().get(txtCnt2));
+                txtCnt2++;
+            }
+
+        }
     }
     void initViewElements(){
         sFrqBandOnOffChnlBttn1 = findViewById(R.id.sFrqBandOnOffChnlButton1);
@@ -526,7 +536,7 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
 
 
         initRangeSticks();
-        initBandStepPanels();
+
     }
     void updateViewElements(){
         runOnUiThread(new Runnable() {

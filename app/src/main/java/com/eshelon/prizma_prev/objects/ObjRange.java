@@ -247,6 +247,7 @@ public class ObjRange {
 
         float prevStart = start;
         int tmp;
+        viewBandStepList.clear();
         for(int i=0; i<onMaskLength; i++){
             tmp = (int)Math.ceil (prevStart+frqStep);
             if(tmp > stop)tmp = stop;
