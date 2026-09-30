@@ -29,7 +29,12 @@ public class ObjRange {
     }
     int offMaskLeft = 0;
     int offMaskRight = 0;
-    int onMaskLength = 0;
+
+    public int getOnMaskLength() {
+        return onMaskLength;
+    }
+
+    int onMaskLength = C_.FRQ_STEP_QTY;
 
 
     public Integer getOffMask() {
@@ -151,17 +156,23 @@ public class ObjRange {
         this.currentBand = currentBand;
         applyNewParameters();
     }
+    int seekBarPosition = 0;
     public void setFrqPosition(Integer frqPosition) {
         boolean canChange = true;
+        seekBarPosition = frqPosition;
+        frqPosition+=offMaskRight;//
         Log.i("MY_TEG","pos -> "+frqPosition);
-        if(frqPosition+currentBandStickQty/2 >= C_.FRQ_STEP_QTY+1){
+        if(seekBarPosition + currentBandStickQty/2 >= onMaskLength+1){
             canChange = false;
         }
-        if(frqPosition-currentBandStickQty/2 < 0){
+        if(seekBarPosition-currentBandStickQty/2 < 0){
             canChange = false;
         }
-        if(canChange)this.frqPosition = frqPosition;
-        applyNewParameters();
+        if(canChange){
+            this.frqPosition = frqPosition;
+            applyNewParameters();
+        }
+
     }
     ArrayList<String>viewBandStepList = new ArrayList<>();
 
@@ -173,7 +184,7 @@ public class ObjRange {
     ArrayList<Integer> bandStickQtyList = new ArrayList<>();
     void applyNewParameters(){
         currentBandWidth = bandList.get(currentBand);
-        frqCenter = frqStep * frqPosition+start;//+currentBandWidth/2
+        frqCenter = frqStep * seekBarPosition +start;//       +currentBandWidth/2
         currentBandStart =  frqCenter - currentBandWidth/2;
         currentBandStop  = currentBandWidth+currentBandStart;
         if(currentBandStop > stop)currentBandStop = (float)stop;
@@ -214,25 +225,21 @@ public class ObjRange {
         for(int i=0; i<31; i++){
             if(((this.offMask << i) & 0x40000000) != 0) onMaskLength++;
         }
+        initFrqStep();
 
     }
 
-    public ObjRange(int _start, int _stop){
-        cnt++;
-        num = cnt;
-        start = _start;
-        stop = _stop;
-        viewRange = start.toString()+" - "+stop.toString()+" МГц";
-        rangeWidth = (float)stop - start;
-        frqStep = rangeWidth / C_.FRQ_STEP_QTY;
-        frqPosition = C_.FRQ_STEP_QTY/2;
+    private void initFrqStep(){
+        String str;
+        frqStep = rangeWidth / onMaskLength;
+        frqPosition = onMaskLength/2;
         frqCenter = frqStep * frqPosition;
-
+        bandList.clear();
         for(int i=1; i<=5; i++){
             bandList.add( (int) ( frqStep*i*2));
             bandStickQtyList.add(i*2);
         }
-        String str;
+        viewBandList.clear();
         for(int i=0; i<5; i++){
             str = "  "+bandList.get(i)+" МГц";
             viewBandList.add(str);
@@ -240,13 +247,26 @@ public class ObjRange {
 
         float prevStart = start;
         int tmp;
-        for(int i=0; i<C_.FRQ_STEP_QTY; i++){
+        for(int i=0; i<onMaskLength; i++){
             tmp = (int)Math.ceil (prevStart+frqStep);
             if(tmp > stop)tmp = stop;
             str = (int)Math.round (prevStart)+" - "+tmp+" МГц";
             viewBandStepList.add(str);
             prevStart += frqStep;
         }
+    }
+
+    public ObjRange(int _start, int _stop){
+        String str;
+        cnt++;
+        num = cnt;
+        start = _start;
+        stop = _stop;
+        viewRange = start.toString()+" - "+stop.toString()+" МГц";
+        rangeWidth = (float)stop - start;
+        initFrqStep();
+
+
 
         applyNewParameters();
     }

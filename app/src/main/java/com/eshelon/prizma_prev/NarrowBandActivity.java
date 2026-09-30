@@ -144,11 +144,8 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
         txtBandCenter2.setText(objRange2.getViewBandWidth());
     }
     void initSeekBar(){
-
-        seekBar1.setMin(objRange1.getOffMaskRight());//C_.FRQ_STEP_QTY
-        seekBar1.setMax(31 - objRange1.getOffMaskLeft());//C_.FRQ_STEP_QTY
-
-        seekBar1.setProgress((seekBar1.getMax() - seekBar1.getMin())/2+seekBar1.getMin());//C_.FRQ_STEP_QTY/2
+        seekBar1.setMax(objRange1.getOnMaskLength());
+        seekBar1.setProgress(objRange1.getOnMaskLength()/2);//C_.FRQ_STEP_QTY/2
         seekBar1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -167,10 +164,9 @@ public class NarrowBandActivity extends AppCompatActivity implements View.OnTouc
             }
         });
 
-        seekBar2.setMin(objRange2.getOffMaskRight());//C_.FRQ_STEP_QTY
-        seekBar2.setMax(31 - objRange2.getOffMaskLeft());//C_.FRQ_STEP_QTY
 
-        seekBar2.setProgress((seekBar2.getMax() - seekBar2.getMin())/2+seekBar2.getMin());//C_.FRQ_STEP_QTY/2
+        seekBar2.setMax(objRange2.getOnMaskLength());//C_.FRQ_STEP_QTY
+        seekBar2.setProgress(objRange2.getOnMaskLength()/2);//C_.FRQ_STEP_QTY/2
         seekBar2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
