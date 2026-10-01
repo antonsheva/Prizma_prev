@@ -218,12 +218,12 @@ public class ObjRange {
         offMaskLeft = 0;
         offMaskRight = 0;
         this.offMask = ~offMask;
-        for(int i=0; i<15; i++){
+        for(int i=0; i<30; i++){
             if((0x40000000 & (offMask<<i))!=0)offMaskLeft++;
             else break;;
         }
 
-        for(int i=0; i<15; i++){
+        for(int i=0; i<30; i++){
             if((0x1 & (offMask>>i))!=0)offMaskRight++;
             else break;
         }
