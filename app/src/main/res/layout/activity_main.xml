@@ -21,52 +21,68 @@
             android:layout_marginEnd="5dp"
 
             >
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="10dp">
                 <TextView
                     android:id="@+id/swVersion"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="2.5"
                     android:layout_height="wrap_content"
                     android:textColor="@color/mTextColor"
-                    android:text="Призма вер. 1.0"
-                    android:textSize="20sp"
+                    android:text="@string/appVersion"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     />
-                <ImageView
-                    android:id="@+id/btDevInfo"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/bt_dev_info"
-                    android:layout_alignParentEnd="true"
-                    app:tint="@color/mTextColor"
-                    android:layout_marginEnd="80dp"
-                    android:visibility="gone"
-                    />
-                <ImageView
-                    android:id="@+id/btUpdateDevList"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:src="@drawable/update_arrow_0"
-                    android:layout_alignParentEnd="true"
-                    app:tint="@color/mTextColor"
-                    android:layout_marginTop="1dp"
-                    android:layout_marginEnd="40dp"
-                    android:visibility="gone"/>
 
-                <ImageView
-                    android:id="@+id/btSearch"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/bt_enable"
-                    android:layout_alignParentEnd="true"
-                    app:tint="@color/mTextColor" />
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+
+                    android:orientation="horizontal">
+                    <Spinner
+                        android:id="@+id/sSpinner"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:dropDownWidth="100dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="18dp"
+                        android:background="@null"
+
+                        />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:id="@+id/btUpdateDevList"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:src="@drawable/update_arrow_0"
+                        android:layout_alignParentEnd="true"
+                        app:tint="@color/mTextColor"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginEnd="40dp"
+                        android:visibility="visible"/>
+
+                    <ImageView
+                        android:id="@+id/btSearch"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/bt_enable"
+                        android:layout_alignParentEnd="true"
+                        app:tint="@color/mTextColor" />
+                </RelativeLayout>
 
 
 
-            </RelativeLayout>
+
+            </LinearLayout>
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"

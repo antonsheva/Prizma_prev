@@ -17,5 +17,6 @@
     <string name="load">Загрузить</string>
     <string name="genConfig">Автоконфиг</string>
     <string name="pattern_list">Список шаблонов</string>
+    <string name="appVersion">Призма вер. 1.0</string>
 
 </resources>

@@ -35,5 +35,6 @@ public class ObjectMsg {
     public Integer   batt_stt  = null;
     public Integer   temper  = null;
     public Integer   need_bt_off = null;
+    public Integer   dev_qty = null;
     public ArrayList<JmmrState> jmmr_list = null;
 }

@@ -28,10 +28,12 @@ import android.os.Vibrator;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 
@@ -66,11 +68,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ImageView btUpdateDevList;
     ImageView btSearch;
     ListView mainLV;
+    Spinner spinner;
     DevListAdapter devListAdapter;
     Vibrator vibrator;
     Context context;
     Timer animeTmBtSign = new Timer();
-
+    int mSearchDevQty = 2;
     CB onConnectCb;
     CbBtReceive cbBtReceive;
     AnimeViewElements mAnime = new AnimeViewElements();
@@ -301,6 +304,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void btSendCmd(int cmd){
          ObjectMsg msg = new ObjectMsg();
          msg.cmd = cmd;
+         msg.dev_qty = mSearchDevQty;
          String jsonStr = new Gson().toJson(msg);
          byte[] data = jsonStr.getBytes();
          Log.i("MY_TEG", new String(data));
@@ -467,6 +471,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          if(data.startsWith("start___"))btReceivedStartPacket(data);
          else                           btReceiveNextPackets(data);
      }
+    void initSpinner(){
+        ArrayList<String>nameList = new ArrayList<>();
+        nameList.add("   2 устр.");
+        nameList.add("   4 устр.");
+        nameList.add("   6 устр.");
+        nameList.add("   8 устр.");
+        nameList.add("   12 устр.");
+        nameList.add("   16 устр.");
+
+        ArrayList<Integer>valList = new ArrayList<>();
+        valList.add(2);
+        valList.add(4);
+        valList.add(6);
+        valList.add(8);
+        valList.add(12);
+        valList.add(16);
+
+        CustomAdapter customAdapter1=new CustomAdapter(getApplicationContext(),nameList);
+        spinner.setAdapter(customAdapter1);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    mSearchDevQty = valList.get(position);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
 
     void initViewElements(){
         mainLV = findViewById(R.id.mainLV);
@@ -480,24 +514,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bttnSuppress.setOnTouchListener(mainOnTouchListener);
 
 
-
-
-        btDevInfo = findViewById(R.id.btDevInfo);
-        btDevInfo.setOnTouchListener(mainOnTouchListener);
-
         btUpdateDevList = findViewById(R.id.btUpdateDevList);
         btUpdateDevList.setOnTouchListener(mainOnTouchListener);
 
         btSearch = findViewById(R.id.btSearch);
         btSearch.setOnTouchListener(mainOnTouchListener);
-
-
-
-
-
-
-
-
+        spinner        = findViewById(R.id.sSpinner) ;
+        initSpinner();
     }
     void initJmmrListTmpVals(){
 
