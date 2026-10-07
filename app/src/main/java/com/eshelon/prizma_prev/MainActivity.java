@@ -422,7 +422,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void readJmmrList(ObjectMsg msg){
         G_.jmmr_list = msg.jmmr_list;
         if(G_.jmmr_list == null){
-            Log.i("MY_TEG", "G_.jmmr_list -> null 1");
+            Log.i("MY_TEG", "G_.jmmr_list -> null 1!");
             G_.btActiveState = BT_STATE_CONNECTED;
         return;
         }
